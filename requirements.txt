@@ -1,0 +1,10 @@
+Pillow
+jupyter
+matplotlib
+numpy
+pandas
+pytesseract
+regex
+scikit-image
+spacy
+tqdm
