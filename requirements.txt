@@ -1,5 +1,7 @@
 Pillow
+beautifulsoup4
 jupyter
+lxml
 matplotlib
 numpy
 pandas
