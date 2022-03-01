@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Parse efloras treatments."""
-
 import argparse
 import textwrap
 from pathlib import Path
@@ -18,8 +17,8 @@ def parse_args():
     """Process command-line arguments."""
     description = """Parse data about mimosas from PDFs converted into text files."""
     arg_parser = argparse.ArgumentParser(
-        description=textwrap.dedent(description),
-        fromfile_prefix_chars='@')
+        description=textwrap.dedent(description), fromfile_prefix_chars="@"
+    )
 
     arg_parser.add_argument(
         "--text-file",
@@ -31,5 +30,5 @@ def parse_args():
     return args
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

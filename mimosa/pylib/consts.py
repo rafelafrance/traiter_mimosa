@@ -14,11 +14,11 @@ VOCAB_DIR = ROOT_DIR / "mimosa" / "vocabulary"
 
 
 # #########################################################################
-TERMS = Csv.shared('colors')  # units plant_treatment')
+TERMS = Csv.shared("colors")  # units plant_treatment')
 # TERMS += Csv.hyphenate_terms(TERMS)
 # TERMS += Csv.trailing_dash(TERMS, label='color')
 TERMS += Csv.read_csv(VOCAB_DIR / "taxa.csv")
-TERMS.drop('imperial_length')
+TERMS.drop("imperial_length")
 
 # #########################################################################
 # Tokenizer constants
