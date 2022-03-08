@@ -1,5 +1,6 @@
 """Literals used in the system."""
 import os
+import string
 from pathlib import Path
 
 from traiter.terms.csv_ import Csv
@@ -32,3 +33,4 @@ ABBREVS = """
     xviii. xix. xx. xxi. xxii. xxiii. xxiv. xxv.
     m. var. sect. subsect. ser. subser. subsp. sp.
     """.split()
+ABBREVS += [f"{c}." for c in string.ascii_uppercase]

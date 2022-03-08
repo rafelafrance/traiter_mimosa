@@ -7,19 +7,19 @@ from tests.setup import test
 class TestTaxon(unittest.TestCase):
     """Test the plant color trait parser."""
 
-    def test_color_01(self):
+    def test_taxon_01(self):
         self.assertEqual(
             test("""M. sensitiva"""),
             [{"taxon": "M. sensitiva", "trait": "taxon", "start": 0, "end": 12}],
         )
 
-    def test_color_02(self):
+    def test_taxon_02(self):
         self.assertEqual(
             test("""Mimosa sensitiva"""),
             [{"taxon": "Mimosa sensitiva", "trait": "taxon", "start": 0, "end": 16}],
         )
 
-    def test_color_03(self):
+    def test_taxon_03(self):
         self.assertEqual(
             test("""M. polycarpa var. spegazzinii"""),
             [
@@ -27,7 +27,7 @@ class TestTaxon(unittest.TestCase):
                     "taxon": "M. polycarpa var. spegazzinii",
                     "trait": "taxon",
                     "start": 0,
-                    "end": 16,
+                    "end": 29,
                 }
             ],
         )
