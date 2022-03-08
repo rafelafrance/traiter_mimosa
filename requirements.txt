@@ -1,5 +1,6 @@
 Pillow
 beautifulsoup4
+jinja2
 jupyter
 lxml
 matplotlib

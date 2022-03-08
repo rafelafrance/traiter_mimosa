@@ -5,12 +5,14 @@ import textwrap
 from pathlib import Path
 
 from pylib.readers import mimosa_reader
+from pylib.writers import html_writer
 
 
 def main():
     """Perform actions based on the arguments."""
     args = parse_args()
-    mimosa_reader.read(args)
+    data = mimosa_reader.read(args)
+    html_writer.write(args, data)
 
 
 def parse_args():
@@ -21,9 +23,17 @@ def parse_args():
     )
 
     arg_parser.add_argument(
-        "--text-file",
+        "--in-text",
         type=Path,
+        metavar="PATH",
         help="""Which text file (a converted PDF) to process.""",
+    )
+
+    arg_parser.add_argument(
+        "--out-html",
+        type=Path,
+        metavar="PATH",
+        help="""Output the results to this HTML file.""",
     )
 
     args = arg_parser.parse_args()

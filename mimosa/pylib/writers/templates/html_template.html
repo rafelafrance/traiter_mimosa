@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8" />
+<title>Traiter</title>
+<style>
+{% include 'css_template.css' -%}
+</style>
+</head>
+<body>
+<h1>{{file_name}}: {{ now }}</h1>
+
+{% for datum in data %}
+<p>
+    {{datum.text}}
+
+    {% for trait in datum.traits %}
+    <div>{{trait}}</div>
+    {% endfor %}
+
+</p>
+{% endfor %}
+
+<script>
+{% include 'javascript_template.js' -%}
+</script>
+
+</body>
+</html>

@@ -1,22 +1,18 @@
 """Create a trait pipeline."""
 import spacy
-from traiter.patterns.matcher_patterns import add_ruler_patterns
 from traiter.pipes.sentence import SENTENCE
-from traiter.pipes.simple_entity_data import SIMPLE_ENTITY_DATA
 from traiter.tokenizer_util import append_abbrevs
 from traiter.tokenizer_util import append_tokenizer_regexes
 
-from .. import consts
-from ..patterns.taxon_patterns import TAXON
+from mimosa.pylib import consts
 
 # from traiter.pipes.debug import DEBUG_ENTITIES, DEBUG_TOKENS
-
-SIMPLE_DATA = [TAXON]
 
 
 def pipeline():
     """Create a pipeline for extracting traits."""
-    nlp = spacy.load("en_core_web_sm", exclude=["ner"])
+    exclude = """ tagger ner lemmatizer """.split()
+    nlp = spacy.load("en_core_web_sm", exclude=exclude)
 
     append_tokenizer_regexes(nlp)
     append_abbrevs(nlp, consts.ABBREVS)
@@ -28,14 +24,5 @@ def pipeline():
     term_ruler.add_patterns(consts.TERMS.for_entity_ruler())
 
     nlp.add_pipe(SENTENCE, before="parser")
-
-    config = {"overwrite_ents": True}
-    match_ruler = nlp.add_pipe("entity_ruler", name="match_ruler", config=config)
-    add_ruler_patterns(match_ruler, SIMPLE_DATA)
-
-    nlp.add_pipe(SIMPLE_ENTITY_DATA, config={"replace": consts.REPLACE})
-
-    # nlp.add_pipe(DEBUG_TOKENS, config={'message': ''})
-    # nlp.add_pipe(DEBUG_ENTITIES, config={'message': ''})
 
     return nlp

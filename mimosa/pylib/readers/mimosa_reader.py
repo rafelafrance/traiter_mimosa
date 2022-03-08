@@ -1,21 +1,23 @@
 """Parse PDFs about mimosas."""
+from tqdm import tqdm
+
+from ..parsed_data import Datum
 from ..pipelines import mimosa_pipeline
 
 
 def read(args):
     """Do the parsing here."""
-    with open(args.text_file) as in_file:
-        texts = in_file.readlines()
+    with open(args.in_text) as in_file:
+        lines = in_file.readlines()
 
     nlp = mimosa_pipeline.pipeline()
 
-    for i, text in enumerate(texts):
-        text = text.strip()
+    data = []
 
-        doc = nlp(text)
+    for i, ln in tqdm(lines):
+        ln = ln.strip()
+        doc = nlp(ln)
         traits = [e._.data for e in doc.ents]
+        data.append(Datum(text=ln, traits=traits))
 
-        print(traits)
-
-        if i > 100:
-            break
+    return data

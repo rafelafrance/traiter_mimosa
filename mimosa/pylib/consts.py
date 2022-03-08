@@ -14,14 +14,21 @@ VOCAB_DIR = ROOT_DIR / "mimosa" / "vocabulary"
 
 
 # #########################################################################
-TERMS = Csv.shared("colors")  # units plant_treatment')
-# TERMS += Csv.hyphenate_terms(TERMS)
-# TERMS += Csv.trailing_dash(TERMS, label='color')
+TERMS = Csv.shared("colors plant_treatment")
+TERMS += Csv.hyphenate_terms(TERMS)
+TERMS += Csv.trailing_dash(TERMS, label="color")
 TERMS += Csv.read_csv(VOCAB_DIR / "taxa.csv")
 TERMS.drop("imperial_length")
+
+REPLACE = TERMS.pattern_dict("replace")
 
 # #########################################################################
 # Tokenizer constants
 ABBREVS = """
     Jan. Feb. Mar. Apr. Jun. Jul. Aug. Sep. Sept. Oct. Nov. Dec.
-    ca. al. """.split()
+    ca. al. mem. bot. gard. Amer. fig. ed. lat. long.
+    sci. surv. is. ann. ememd. Gen. pi. Linn. Soc.
+    i. ii. iii. iv. v. vi. vii. viii. ix. x. xi. xii. xiii. xiv. xv. xvi. xvii.
+    xviii. xix. xx. xxi. xxii. xxiii. xxiv. xxv.
+    m. var. sect. subsect. ser. subser. subsp. sp.
+    """.split()
