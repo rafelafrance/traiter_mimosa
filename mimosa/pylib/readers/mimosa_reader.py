@@ -14,7 +14,7 @@ def read(args):
 
     data = []
 
-    for i, ln in tqdm(lines):
+    for ln in tqdm(lines[:1000]):
         ln = ln.strip()
         doc = nlp(ln)
         traits = [e._.data for e in doc.ents]
