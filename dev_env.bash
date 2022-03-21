@@ -2,8 +2,8 @@
 
 # #################################################################################
 # Setup the virtual environment for development.
-# You may need to "pip install --user virtualenv" globally.
-# This is not required but some form of project isolation (conda virtual env etc.)
+# You may need to "python -M pip install --user virtualenv" globally.
+# This is not required but some form of project isolation (conda, virtual env, etc.)
 # is strongly encouraged.
 
 if [[ ! -z "$VIRTUAL_ENV" ]]; then
@@ -39,11 +39,10 @@ mkdir -p data/images
 mkdir -p data/output
 mkdir -p data/pdfs
 mkdir -p data/text
-mkdir -p data/temp
 
 
 # ##############################################################################
-# Dev only pip installs (not required because they're personal preference)
+# Dev only installs (not required because they're personal preference)
 
 pip install -U pynvim
 pip install -U 'python-lsp-server[all]'

@@ -3,6 +3,14 @@ import os
 import string
 from pathlib import Path
 
+from traiter.const import CLOSE
+from traiter.const import COMMA
+from traiter.const import CROSS
+from traiter.const import DASH
+from traiter.const import FLOAT_TOKEN_RE
+from traiter.const import OPEN
+from traiter.const import PLUS
+from traiter.const import SLASH
 from traiter.terms.csv_ import Csv
 
 # #########################################################################
@@ -15,13 +23,14 @@ VOCAB_DIR = ROOT_DIR / "mimosa" / "vocabulary"
 
 
 # #########################################################################
-TERMS = Csv.shared("colors plant_treatment")
+TERMS = Csv.shared("colors units plant_treatment")
 TERMS += Csv.hyphenate_terms(TERMS)
 TERMS += Csv.trailing_dash(TERMS, label="color")
 TERMS += Csv.read_csv(VOCAB_DIR / "taxa.csv")
 TERMS.drop("imperial_length")
 
 REPLACE = TERMS.pattern_dict("replace")
+REMOVE = TERMS.pattern_dict("remove")
 
 # #########################################################################
 # Tokenizer constants
@@ -45,3 +54,45 @@ ABBREVS = """
     m. var. sect. subsect. ser. subser. subsp. sp. nov.
     """.split()
 ABBREVS += [f"{c}." for c in string.ascii_uppercase]
+
+# #########################################################################
+# Common patterns for parsing
+CONJ = ["or", "and"]
+TO = ["to"]
+MISSING = """ without missing lack lacking except excepting not rarely """.split()
+
+COMMON_PATTERNS = {
+    "(": {"TEXT": {"IN": OPEN}},
+    ")": {"TEXT": {"IN": CLOSE}},
+    "-": {"TEXT": {"IN": DASH}, "OP": "+"},
+    "-*": {"TEXT": {"IN": DASH}, "OP": "*"},
+    "[+]": {"TEXT": {"IN": PLUS}},
+    "/": {"TEXT": {"IN": SLASH}},
+    ",": {"TEXT": {"IN": COMMA}},
+    "x": {"TEXT": {"IN": CROSS}},
+    "to": {"LOWER": {"IN": TO}},
+    "-/or": {"LOWER": {"IN": DASH + TO + CONJ}, "OP": "+"},
+    "-/to": {"LOWER": {"IN": DASH + TO}, "OP": "+"},
+    "and/or": {"LOWER": {"IN": CONJ}},
+    "missing": {"LOWER": {"IN": MISSING}},
+    "9": {"IS_DIGIT": True},
+    "99.9": {"TEXT": {"REGEX": FLOAT_TOKEN_RE}},
+    "99-99": {"ENT_TYPE": {"REGEX": "^range"}},
+    "99.9-99.9": {"ENT_TYPE": {"REGEX": "^range"}},
+}
+
+# #########################################################################
+# Entities
+
+TRAITS = set(
+    """ color color_mod count location margin_shape part
+    size shape sex subpart woodiness part_as_loc """.split()
+)
+
+FORGET = """ about cross color_mod dim dimension imperial_length imperial_mass
+    margin_leader metric_length metric_mass not_a_range per_count
+    quest shape_leader shape_suffix surface units
+    range.low range.min.low range.low.high range.low.max range.min.low.high
+    range.min.low.max range.low.high.max range.min.low.high.max
+    level tribe genus section series subseries species subspecies variant
+    """.split()

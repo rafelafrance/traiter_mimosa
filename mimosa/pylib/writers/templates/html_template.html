@@ -9,17 +9,33 @@
 </style>
 </head>
 <body>
-<h1>{{file_name}}: {{ now }}</h1>
+<h1>{{ file_name }}: {{ now }}</h1>
 
 {% for datum in data %}
-<p>
-    {{datum.text}}
-
-    {% for trait in datum.traits %}
-    <div>{{trait}}</div>
-    {% endfor %}
-
-</p>
+    <p>{{ datum.text | safe }}</p>
+    {% if datum.traits %}
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <button class="toggle closed" data-index="{{ loop.index }}" title="Show or hide all extractions">
+                        </button>
+                    </th>
+                    <th>Trait Label</th>
+                    <th>Trait Data</th>
+                </tr>
+            </thead>
+            <tbody class="closed" data-index="{{ loop.index }}">
+                {% for trait in datum.traits %}
+                    <tr>
+                        <td></td>
+                        <td>{{ trait.label | safe }}</td>
+                        <td>{{ trait.data | safe }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
 {% endfor %}
 
 <script>

@@ -10,11 +10,14 @@ def read(args):
     with open(args.in_text) as in_file:
         lines = in_file.readlines()
 
+    if args.limit:
+        lines = lines[: args.limit]
+
     nlp = mimosa_pipeline.pipeline()
 
     data = []
 
-    for ln in tqdm(lines[:1000]):
+    for ln in tqdm(lines):
         ln = ln.strip()
         doc = nlp(ln)
         traits = [e._.data for e in doc.ents]

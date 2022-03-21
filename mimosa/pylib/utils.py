@@ -24,3 +24,10 @@ def get_temp_dir(
     finally:
         if not keep or not where:
             rmtree(temp_dir)
+
+
+def remove_traits(old_set: set, *remove: str) -> list:
+    """Remove an element from a copy of the set."""
+    removes = {r for r in remove}
+    new_set = {e for e in old_set if e not in removes}
+    return list(new_set)

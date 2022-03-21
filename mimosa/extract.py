@@ -36,6 +36,12 @@ def parse_args():
         help="""Output the results to this HTML file.""",
     )
 
+    arg_parser.add_argument(
+        "--limit",
+        type=int,
+        help="""Limit the input to this many records.""",
+    )
+
     args = arg_parser.parse_args()
     return args
 
