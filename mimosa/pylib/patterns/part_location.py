@@ -1,44 +1,63 @@
 """For when plant parts are being used as a location."""
 from spacy import registry
-from traiter.actions import TEXT_ACTION
-from traiter.actions import text_action
+from traiter import actions
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
+from . import size
 from ..consts import COMMON_PATTERNS
 
-LOCATION_LEADERS = """
-    to at embracing
-    """.split()
-
 DECODER = COMMON_PATTERNS | {
-    "part": {"ENT_TYPE": "part"},
-    "subpart": {"ENT_TYPE": "subpart"},
-    "leader": {"LOWER": {"IN": LOCATION_LEADERS}},
-    "not_loc": {"ENT_TYPE": {"IN": ["sex", "location"]}},
-    "sex": {"ENT_TYPE": "sex"},
-    "of": {"LOWER": "of"},
     "adj": {"POS": "ADJ"},
+    "cm": {"ENT_TYPE": "metric_length"},
+    "leader": {"LOWER": {"IN": """to at embracing""".split()}},
+    "not_loc": {"ENT_TYPE": {"IN": ["sex", "location"]}},
+    "of": {"LOWER": "of"},
+    "part": {"ENT_TYPE": "part"},
+    "prep": {"POS": "ADP"},
+    "sex": {"ENT_TYPE": "sex"},
+    "subpart": {"ENT_TYPE": "subpart"},
 }
 
 PART_AS_LOCATION = MatcherPatterns(
     "part_as_loc",
-    on_match=TEXT_ACTION,
+    on_match=actions.TEXT_ACTION,
     decoder=DECODER,
     patterns=[
         "leader part",
     ],
 )
 
+PART_AS_DISTANCE = MatcherPatterns(
+    "part_as_distance",
+    on_match="mimosa.part_as_distance.v1",
+    decoder=DECODER,
+    patterns=[
+        "leader part prep? 99-99 cm",
+    ],
+)
+
 SUBPART_AS_LOCATION = MatcherPatterns(
     "subpart_location",
-    on_match="efloras.subpart_location.v1",
+    on_match="mimosa.subpart_location.v1",
     decoder=DECODER,
-    patterns=["leader subpart", "leader subpart of adj? subpart"],
+    patterns=[
+        "leader subpart",
+        "leader subpart of adj? subpart",
+    ],
 )
+
+
+@registry.misc(PART_AS_DISTANCE.on_match)
+def part_as_distance(ent):
+    """Convert a part as location with a distance."""
+    size.size(ent)
+    ent._.new_label = "part_as_loc"
+    for e in [e for e in ent.ents if e._.cached_label != "metric_length"]:
+        e._.merge = True
 
 
 @registry.misc(SUBPART_AS_LOCATION.on_match)
 def subpart_location(ent):
     """Enrich the match with data."""
     ent._.new_label = "part_as_loc"
-    text_action(ent)
+    actions.text_action(ent)

@@ -18,7 +18,7 @@ SKIP = DASH + MISSING
 
 COLOR = MatcherPatterns(
     "color",
-    on_match="efloras.color.v1",
+    on_match="mimosa.color.v1",
     decoder=COMMON_PATTERNS
     | {
         "color_words": {"ENT_TYPE": {"IN": ["color", "color_mod"]}},

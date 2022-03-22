@@ -1,82 +1,46 @@
 """Create a trait pipeline."""
 import spacy
-from traiter.patterns.matcher_patterns import add_ruler_patterns
-from traiter.patterns.matcher_patterns import as_dicts
-from traiter.patterns.matcher_patterns import patterns_to_dispatch
+from traiter import tokenizer_util
+from traiter.patterns import matcher_patterns
 from traiter.pipes.add_entity_data import ADD_ENTITY_DATA
 from traiter.pipes.cleanup import CLEANUP
 from traiter.pipes.dependency import DEPENDENCY
+from traiter.pipes.merge_entity_data import MERGE_ENTITY_DATA
 from traiter.pipes.sentence import SENTENCE
 from traiter.pipes.simple_entity_data import SIMPLE_ENTITY_DATA
 from traiter.pipes.update_entity_data import UPDATE_ENTITY_DATA
-from traiter.tokenizer_util import append_abbrevs
-from traiter.tokenizer_util import append_tokenizer_regexes
 
 from .. import consts
-from ..patterns.color import COLOR
-from ..patterns.count import COUNT
-from ..patterns.count import COUNT_WORD
-from ..patterns.count import NOT_A_COUNT
-from ..patterns.location_linker import LOCATION_LINKER
-from ..patterns.margin import MARGIN_SHAPE
-from ..patterns.part_linker import PART_LINKER
-from ..patterns.part_location import PART_AS_LOCATION
-from ..patterns.part_location import SUBPART_AS_LOCATION
-from ..patterns.range import NOT_A_RANGE
-from ..patterns.range import RANGE_LOW
-from ..patterns.range import RANGE_LOW_HIGH
-from ..patterns.range import RANGE_LOW_HIGH_MAX
-from ..patterns.range import RANGE_LOW_MAX
-from ..patterns.range import RANGE_MIN_LOW
-from ..patterns.range import RANGE_MIN_LOW_HIGH
-from ..patterns.range import RANGE_MIN_LOW_HIGH_MAX
-from ..patterns.range import RANGE_MIN_LOW_MAX
-from ..patterns.sex_linker import SEX_LINKER
-from ..patterns.shape import N_SHAPE
-from ..patterns.shape import SHAPE
-from ..patterns.size import NOT_A_SIZE
-from ..patterns.size import SIZE
-from ..patterns.size import SIZE_DOUBLE_DIM
-from ..patterns.size import SIZE_HIGH_ONLY
-from ..patterns.subpart_linker import SUBPART_LINKER
-from ..patterns.taxon_patterns import TAXON
+from ..patterns import color
+from ..patterns import count
+from ..patterns import location_linker
+from ..patterns import margin
+from ..patterns import part_linker
+from ..patterns import part_location
+from ..patterns import range_
+from ..patterns import sex_linker
+from ..patterns import shape
+from ..patterns import size
+from ..patterns import subpart_linker
+from ..patterns import taxon_patterns
 
-# from traiter.pipes.debug import DEBUG_ENTITIES, DEBUG_TOKENS
+# from traiter.pipes.debug import DEBUG_TOKENS, DEBUG_ENTITIES
 
-SIMPLE_DATA = [TAXON]
-
-TERM_RULES = [
-    RANGE_LOW,
-    RANGE_MIN_LOW,
-    RANGE_LOW_HIGH,
-    RANGE_LOW_MAX,
-    RANGE_MIN_LOW_HIGH,
-    RANGE_MIN_LOW_MAX,
-    RANGE_LOW_HIGH_MAX,
-    RANGE_MIN_LOW_HIGH_MAX,
-    NOT_A_RANGE,
+ADD_DATA = [
+    color.COLOR,
+    margin.MARGIN_SHAPE,
+    shape.N_SHAPE,
+    shape.SHAPE,
+    part_location.PART_AS_LOCATION,
+    part_location.SUBPART_AS_LOCATION,
 ]
-
-ADD_DATA = [COLOR, MARGIN_SHAPE, N_SHAPE, SHAPE, PART_AS_LOCATION, SUBPART_AS_LOCATION]
-
-UPDATE_DATA = [
-    COUNT,
-    COUNT_WORD,
-    NOT_A_COUNT,
-    SIZE,
-    SIZE_HIGH_ONLY,
-    SIZE_DOUBLE_DIM,
-    NOT_A_SIZE,
-]
-
-LINKERS = [LOCATION_LINKER, PART_LINKER, SEX_LINKER, SUBPART_LINKER]
 
 
 def pipeline():
     """Create a pipeline for extracting traits."""
     nlp = spacy.load("en_core_web_sm", exclude=["ner"])
-    append_tokenizer_regexes(nlp)
-    append_abbrevs(nlp, consts.ABBREVS)
+    tokenizer_util.append_tokenizer_regexes(nlp)
+    tokenizer_util.append_abbrevs(nlp, consts.ABBREVS)
 
     # Add a pipe to identify phrases and patterns as base-level traits.
     config = {"phrase_matcher_attr": "LOWER"}
@@ -84,35 +48,83 @@ def pipeline():
         "entity_ruler", name="term_ruler", config=config, before="parser"
     )
     term_ruler.add_patterns(consts.TERMS.for_entity_ruler())
-    add_ruler_patterns(term_ruler, TERM_RULES)
+    matcher_patterns.add_ruler_patterns(
+        term_ruler,
+        [
+            range_.RANGE_LOW,
+            range_.RANGE_MIN_LOW,
+            range_.RANGE_LOW_HIGH,
+            range_.RANGE_LOW_MAX,
+            range_.RANGE_MIN_LOW_HIGH,
+            range_.RANGE_MIN_LOW_MAX,
+            range_.RANGE_LOW_HIGH_MAX,
+            range_.RANGE_MIN_LOW_HIGH_MAX,
+            range_.NOT_A_RANGE,
+        ],
+    )
 
     nlp.add_pipe(SENTENCE, before="parser")
 
     config = {"overwrite_ents": True}
     match_ruler = nlp.add_pipe("entity_ruler", name="simple_ruler", config=config)
-    add_ruler_patterns(match_ruler, SIMPLE_DATA)
+    matcher_patterns.add_ruler_patterns(match_ruler, [taxon_patterns.TAXON])
 
     nlp.add_pipe("merge_entities", name="term_merger")
     nlp.add_pipe(
-        SIMPLE_ENTITY_DATA, after="term_merger", config={"replace": consts.REPLACE}
+        SIMPLE_ENTITY_DATA,
+        after="term_merger",
+        config={"replace": consts.REPLACE},
     )
 
-    config = {"patterns": as_dicts(UPDATE_DATA)}
+    config = {
+        "patterns": matcher_patterns.as_dicts(
+            [
+                size.SIZE,
+                size.SIZE_HIGH_ONLY,
+                size.SIZE_DOUBLE_DIM,
+                size.NOT_A_SIZE,
+                part_location.PART_AS_DISTANCE,
+            ]
+        )
+    }
+    nlp.add_pipe(MERGE_ENTITY_DATA, name="merge_entities", config=config)
+
+    config = {
+        "patterns": matcher_patterns.as_dicts(
+            [
+                count.COUNT,
+                count.COUNT_WORD,
+                count.NOT_A_COUNT,
+            ]
+        )
+    }
     nlp.add_pipe(UPDATE_ENTITY_DATA, name="update_entities", config=config)
 
     # Add a pipe to group tokens into larger traits
     config = {"overwrite_ents": True}
     match_ruler = nlp.add_pipe("entity_ruler", name="match_ruler", config=config)
-    add_ruler_patterns(match_ruler, ADD_DATA)
+    matcher_patterns.add_ruler_patterns(match_ruler, ADD_DATA)
 
-    nlp.add_pipe(ADD_ENTITY_DATA, config={"dispatch": patterns_to_dispatch(ADD_DATA)})
+    nlp.add_pipe(
+        ADD_ENTITY_DATA,
+        config={"dispatch": matcher_patterns.patterns_to_dispatch(ADD_DATA)},
+    )
 
     nlp.add_pipe(CLEANUP, config={"forget": consts.FORGET})
 
     # nlp.add_pipe(DEBUG_TOKENS, config={'message': ''})
     # nlp.add_pipe(DEBUG_ENTITIES, config={'message': ''})
 
-    config = {"patterns": as_dicts(LINKERS)}
+    config = {
+        "patterns": matcher_patterns.as_dicts(
+            [
+                location_linker.LOCATION_LINKER,
+                part_linker.PART_LINKER,
+                sex_linker.SEX_LINKER,
+                subpart_linker.SUBPART_LINKER,
+            ]
+        )
+    }
     nlp.add_pipe(DEPENDENCY, name="part_linker", config=config)
 
     return nlp

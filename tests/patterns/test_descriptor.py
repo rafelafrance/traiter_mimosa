@@ -56,8 +56,8 @@ class TestDescriptor(unittest.TestCase):
                     "length_units": "m",
                     "part": "shrub",
                     "trait": "size",
-                    "start": 12,
-                    "end": 15,
+                    "start": 9,
+                    "end": 17,
                 },
             ],
         )

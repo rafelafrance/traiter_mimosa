@@ -29,7 +29,7 @@ DECODER = COMMON_PATTERNS | {
 
 COUNT = MatcherPatterns(
     "count",
-    on_match="efloras.count.v1",
+    on_match="mimosa.count.v1",
     decoder=DECODER,
     patterns=[
         "99-99 -* per_count?",
@@ -42,7 +42,7 @@ COUNT = MatcherPatterns(
 
 COUNT_WORD = MatcherPatterns(
     "count_word",
-    on_match="efloras.count_word.v1",
+    on_match="mimosa.count_word.v1",
     decoder=DECODER,
     patterns=[
         "count_word",
@@ -97,6 +97,7 @@ def range_values(ent):
     for key, value in zip(keys, values):
         data[key] = to_positive_int(value)
 
+    range_._.merge = True
     range_._.data = data
     range_._.new_label = "count"
     return range_

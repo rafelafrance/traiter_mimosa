@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Parse efloras treatments."""
+"""Parse mimosa treatments."""
 import argparse
 import textwrap
 from pathlib import Path

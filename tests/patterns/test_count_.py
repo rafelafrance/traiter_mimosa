@@ -53,17 +53,11 @@ class TestCount(unittest.TestCase):
                     "length_units": "cm",
                     "trait": "size",
                     "start": 6,
-                    "end": 10,
+                    "end": 19,
                     "part": "leaf",
-                },
-                {
                     "width_low": 4.0,
                     "width_high": 9.0,
                     "width_units": "cm",
-                    "trait": "size",
-                    "start": 13,
-                    "end": 16,
-                    "part": "leaf",
                 },
             ],
         )
@@ -805,7 +799,6 @@ class TestCount(unittest.TestCase):
                 {
                     "low": 9,
                     "trait": "count",
-                    "subpart": "locular",
                     "start": 23,
                     "end": 24,
                     "part": "x",

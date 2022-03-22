@@ -29,7 +29,7 @@ DECODER = COMMON_PATTERNS | {
 
 SIZE = MatcherPatterns(
     "size",
-    on_match="efloras.size.v1",
+    on_match="mimosa.size.v1",
     decoder=DECODER,
     patterns=[
         "about? 99.9-99.9 cm follow*",
@@ -44,7 +44,7 @@ SIZE = MatcherPatterns(
 
 SIZE_HIGH_ONLY = MatcherPatterns(
     "size.high_only",
-    on_match="efloras.size_high_only.v1",
+    on_match="mimosa.size_high_only.v1",
     decoder=DECODER,
     patterns=[
         "to about? 99.9 [?]? cm follow*",
@@ -53,7 +53,7 @@ SIZE_HIGH_ONLY = MatcherPatterns(
 
 SIZE_DOUBLE_DIM = MatcherPatterns(
     "size.double_dim",
-    on_match="efloras.size_double_dim.v1",
+    on_match="mimosa.size_double_dim.v1",
     decoder=DECODER,
     patterns=[
         "about? 99.9-99.9 cm  sex? ,? dim and dim",
@@ -105,6 +105,7 @@ def size_double_dim(ent):
             else:
                 new_data[key] = value
         range_._.data = new_data
+    ent._.new_label = "size"
 
 
 def _size(ent, high_only=False):
@@ -112,19 +113,13 @@ def _size(ent, high_only=False):
     dims = scan_tokens(ent, high_only)
     dims = fix_dimensions(dims)
     dims = fix_units(dims)
+    ent._.new_label = "size"
     fill_data(dims, ent)
 
 
 def scan_tokens(ent, high_only):
     """Scan tokens for the various fields."""
     dims = [{}]
-
-    # Map token indices to the char span for the sub-entities
-    token_2_ent = {
-        (i - ent.start): (e.start_char, e.end_char)
-        for e in ent.ents
-        for i in range(e.start, ent.end)
-    }
 
     # Process tokens in the entity
     for t, token in enumerate(ent):
@@ -145,19 +140,15 @@ def scan_tokens(ent, high_only):
 
         elif label == "metric_length":
             dims[-1]["units"] = REPLACE[token.lower_]
-            dims[-1]["units_link"] = token_2_ent[t]
 
         elif label == "dim":
             dims[-1]["dimension"] = REPLACE[token.lower_]
-            dims[-1]["dimension_link"] = token_2_ent[t]
 
         elif label == "sex":
             dims[-1]["sex"] = re.sub(r"\W+", "", token.lower_)
-            dims[-1]["sex_link"] = token_2_ent[t]
 
         elif label == "quest":
             dims[-1]["uncertain"] = True
-            dims[-1]["uncertain_link"] = token_2_ent[t]
 
         elif token.lower_ in CROSS:
             dims.append({})
@@ -180,11 +171,9 @@ def fix_dimensions(dims):
 def fix_units(dims):
     """Fill in missing units."""
     default = [d.get("units") for d in dims][-1]
-    default_link = [d.get("units_link") for d in dims][-1]
 
     for dim in dims:
         dim["units"] = dim.get("units", default)
-        dim["units_link"] = dim.get("units_link", default_link)
 
     return dims
 
@@ -192,9 +181,7 @@ def fix_units(dims):
 def fill_data(dims, ent):
     """Move fields into correct place & give them consistent names."""
     # Need to find entities using their character offsets
-    link_2_ent = {(e.start_char, e.end_char): e for e in ent.ents}
-
-    ranges = [e for e in ent.ents if e._.cached_label.split(".")[0] == "range"]
+    ranges = [e for e in ent.ents if e._.cached_label.startswith("range")]
 
     for dim, range_ in zip(dims, ranges):
         data = {}
@@ -215,18 +202,5 @@ def fill_data(dims, ent):
         if dim.get("uncertain"):
             data["uncertain"] = "true"
 
-        if (link := dim.get("units_link")) is not None:
-            range_._.links["units_link"] = [link]
-            sub_ent = link_2_ent[link]
-            sub_ent._.new_label = "units"
-
-        if (link := dim.get("dimension_link")) is not None:
-            range_._.links["dimension_link"] = [link]
-            sub_ent = link_2_ent[link]
-            sub_ent._.new_label = "dimension"
-
-        if (link := dim.get("sex_link")) is not None:
-            range_._.links["sex_link"] = [link]
-
+        range_._.merge = True
         range_._.data = data
-        range_._.new_label = "size"
