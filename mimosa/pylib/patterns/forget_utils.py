@@ -12,13 +12,16 @@ FORGET = """ about cross color_mod dim dimension imperial_length imperial_mass
 FORGET_WHEN = "mimosa.forget_when.v1"
 
 WHEN_MISSING = """
-    part tribe genus section series subseries species subspecies variant
+    part subpart
+    tribe genus section series subseries species subspecies variant
+    count_group duration floral_location habitat woodiness plant_duration part_as_loc
+    habit reproduction
     """.split()
 
 
 @registry.misc(FORGET_WHEN)
 def forget_when(ent):
-    """Remove entities without a part."""
+    """Remove entities without enough information."""
     for key in WHEN_MISSING:
         if ent._.data.get(key):
             return False

@@ -10,13 +10,20 @@ class TestTaxon(unittest.TestCase):
     def test_taxon_01(self):
         self.assertEqual(
             test("""M. sensitiva"""),
-            [{"taxon": "M. sensitiva", "trait": "taxon", "start": 0, "end": 12}],
+            [{"species": "M. sensitiva", "trait": "species", "start": 0, "end": 12}],
         )
 
     def test_taxon_02(self):
         self.assertEqual(
             test("""Mimosa sensitiva"""),
-            [{"taxon": "Mimosa sensitiva", "trait": "taxon", "start": 0, "end": 16}],
+            [
+                {
+                    "species": "Mimosa sensitiva",
+                    "trait": "species",
+                    "start": 0,
+                    "end": 16,
+                }
+            ],
         )
 
     def test_taxon_03(self):
@@ -24,8 +31,8 @@ class TestTaxon(unittest.TestCase):
             test("""M. polycarpa var. spegazzinii"""),
             [
                 {
-                    "taxon": "M. polycarpa var. spegazzinii",
-                    "trait": "taxon",
+                    "variant": "M. polycarpa var. spegazzinii",
+                    "trait": "variant",
                     "start": 0,
                     "end": 29,
                 }

@@ -57,15 +57,7 @@ class TestMargin(unittest.TestCase):
     def test_margin_03(self):
         self.assertEqual(
             test("reniform, undulate-margined"),
-            [
-                {"shape": "reniform", "trait": "shape", "start": 0, "end": 8},
-                {
-                    "margin_shape": "undulate",
-                    "trait": "margin_shape",
-                    "start": 10,
-                    "end": 27,
-                },
-            ],
+            [],
         )
 
     def test_margin_04(self):

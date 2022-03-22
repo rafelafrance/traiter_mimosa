@@ -132,10 +132,7 @@ def pipeline():
         config={"dispatch": matcher_patterns.patterns_to_dispatch(ADD_DATA)},
     )
 
-    nlp.add_pipe(
-        CLEANUP,
-        config={"forget": forget_utils.FORGET, "forget_when": forget_utils.FORGET_WHEN},
-    )
+    nlp.add_pipe(CLEANUP, config={"forget": forget_utils.FORGET})
 
     # nlp.add_pipe(DEBUG_TOKENS, config={'message': ''})
     # nlp.add_pipe(DEBUG_ENTITIES, config={'message': ''})
@@ -153,6 +150,12 @@ def pipeline():
                 ]
             )
         },
+    )
+
+    nlp.add_pipe(
+        CLEANUP,
+        name="forget_unlinked",
+        config={"forget_when": forget_utils.FORGET_WHEN},
     )
 
     return nlp

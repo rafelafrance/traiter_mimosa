@@ -37,15 +37,23 @@ class TestPartLocation(unittest.TestCase):
 
     def test_part_location_02(self):
         self.assertEqual(
-            test("completely embracing stem but not connate"),
+            test("leaves completely embracing stem but not connate"),
             [
+                {"part": "leaf", "trait": "part", "start": 0, "end": 6},
                 {
                     "part_as_loc": "embracing stem",
                     "trait": "part_as_loc",
-                    "start": 11,
-                    "end": 25,
+                    "start": 18,
+                    "end": 32,
+                    "part": "leaf",
                 },
-                {"shape": "not connate", "trait": "shape", "start": 30, "end": 41},
+                {
+                    "shape": "not connate",
+                    "trait": "shape",
+                    "start": 37,
+                    "end": 48,
+                    "part": "leaf",
+                },
             ],
         )
 
