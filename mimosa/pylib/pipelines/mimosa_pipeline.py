@@ -11,28 +11,29 @@ from traiter.pipes.simple_entity_data import SIMPLE_ENTITY_DATA
 from traiter.pipes.update_entity_data import UPDATE_ENTITY_DATA
 
 from .. import consts
-from ..patterns import color
-from ..patterns import count
-from ..patterns import location_linker
-from ..patterns import margin
-from ..patterns import part_linker
-from ..patterns import part_location
-from ..patterns import range_
-from ..patterns import sex_linker
-from ..patterns import shape
-from ..patterns import size
-from ..patterns import subpart_linker
+from ..patterns import color_patterns
+from ..patterns import count_patterns
+from ..patterns import forget_utils
+from ..patterns import location_linker_patterns
+from ..patterns import margin_patterns
+from ..patterns import part_linker_patterns
+from ..patterns import part_location_patterns
+from ..patterns import range_patterns
+from ..patterns import sex_linker_patterns
+from ..patterns import shape_patterns
+from ..patterns import size_patterns
+from ..patterns import subpart_linker_patterns
 from ..patterns import taxon_patterns
 
 # from traiter.pipes.debug import DEBUG_TOKENS, DEBUG_ENTITIES
 
 ADD_DATA = [
-    color.COLOR,
-    margin.MARGIN_SHAPE,
-    shape.N_SHAPE,
-    shape.SHAPE,
-    part_location.PART_AS_LOCATION,
-    part_location.SUBPART_AS_LOCATION,
+    color_patterns.COLOR,
+    margin_patterns.MARGIN_SHAPE,
+    shape_patterns.N_SHAPE,
+    shape_patterns.SHAPE,
+    part_location_patterns.PART_AS_LOCATION,
+    part_location_patterns.SUBPART_AS_LOCATION,
 ]
 
 
@@ -51,15 +52,15 @@ def pipeline():
     matcher_patterns.add_ruler_patterns(
         term_ruler,
         [
-            range_.RANGE_LOW,
-            range_.RANGE_MIN_LOW,
-            range_.RANGE_LOW_HIGH,
-            range_.RANGE_LOW_MAX,
-            range_.RANGE_MIN_LOW_HIGH,
-            range_.RANGE_MIN_LOW_MAX,
-            range_.RANGE_LOW_HIGH_MAX,
-            range_.RANGE_MIN_LOW_HIGH_MAX,
-            range_.NOT_A_RANGE,
+            range_patterns.RANGE_LOW,
+            range_patterns.RANGE_MIN_LOW,
+            range_patterns.RANGE_LOW_HIGH,
+            range_patterns.RANGE_LOW_MAX,
+            range_patterns.RANGE_MIN_LOW_HIGH,
+            range_patterns.RANGE_MIN_LOW_MAX,
+            range_patterns.RANGE_LOW_HIGH_MAX,
+            range_patterns.RANGE_MIN_LOW_HIGH_MAX,
+            range_patterns.NOT_A_RANGE,
         ],
     )
 
@@ -67,7 +68,22 @@ def pipeline():
 
     config = {"overwrite_ents": True}
     match_ruler = nlp.add_pipe("entity_ruler", name="simple_ruler", config=config)
-    matcher_patterns.add_ruler_patterns(match_ruler, [taxon_patterns.TAXON])
+    matcher_patterns.add_ruler_patterns(
+        match_ruler,
+        [
+            taxon_patterns.SPECIES,
+            taxon_patterns.SUBSPECIES,
+            taxon_patterns.VARIANT,
+            taxon_patterns.FAMILY,
+            taxon_patterns.TRIBE,
+            taxon_patterns.SUBTRIBE,
+            taxon_patterns.GENUS,
+            taxon_patterns.SECTION,
+            taxon_patterns.SUBSECTION,
+            taxon_patterns.SERIES,
+            taxon_patterns.SUBSERIES,
+        ],
+    )
 
     nlp.add_pipe("merge_entities", name="term_merger")
     nlp.add_pipe(
@@ -76,29 +92,35 @@ def pipeline():
         config={"replace": consts.REPLACE},
     )
 
-    config = {
-        "patterns": matcher_patterns.as_dicts(
-            [
-                size.SIZE,
-                size.SIZE_HIGH_ONLY,
-                size.SIZE_DOUBLE_DIM,
-                size.NOT_A_SIZE,
-                part_location.PART_AS_DISTANCE,
-            ]
-        )
-    }
-    nlp.add_pipe(MERGE_ENTITY_DATA, name="merge_entities", config=config)
+    nlp.add_pipe(
+        MERGE_ENTITY_DATA,
+        name="merge_entities",
+        config={
+            "patterns": matcher_patterns.as_dicts(
+                [
+                    size_patterns.SIZE,
+                    size_patterns.SIZE_HIGH_ONLY,
+                    size_patterns.SIZE_DOUBLE_DIM,
+                    size_patterns.NOT_A_SIZE,
+                    part_location_patterns.PART_AS_DISTANCE,
+                ]
+            )
+        },
+    )
 
-    config = {
-        "patterns": matcher_patterns.as_dicts(
-            [
-                count.COUNT,
-                count.COUNT_WORD,
-                count.NOT_A_COUNT,
-            ]
-        )
-    }
-    nlp.add_pipe(UPDATE_ENTITY_DATA, name="update_entities", config=config)
+    nlp.add_pipe(
+        UPDATE_ENTITY_DATA,
+        name="update_entities",
+        config={
+            "patterns": matcher_patterns.as_dicts(
+                [
+                    count_patterns.COUNT,
+                    count_patterns.COUNT_WORD,
+                    count_patterns.NOT_A_COUNT,
+                ]
+            )
+        },
+    )
 
     # Add a pipe to group tokens into larger traits
     config = {"overwrite_ents": True}
@@ -110,21 +132,27 @@ def pipeline():
         config={"dispatch": matcher_patterns.patterns_to_dispatch(ADD_DATA)},
     )
 
-    nlp.add_pipe(CLEANUP, config={"forget": consts.FORGET})
+    nlp.add_pipe(
+        CLEANUP,
+        config={"forget": forget_utils.FORGET, "forget_when": forget_utils.FORGET_WHEN},
+    )
 
     # nlp.add_pipe(DEBUG_TOKENS, config={'message': ''})
     # nlp.add_pipe(DEBUG_ENTITIES, config={'message': ''})
 
-    config = {
-        "patterns": matcher_patterns.as_dicts(
-            [
-                location_linker.LOCATION_LINKER,
-                part_linker.PART_LINKER,
-                sex_linker.SEX_LINKER,
-                subpart_linker.SUBPART_LINKER,
-            ]
-        )
-    }
-    nlp.add_pipe(DEPENDENCY, name="part_linker", config=config)
+    nlp.add_pipe(
+        DEPENDENCY,
+        name="part_linker",
+        config={
+            "patterns": matcher_patterns.as_dicts(
+                [
+                    location_linker_patterns.LOCATION_LINKER,
+                    part_linker_patterns.PART_LINKER,
+                    sex_linker_patterns.SEX_LINKER,
+                    subpart_linker_patterns.SUBPART_LINKER,
+                ]
+            )
+        },
+    )
 
     return nlp

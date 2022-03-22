@@ -3,7 +3,7 @@ from spacy import registry
 from traiter import actions
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
-from . import size
+from . import size_patterns
 from ..consts import COMMON_PATTERNS
 
 DECODER = COMMON_PATTERNS | {
@@ -50,7 +50,7 @@ SUBPART_AS_LOCATION = MatcherPatterns(
 @registry.misc(PART_AS_DISTANCE.on_match)
 def part_as_distance(ent):
     """Convert a part as location with a distance."""
-    size.size(ent)
+    size_patterns.size(ent)
     ent._.new_label = "part_as_loc"
     for e in [e for e in ent.ents if e._.cached_label != "metric_length"]:
         e._.merge = True
