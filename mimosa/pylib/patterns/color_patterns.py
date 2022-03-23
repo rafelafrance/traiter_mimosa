@@ -34,7 +34,7 @@ COLOR = MatcherPatterns(
 
 @registry.misc(COLOR.on_match)
 def color(ent):
-    """Enrich a phrase match."""
+    """Enrich a color match."""
     parts = []
     for token in ent:
         replace = REPLACE.get(token.lower_, token.lower_)

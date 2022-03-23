@@ -24,8 +24,6 @@ PART_LINKER = DependencyPatterns(
         "adv": {"POS": "ADV"},
         "link": {"POS": {"IN": ["ADJ", "AUX", "VERB"]}},
         "subpart": {"ENT_TYPE": "subpart"},
-        "x": {"_": {"cached_label": "cross"}},
-        "ca": {"_": {"cached_label": "about"}},
     },
     patterns=[
         "trait >> part",
@@ -42,7 +40,5 @@ PART_LINKER = DependencyPatterns(
         "part  <  subpart <  subpart < trait",
         "part  <  trait   <  trait",
         "part  .  link    .  trait",
-        "part  .  trait   .  x       . trait",
-        "part  .  trait   .  x       . ca . trait",
     ],
 )

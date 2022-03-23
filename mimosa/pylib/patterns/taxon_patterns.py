@@ -1,4 +1,5 @@
 """Get mimosa taxon notations."""
+from spacy import registry
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
 DECODER = {
@@ -24,8 +25,11 @@ DECODER = {
     "word": {"LOWER": {"REGEX": r"^[\w\d-]{4,}$"}},
 }
 
+TAXON_ON_MATCH = "mimosa.taxon.v1"
+
 SPECIES = MatcherPatterns(
     "species",
+    on_match=TAXON_ON_MATCH,
     decoder=DECODER,
     patterns=[
         "genus species",
@@ -35,6 +39,7 @@ SPECIES = MatcherPatterns(
 
 SUBSPECIES = MatcherPatterns(
     "subspecies",
+    on_match=TAXON_ON_MATCH,
     decoder=DECODER,
     patterns=[
         "genus species subsp. word",
@@ -45,6 +50,7 @@ SUBSPECIES = MatcherPatterns(
 
 VARIANT = MatcherPatterns(
     "variant",
+    on_match=TAXON_ON_MATCH,
     decoder=DECODER,
     patterns=[
         "genus species subsp. word var. word",
@@ -58,6 +64,7 @@ VARIANT = MatcherPatterns(
 
 FAMILY = MatcherPatterns(
     "family",
+    on_match=TAXON_ON_MATCH,
     decoder=DECODER,
     patterns=[
         "family",
@@ -66,6 +73,7 @@ FAMILY = MatcherPatterns(
 
 TRIBE = MatcherPatterns(
     "tribe",
+    on_match=TAXON_ON_MATCH,
     decoder=DECODER,
     patterns=[
         "tribe",
@@ -74,6 +82,7 @@ TRIBE = MatcherPatterns(
 
 SUBTRIBE = MatcherPatterns(
     "subtribe",
+    on_match=TAXON_ON_MATCH,
     decoder=DECODER,
     patterns=[
         "subtribe",
@@ -82,6 +91,7 @@ SUBTRIBE = MatcherPatterns(
 
 GENUS = MatcherPatterns(
     "genus",
+    on_match=TAXON_ON_MATCH,
     decoder=DECODER,
     patterns=[
         "genus",
@@ -90,6 +100,7 @@ GENUS = MatcherPatterns(
 
 SECTION = MatcherPatterns(
     "section",
+    on_match=TAXON_ON_MATCH,
     decoder=DECODER,
     patterns=[
         "sect. word",
@@ -99,6 +110,7 @@ SECTION = MatcherPatterns(
 
 SUBSECTION = MatcherPatterns(
     "subsection",
+    on_match=TAXON_ON_MATCH,
     decoder=DECODER,
     patterns=[
         "subsect. word",
@@ -108,6 +120,7 @@ SUBSECTION = MatcherPatterns(
 
 SERIES = MatcherPatterns(
     "series",
+    on_match=TAXON_ON_MATCH,
     decoder=DECODER,
     patterns=[
         "ser. roman word",
@@ -118,9 +131,20 @@ SERIES = MatcherPatterns(
 
 SUBSERIES = MatcherPatterns(
     "subseries",
+    on_match=TAXON_ON_MATCH,
     decoder=DECODER,
     patterns=[
         "subser. word",
         "subseries",
     ],
 )
+
+
+@registry.misc(TAXON_ON_MATCH)
+def taxon_match(ent):
+    """Enrich a taxon match."""
+    ent._.new_label = "taxon"
+    ent._.data = {
+        "level": ent.label_,
+        "taxon": ent.text,
+    }

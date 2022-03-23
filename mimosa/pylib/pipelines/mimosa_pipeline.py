@@ -25,11 +25,23 @@ from ..patterns import shape_patterns
 from ..patterns import size_patterns
 from ..patterns import subpart_linker_patterns
 from ..patterns import subpart_patterns
+from ..patterns import taxon_linker_patterns
 from ..patterns import taxon_patterns
 
 # from traiter.pipes.debug import DEBUG_TOKENS, DEBUG_ENTITIES
 
 ADD_DATA = [
+    taxon_patterns.SPECIES,
+    taxon_patterns.SUBSPECIES,
+    taxon_patterns.VARIANT,
+    taxon_patterns.FAMILY,
+    taxon_patterns.TRIBE,
+    taxon_patterns.SUBTRIBE,
+    taxon_patterns.GENUS,
+    taxon_patterns.SECTION,
+    taxon_patterns.SUBSECTION,
+    taxon_patterns.SERIES,
+    taxon_patterns.SUBSERIES,
     color_patterns.COLOR,
     margin_patterns.MARGIN_SHAPE,
     shape_patterns.N_SHAPE,
@@ -73,17 +85,6 @@ def pipeline():
     matcher_patterns.add_ruler_patterns(
         match_ruler,
         [
-            taxon_patterns.SPECIES,
-            taxon_patterns.SUBSPECIES,
-            taxon_patterns.VARIANT,
-            taxon_patterns.FAMILY,
-            taxon_patterns.TRIBE,
-            taxon_patterns.SUBTRIBE,
-            taxon_patterns.GENUS,
-            taxon_patterns.SECTION,
-            taxon_patterns.SUBSECTION,
-            taxon_patterns.SERIES,
-            taxon_patterns.SUBSERIES,
             part_patterns.PART,
             subpart_patterns.SUBPART,
         ],
@@ -151,6 +152,7 @@ def pipeline():
                     part_linker_patterns.PART_LINKER,
                     sex_linker_patterns.SEX_LINKER,
                     subpart_linker_patterns.SUBPART_LINKER,
+                    taxon_linker_patterns.TAXON_LINKER,
                 ]
             )
         },
