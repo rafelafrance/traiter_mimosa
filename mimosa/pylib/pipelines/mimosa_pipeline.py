@@ -18,11 +18,13 @@ from ..patterns import location_linker_patterns
 from ..patterns import margin_patterns
 from ..patterns import part_linker_patterns
 from ..patterns import part_location_patterns
+from ..patterns import part_patterns
 from ..patterns import range_patterns
 from ..patterns import sex_linker_patterns
 from ..patterns import shape_patterns
 from ..patterns import size_patterns
 from ..patterns import subpart_linker_patterns
+from ..patterns import subpart_patterns
 from ..patterns import taxon_patterns
 
 # from traiter.pipes.debug import DEBUG_TOKENS, DEBUG_ENTITIES
@@ -82,6 +84,8 @@ def pipeline():
             taxon_patterns.SUBSECTION,
             taxon_patterns.SERIES,
             taxon_patterns.SUBSERIES,
+            part_patterns.PART,
+            subpart_patterns.SUBPART,
         ],
     )
 

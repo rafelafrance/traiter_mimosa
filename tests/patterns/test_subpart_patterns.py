@@ -13,13 +13,6 @@ class TestSubpart(unittest.TestCase):
             test("terminal lobe ovate-trullate,"),
             [
                 {
-                    "location": "terminal",
-                    "trait": "location",
-                    "start": 0,
-                    "end": 8,
-                    "subpart": "lobe",
-                },
-                {
                     "subpart": "lobe",
                     "trait": "subpart",
                     "start": 9,

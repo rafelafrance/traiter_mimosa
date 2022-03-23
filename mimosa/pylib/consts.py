@@ -59,7 +59,9 @@ ABBREVS += [f"{c}." for c in string.ascii_uppercase]
 # Common patterns for parsing
 CONJ = ["or", "and"]
 TO = ["to"]
-MISSING = """ without missing lack lacking except excepting not rarely """.split()
+MISSING = """
+    without missing lack lacking except excepting not rarely obsolete
+    """.split()
 
 COMMON_PATTERNS = {
     "(": {"TEXT": {"IN": OPEN}},

@@ -232,12 +232,6 @@ class TestCount(unittest.TestCase):
                     "end": 18,
                     "part": "leaflet",
                 },
-                {
-                    "count_group": "pairs",
-                    "trait": "count_group",
-                    "start": 19,
-                    "end": 24,
-                },
             ],
         )
 
@@ -280,12 +274,6 @@ class TestCount(unittest.TestCase):
                     "end": 24,
                     "part": "leaflet",
                 },
-                {
-                    "count_group": "pairs",
-                    "trait": "count_group",
-                    "start": 25,
-                    "end": 30,
-                },
             ],
         )
 
@@ -309,6 +297,7 @@ class TestCount(unittest.TestCase):
                     "start": 0,
                     "end": 10,
                     "part": "flower",
+                    "subpart": "setae",
                 },
                 {
                     "part": "flower",
@@ -318,11 +307,27 @@ class TestCount(unittest.TestCase):
                     "sex": "pistillate",
                 },
                 {
-                    "part_as_loc": "at apex of hypanthial aculei",
+                    "subpart": "setae",
+                    "trait": "subpart",
+                    "start": 28,
+                    "end": 35,
+                    "part": "flower",
+                    "sex": "pistillate",
+                },
+                {
+                    "part_as_loc": "at apex",
                     "trait": "part_as_loc",
                     "start": 36,
+                    "end": 43,
+                    "part": "aculeus",
+                    "sex": "pistillate",
+                    "subpart": "setae",
+                },
+                {
+                    "part": "aculeus",
+                    "trait": "part",
+                    "start": 58,
                     "end": 64,
-                    "part": "flower",
                     "sex": "pistillate",
                 },
                 {
@@ -537,12 +542,6 @@ class TestCount(unittest.TestCase):
                     "part": "leaf",
                     "subpart": "lobe",
                 },
-                {
-                    "count_group": "per side",
-                    "trait": "count_group",
-                    "start": 27,
-                    "end": 35,
-                },
             ],
         )
 
@@ -611,12 +610,6 @@ class TestCount(unittest.TestCase):
                     "part": "leaf",
                     "subpart": "lobe",
                 },
-                {
-                    "count_group": "per side",
-                    "trait": "count_group",
-                    "start": 25,
-                    "end": 33,
-                },
             ],
         )
 
@@ -679,12 +672,6 @@ class TestCount(unittest.TestCase):
                     "sex": "staminate",
                 },
                 {
-                    "count_group": "cluster",
-                    "trait": "count_group",
-                    "start": 21,
-                    "end": 39,
-                },
-                {
                     "low": 3,
                     "high": 6,
                     "count_group": "cluster",
@@ -707,12 +694,6 @@ class TestCount(unittest.TestCase):
                     "start": 60,
                     "end": 67,
                     "sex": "pistillate",
-                },
-                {
-                    "count_group": "cluster",
-                    "trait": "count_group",
-                    "start": 71,
-                    "end": 89,
                 },
                 {
                     "low": 2,

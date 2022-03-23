@@ -12,6 +12,9 @@ COLOR_COUNT = 14
 BACKGROUNDS = cycle([f"cc{i}" for i in range(COLOR_COUNT)])
 BORDERS = cycle([f"bb{i}" for i in range(COLOR_COUNT)])
 
+TITLE_SKIPS = ["start", "end", "trait"]
+TRAIT_SKIPS = TITLE_SKIPS + ["part", "subpart"]
+
 Formatted = namedtuple("Formatted", "text traits")
 Trait = namedtuple("Trait", "label data")
 SortableTrait = namedtuple("SortableTrait", "label start trait")
@@ -61,7 +64,11 @@ def format_text(datum, classes) -> str:
         label = get_label(trait)
         cls = get_class(label, classes)
 
-        frags.append(f'<span class="{cls}" title="">')
+        title = ", ".join(
+            f"{k}:&nbsp;{v}" for k, v in trait.items() if k not in TITLE_SKIPS
+        )
+
+        frags.append(f'<span class="{cls}" title="{title}">')
         frags.append(escape(datum.text[start:end]))
         frags.append("</span>")
         prev = end
@@ -74,7 +81,6 @@ def format_text(datum, classes) -> str:
 
 def format_traits(datum, classes) -> list[namedtuple]:
     """Format the traits for output."""
-    SKIPS = {"start", "end", "trait", "part", "subpart"}
     traits = []
 
     sortable = []
@@ -91,7 +97,9 @@ def format_traits(datum, classes) -> list[namedtuple]:
         for trait in grouped:
             trait_list.append(
                 ", ".join(
-                    f"{k}:&nbsp;{v}" for k, v in trait.trait.items() if k not in SKIPS
+                    f"{k}:&nbsp;{v}"
+                    for k, v in trait.trait.items()
+                    if k not in TRAIT_SKIPS
                 )
             )
 
@@ -102,18 +110,10 @@ def format_traits(datum, classes) -> list[namedtuple]:
 
 def get_label(trait):
     """Format the trait's label."""
-    parts = []
-    if trait.get("part"):
-        parts.append(trait["part"])
-
-    if trait.get("subpart"):
-        parts.append(trait["subpart"])
-
-    parts.append(trait["trait"])
-
-    label = " ".join(parts)
-
-    return label
+    part = trait["part"] if trait.get("part") else ""
+    subpart = trait["subpart"] if trait.get("subpart") else ""
+    trait = trait["trait"] if trait["trait"] not in ("part", "subpart") else ""
+    return " ".join([p for p in [part, subpart, trait] if p])
 
 
 def get_class(label, classes):

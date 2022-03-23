@@ -79,7 +79,7 @@ def count_word(ent):
     """Enrich the match with data."""
     ent._.new_label = "count"
     word = [e for e in ent.ents if e.label_ == "count_word"][0]
-    word._.data = {"low": to_positive_int(REPLACE[word.text])}
+    word._.data = {"low": to_positive_int(REPLACE[word.text.lower()])}
     word._.new_label = "count"
 
 

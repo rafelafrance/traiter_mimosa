@@ -75,7 +75,13 @@ class TestDescriptor(unittest.TestCase):
         self.assertEqual(
             test("Herbs perennial or subshrubs, epiphytic or epilithic."),
             [
-                {"woodiness": "herbaceous", "trait": "woodiness", "start": 0, "end": 5},
+                {
+                    "woodiness": "herbaceous",
+                    "trait": "woodiness",
+                    "start": 0,
+                    "end": 5,
+                    "part": "shrub",
+                },
                 {
                     "plant_duration": "perennial",
                     "trait": "plant_duration",
