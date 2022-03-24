@@ -7,6 +7,7 @@ from itertools import groupby
 
 from jinja2 import Environment
 from jinja2 import FileSystemLoader
+from tqdm import tqdm
 
 COLOR_COUNT = 14
 BACKGROUNDS = cycle([f"cc{i}" for i in range(COLOR_COUNT)])
@@ -30,7 +31,7 @@ def write(args, data):
 
     classes = {}
     formatted = []
-    for datum in data:
+    for datum in tqdm(data):
         formatted.append(
             Formatted(
                 format_text(datum, classes),
