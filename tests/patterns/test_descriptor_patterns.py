@@ -83,8 +83,8 @@ class TestDescriptor(unittest.TestCase):
                     "part": "shrub",
                 },
                 {
-                    "plant_duration": "perennial",
-                    "trait": "plant_duration",
+                    "duration": "perennial",
+                    "trait": "duration",
                     "start": 6,
                     "end": 15,
                 },

@@ -475,12 +475,12 @@ class TestSize(unittest.TestCase):
             [
                 {"part": "flower", "trait": "part", "start": 0, "end": 7},
                 {
-                    "length_low": 5.0,
-                    "length_high": 10.0,
-                    "length_units": "cm",
+                    "diameter_low": 5.0,
+                    "diameter_high": 10.0,
+                    "diameter_units": "cm",
                     "trait": "size",
                     "start": 8,
-                    "end": 15,
+                    "end": 21,
                     "part": "flower",
                 },
                 {"part": "hypanthium", "trait": "part", "start": 23, "end": 33},
