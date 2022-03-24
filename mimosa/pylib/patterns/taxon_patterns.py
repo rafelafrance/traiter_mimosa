@@ -59,6 +59,7 @@ VARIANT = MatcherPatterns(
         "genus species variant",
         "m. species subsp. word var. word",
         "m. species var. word",
+        "var. word",
     ],
 )
 

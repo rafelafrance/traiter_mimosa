@@ -87,6 +87,6 @@ COMMON_PATTERNS = {
 # Entities
 
 TRAITS = set(
-    """ color color_mod count location margin_shape part
+    """ color color_mod count location margin_shape part surface
     size shape sex subpart woodiness part_as_loc """.split()
 )

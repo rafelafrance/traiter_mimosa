@@ -47,6 +47,13 @@ class TestPhrase(unittest.TestCase):
             test("Petals glabrous, deciduous;"),
             [
                 {"part": "petal", "trait": "part", "start": 0, "end": 6},
+                {
+                    "surface": "glabrous",
+                    "trait": "surface",
+                    "start": 7,
+                    "end": 15,
+                    "part": "petal",
+                },
                 {"duration": "deciduous", "trait": "duration", "start": 17, "end": 26},
             ],
         )

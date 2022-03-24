@@ -191,7 +191,7 @@ class TestSize(unittest.TestCase):
 
     def test_size_10(self):
         self.assertEqual(
-            test("petiole [5–]7–25[–32] mm, glabrous,"),
+            test("petiole [5–]7–25[–32] mm,"),
             [
                 {"part": "petiole", "trait": "part", "start": 0, "end": 7},
                 {

@@ -10,9 +10,7 @@ class TestTaxonLinker(unittest.TestCase):
     def test_taxon_linker_01(self):
         self.assertEqual(
             test(
-                """
-                ser. Glanduliferae, in which a petiolar nectary and ovate anthers,
-            """
+                """ser. Glanduliferae, in which a petiolar nectary and ovate anthers,"""
             ),
             [
                 {
