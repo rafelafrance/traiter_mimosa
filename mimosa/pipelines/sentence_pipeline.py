@@ -4,7 +4,7 @@ from traiter.pipes.sentence import SENTENCE
 from traiter.tokenizer_util import append_abbrevs
 from traiter.tokenizer_util import append_tokenizer_regexes
 
-from mimosa.pylib import consts
+from ..pylib import consts
 
 # from traiter.pipes.debug import DEBUG_ENTITIES, DEBUG_TOKENS
 

@@ -5,8 +5,8 @@ from spacy import registry
 from traiter.const import DASH
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
-from ..consts import COMMON_PATTERNS
-from ..consts import REPLACE
+from ..pylib.consts import COMMON_PATTERNS
+from ..pylib.consts import REPLACE
 
 TEMP = ["\\" + c for c in DASH[:2]]
 MULTIPLE_DASHES = fr'[{"".join(TEMP)}]{{2,}}'

@@ -4,8 +4,8 @@ import argparse
 import textwrap
 from pathlib import Path
 
-from pylib.readers import mimosa_reader
-from pylib.writers import html_writer
+from .readers import mimosa_reader
+from .writers import html_writer
 
 
 def main():

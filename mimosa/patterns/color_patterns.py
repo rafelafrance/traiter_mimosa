@@ -6,10 +6,10 @@ from traiter.const import DASH
 from traiter.const import DASH_CHAR
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
-from ..consts import COMMON_PATTERNS
-from ..consts import MISSING
-from ..consts import REMOVE
-from ..consts import REPLACE
+from ..pylib.consts import COMMON_PATTERNS
+from ..pylib.consts import MISSING
+from ..pylib.consts import REMOVE
+from ..pylib.consts import REPLACE
 
 MULTIPLE_DASHES = ["\\" + c for c in DASH_CHAR]
 MULTIPLE_DASHES = fr'\s*[{"".join(MULTIPLE_DASHES)}]{{2,}}\s*'

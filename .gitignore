@@ -125,3 +125,4 @@ junk*
 # editors
 .idea/
 .virtual_documents/
+.vscode/

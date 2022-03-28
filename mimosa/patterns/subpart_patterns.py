@@ -1,7 +1,7 @@
 """Part patterns."""
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
-from ..consts import COMMON_PATTERNS
+from mimosa.pylib.consts import COMMON_PATTERNS
 
 SUBPART = MatcherPatterns(
     "subpart",

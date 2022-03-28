@@ -9,8 +9,8 @@ from traiter.const import FLOAT_RE
 from traiter.patterns.matcher_patterns import MatcherPatterns
 from traiter.util import to_positive_float
 
-from ..consts import COMMON_PATTERNS
-from ..consts import REPLACE
+from ..pylib.consts import COMMON_PATTERNS
+from ..pylib.consts import REPLACE
 
 FOLLOW = """ dim sex """.split()
 NOT_A_SIZE = """ for """.split()

@@ -4,7 +4,7 @@ from traiter import actions
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
 from . import size_patterns
-from ..consts import COMMON_PATTERNS
+from mimosa.pylib.consts import COMMON_PATTERNS
 
 DECODER = COMMON_PATTERNS | {
     "adj": {"POS": "ADJ"},

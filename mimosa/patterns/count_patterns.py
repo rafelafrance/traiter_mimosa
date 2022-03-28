@@ -11,8 +11,8 @@ from traiter.const import SLASH
 from traiter.patterns.matcher_patterns import MatcherPatterns
 from traiter.util import to_positive_int
 
-from ..consts import COMMON_PATTERNS
-from ..consts import REPLACE
+from ..pylib.consts import COMMON_PATTERNS
+from ..pylib.consts import REPLACE
 
 NOT_COUNT_WORDS = CROSS + SLASH + """ average side times days weeks by """.split()
 NOT_COUNT_ENTS = """ imperial_length metric_mass imperial_mass """.split()

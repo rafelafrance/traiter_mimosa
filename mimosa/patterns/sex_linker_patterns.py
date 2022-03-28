@@ -8,8 +8,8 @@ Named entity recognition (NER) must be run first.
 from traiter.patterns.dependency_patterns import DependencyPatterns
 from traiter.pipes.dependency import LINK_NEAREST
 
-from ..consts import TRAITS
-from ..utils import remove_traits
+from mimosa.pylib.consts import TRAITS
+from mimosa.pylib.utils import remove_traits
 
 TRAITS_ = remove_traits(TRAITS, "sex")
 

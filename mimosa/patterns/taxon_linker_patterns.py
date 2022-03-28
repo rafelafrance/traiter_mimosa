@@ -2,7 +2,7 @@
 from traiter.patterns.dependency_patterns import DependencyPatterns
 from traiter.pipes.dependency import LINK_NEAREST
 
-from .. import consts
+from mimosa.pylib import consts
 
 TRAITS_ = list(consts.TRAITS)
 
