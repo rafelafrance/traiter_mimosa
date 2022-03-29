@@ -36,25 +36,34 @@ REMOVE = TERMS.pattern_dict("remove")
 # Tokenizer constants
 ABBREVS = """
     Jan. Feb. Febr. Mar. Apr. Jun. Jul. Aug. Sep. Sept. Oct. Nov. Dec.
-    Acad. Agri. Amer. Ann. Arb. Arq. Bol. Bot. Bras. Bull.
-    Cat. Coll. Columb. Com. Contr.
-    Exot. Fl. fig. FIG.
-    Gard. Gen. Geo. Herb. Hort. Hist. Is. Jahrb. Jard. Jr. Lab. Leg. Legum. Linn.
-    Mem. Mex. Mts. Mus. Nac. Nat. Natl. Neg. No. Ocas.
-    PI. Pl. Proc. Prodr. Prov. Pt. Pto. Publ.
-    Sa. Sci. Soc. Spec. Ser. Sp. Spp. Sr. Sta. Sto. Sul. Suppl. Syst.
-    Tex. Trans. Univ. US. U.S. Veg. Wm.
-    adj. al. alt. ann. bot. bras. ca. cent. centr. cf. coll. depto. diam. dtto.
-    ed. ememd. ent. est.
-    fig. figs. fl. flor. flumin. gard. geograph. hb. hist. illeg. infra. is. jug.
-    lam. lat. leg. lin. long. mem. mens. monac. mont. mun.
-    nat. no. nom. nud. p. pi. pl. pr. prov. reg. revis.
-    s. sci. spp. stat. stk. str. superfl. suppl. surv. syn. telegr. veg.
-    i. ii. iii. iv. v. vi. vii. viii. ix. x. xi. xii. xiii. xiv. xv. xvi. xvii.
-    xviii. xix. xx. xxi. xxii. xxiii. xxiv. xxv.
-    I. II. III. IV. V. VI. VII. VIII. IX. X. XI. XII. XIII. XIV. XV. XVI. XVII.
-    XVIII. XIX. XX. XXI. XXII. XXIII. XXIV. XXV.
-    m. var. sect. subsect. ser. subser. subsp. sp. nov.
+    M. Var. Sect. Subsect. Ser. Subser. Subsp. Spec. Sp. Spp.
+    m. var. sect. subsect. ser. subser. subsp. spec. sp. spp. nov.
+    Acad. Agri. Amer. Ann. Arb. Arq. adj. al. alt. ann.
+    Bol. Bot. Bras. Bull. bot. bras.
+    Cat. Ci. Coll. Columb. Com. Contr. Cur. ca. cent. centr. cf. coll.
+    DC. depto. diam. dtto.
+    Encycl. Encyle. Exot. ed. ememd. ent. est.
+    FIG. Fig. Figs. Fl. fig. figs. fl. flor. flumin.
+    Gard. Gen. Geo. gard. geograph.
+    Herb. Hist. Hort. hb. hist.
+    Is. illeg. infra. is.
+    Jahrb. Jard. Jr. jug.
+    Lab. Lam. Leg. Legum. Linn. lam. lat. leg. lin. long.
+    Mag. Mem. Mex. Mts. Mus. Nac. mem. mens. monac. mont. mun.
+    Nat. Natl. Neg. No. nat. no. nom. nud.
+    Ocas.
+    PI. PL. Pl. Proc. Prodr. Prov. Pt. Pto. Publ. p. pi. pl. pr. prov.
+    reg. revis.
+    Sa. Sci. Soc. Sr. Sta. Sto. Sul. Suppl. Syst.
+    s. sci. stat. stk. str. superfl. suppl. surv. syn.
+    Tex. Trans telegr.
+    U.S. US. Univ.
+    Veg. veg.
+    Wm.
+    I. II. III. IV. IX. V. VI. VII. VIII. X. XI. XII. XIII. XIV. XIX. XV. XVI. XVII.
+    XVIII. XX. XXI. XXII. XXIII. XXIV. XXV.
+    i. ii. iii. iv. ix. v. vi. vii. viii. x. xi. xii. xiii. xiv. xix. xv. xvi. xvii.
+    xviii. xx. xxi. xxii. xxiii. xxiv. xxv.
     """.split()
 ABBREVS += [f"{c}." for c in string.ascii_uppercase]
 

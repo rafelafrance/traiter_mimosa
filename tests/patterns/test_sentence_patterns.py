@@ -56,3 +56,9 @@ class TestSentence(unittest.TestCase):
         doc = NLP(text)
         sents = list(doc.sents)
         self.assertEqual(len(sents), 2)
+
+    def test_sentencizer_07(self):
+        text = shorten("""Ciald., Darwiniana.""")
+        doc = NLP(text)
+        sents = list(doc.sents)
+        self.assertEqual(len(sents), 1)
