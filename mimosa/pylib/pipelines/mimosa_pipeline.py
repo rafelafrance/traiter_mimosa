@@ -10,6 +10,7 @@ from traiter.pipes.sentence import SENTENCE
 from traiter.pipes.simple_entity_data import SIMPLE_ENTITY_DATA
 from traiter.pipes.update_entity_data import UPDATE_ENTITY_DATA
 
+from .. import consts
 from ..patterns import color_patterns
 from ..patterns import count_patterns
 from ..patterns import forget_utils
@@ -26,7 +27,6 @@ from ..patterns import subpart_linker_patterns
 from ..patterns import subpart_patterns
 from ..patterns import taxon_linker_patterns
 from ..patterns import taxon_patterns
-from ..pylib import consts
 
 # from traiter.pipes.debug import DEBUG_TOKENS, DEBUG_ENTITIES
 

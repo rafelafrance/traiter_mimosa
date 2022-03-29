@@ -127,7 +127,7 @@ def inside(smaller_region, bigger_region):
     top_right = b_top < s_top < b_bottom and b_left < s_right < b_right
     bottom_left = b_top < s_bottom < b_bottom and b_left < s_left < b_right
 
-    return top_left or bottom_right or top_right or bottom_left
+    return any([top_left, bottom_right, top_right, bottom_left])
 
 
 def too_wide(region, shape, pad=50):
@@ -184,7 +184,7 @@ def parse_args():
     arg_parser.add_argument(
         "--columns",
         type=int,
-        metavar="INT",
+        choices=[1, 2],
         default=2,
         help="""How many columns does the text have. (default: %(default)s)""",
     )

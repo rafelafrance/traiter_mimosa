@@ -1,11 +1,11 @@
 """Part patterns."""
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
-from mimosa.pylib.consts import COMMON_PATTERNS
+from .. import consts
 
 SUBPART = MatcherPatterns(
     "subpart",
-    decoder=COMMON_PATTERNS
+    decoder=consts.COMMON_PATTERNS
     | {
         "part": {"ENT_TYPE": "part"},
         "subpart": {"ENT_TYPE": "subpart"},

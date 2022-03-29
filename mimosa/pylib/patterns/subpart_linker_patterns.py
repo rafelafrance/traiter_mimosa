@@ -11,10 +11,10 @@ from traiter import const
 from traiter.patterns.dependency_patterns import DependencyPatterns
 from traiter.pipes.dependency import LINK_NEAREST
 
-from mimosa.pylib.consts import TRAITS
-from mimosa.pylib.utils import remove_traits
+from .. import consts
+from .. import utils
 
-TRAITS_ = remove_traits(TRAITS, "subpart")
+TRAITS_ = utils.remove_traits(consts.TRAITS, "subpart")
 
 punct_penalty = copy.deepcopy(const.PUNCT_PENALTY)
 punct_penalty[";"] = const.NEVER

@@ -2,9 +2,9 @@
 from traiter.actions import REJECT_MATCH
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
-from ..pylib.consts import COMMON_PATTERNS
+from .. import consts
 
-DECODER = COMMON_PATTERNS | {
+DECODER = consts.COMMON_PATTERNS | {
     "ambiguous": {"LOWER": {"IN": ["few", "many"]}},
 }
 

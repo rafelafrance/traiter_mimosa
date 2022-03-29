@@ -5,13 +5,12 @@ from spacy import registry
 from traiter.const import DASH
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
-from ..pylib.consts import COMMON_PATTERNS
-from ..pylib.consts import REPLACE
+from .. import consts
 
 TEMP = ["\\" + c for c in DASH[:2]]
 MULTIPLE_DASHES = fr'[{"".join(TEMP)}]{{2,}}'
 
-DECODER = COMMON_PATTERNS | {
+DECODER = consts.COMMON_PATTERNS | {
     "shape": {"ENT_TYPE": "shape"},
     "shape_leader": {"ENT_TYPE": "shape_leader"},
     "shape_loc": {"ENT_TYPE": {"IN": ["shape", "shape_leader", "location"]}},
@@ -47,12 +46,12 @@ def shape(ent):
     parts = {
         r: 1
         for t in ent
-        if (r := REPLACE.get(t.lower_, t.lower_))
+        if (r := consts.REPLACE.get(t.lower_, t.lower_))
         and t._.cached_label in {"shape", "shape_suffix"}
     }
     value = "-".join(parts.keys())
     value = re.sub(rf"\s*{MULTIPLE_DASHES}\s*", r"-", value)
-    ent._.data["shape"] = REPLACE.get(value, value)
+    ent._.data["shape"] = consts.REPLACE.get(value, value)
     loc = [t.lower_ for t in ent if t._.cached_label == "location"]
     if loc:
         ent._.data["location"] = loc[0]

@@ -4,9 +4,9 @@ from traiter import actions
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
 from . import size_patterns
-from mimosa.pylib.consts import COMMON_PATTERNS
+from .. import consts
 
-DECODER = COMMON_PATTERNS | {
+DECODER = consts.COMMON_PATTERNS | {
     "adj": {"POS": "ADJ"},
     "cm": {"ENT_TYPE": "metric_length"},
     "leader": {"LOWER": {"IN": """to at embracing""".split()}},

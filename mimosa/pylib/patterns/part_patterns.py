@@ -1,11 +1,11 @@
 """Part patterns."""
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
-from ..pylib.consts import COMMON_PATTERNS
+from .. import consts
 
 PART = MatcherPatterns(
     "part",
-    decoder=COMMON_PATTERNS
+    decoder=consts.COMMON_PATTERNS
     | {
         "part": {"ENT_TYPE": "part"},
     },

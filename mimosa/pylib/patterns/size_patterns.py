@@ -9,13 +9,12 @@ from traiter.const import FLOAT_RE
 from traiter.patterns.matcher_patterns import MatcherPatterns
 from traiter.util import to_positive_float
 
-from ..pylib.consts import COMMON_PATTERNS
-from ..pylib.consts import REPLACE
+from .. import consts
 
 FOLLOW = """ dim sex """.split()
 NOT_A_SIZE = """ for """.split()
 
-DECODER = COMMON_PATTERNS | {
+DECODER = consts.COMMON_PATTERNS | {
     "[?]": {"ENT_TYPE": "quest"},
     "about": {"ENT_TYPE": "about"},
     "and": {"LOWER": "and"},
@@ -90,7 +89,9 @@ def size_double_dim(ent):
 
     Like: Legumes 2.8-4.5 mm high and wide
     """
-    dims = [REPLACE.get(t.lower_, t.lower_) for t in ent if t._.cached_label == "dim"]
+    dims = [
+        consts.REPLACE.get(t.lower_, t.lower_) for t in ent if t._.cached_label == "dim"
+    ]
 
     ranges = [e for e in ent.ents if e._.cached_label.split(".")[0] == "range"]
 
@@ -139,10 +140,10 @@ def scan_tokens(ent, high_only):
                 del dims[-1]["low"]
 
         elif label == "metric_length":
-            dims[-1]["units"] = REPLACE[token.lower_]
+            dims[-1]["units"] = consts.REPLACE[token.lower_]
 
         elif label == "dim":
-            dims[-1]["dimension"] = REPLACE[token.lower_]
+            dims[-1]["dimension"] = consts.REPLACE[token.lower_]
 
         elif label == "sex":
             dims[-1]["sex"] = re.sub(r"\W+", "", token.lower_)

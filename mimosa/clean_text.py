@@ -5,8 +5,7 @@ import textwrap
 from pathlib import Path
 
 import traiter.util
-
-from .pipelines import sentence_pipeline as sp
+from pylib.pipelines import sentence_pipeline as sp
 
 MOJIBAKE = {
     "{": "(",
@@ -26,7 +25,7 @@ def clean_text(args):
     with open(args.input_text) as raw_file:
         text = raw_file.read()
 
-    # The text cleaning happens in this external function
+    # The bulk of the text cleaning happens in this external function
     text = traiter.util.clean_text(text, trans=TRANS)
 
     # Break into sentences
@@ -65,7 +64,7 @@ def parse_args():
         "--nlp-max-length",
         type=int,
         default=5,
-        metavar="INT",
+        metavar="MB",
         help="""The maximum text file size to process. This is given in megabytes.
             This is a spaCy constraint. (default: %(default)s)""",
     )

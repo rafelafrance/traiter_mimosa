@@ -5,8 +5,7 @@ from spacy import registry
 from traiter.const import DASH
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
-from ..pylib.consts import COMMON_PATTERNS
-from ..pylib.consts import REPLACE
+from .. import consts
 
 TEMP = ["\\" + c for c in DASH[:2]]
 MULTIPLE_DASHES = fr'[{"".join(TEMP)}]{{2,}}'
@@ -18,7 +17,7 @@ SHAPES = """ margin_shape shape """.split()
 MARGIN_SHAPE = MatcherPatterns(
     "margin_shape",
     on_match="mimosa.margin.v1",
-    decoder=COMMON_PATTERNS
+    decoder=consts.COMMON_PATTERNS
     | {
         "margin_shape": {"ENT_TYPE": "margin_shape"},
         "shape": {"ENT_TYPE": {"IN": SHAPES}},
@@ -40,8 +39,8 @@ def margin(ent):
     value = {
         r: 1
         for t in ent
-        if (r := REPLACE.get(t.text, t.text)) and t._.cached_label in SHAPES
+        if (r := consts.REPLACE.get(t.text, t.text)) and t._.cached_label in SHAPES
     }
     value = "-".join(value.keys())
     value = re.sub(rf"\s*{MULTIPLE_DASHES}\s*", r"-", value)
-    ent._.data["margin_shape"] = REPLACE.get(value, value)
+    ent._.data["margin_shape"] = consts.REPLACE.get(value, value)
