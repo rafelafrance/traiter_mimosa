@@ -5,6 +5,8 @@ import os
 import textwrap
 from pathlib import Path
 
+import rich
+
 
 def main():
     """Convert the file."""
@@ -17,7 +19,7 @@ def main():
         figure captions (& text), map captions (& text), etc.
         from this text file.""".split()
     )
-    print(f"\n{msg}\n")
+    rich.print(f"\n[bold yellow]{msg}[/bold yellow]\n")
 
 
 def pdf_to_text(args):

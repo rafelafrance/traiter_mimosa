@@ -5,6 +5,7 @@ import textwrap
 from pathlib import Path
 
 import pytesseract
+import rich
 import skimage
 from PIL import Image
 from skimage import color
@@ -17,12 +18,6 @@ from tqdm import tqdm
 
 CHAR_BLACKLIST = "¥€£¢$«»®©™§|"
 TESS_LANG = "eng"
-TESS_CONFIG = " ".join(
-    [
-        f"-l {TESS_LANG}",
-        f"-c tessedit_char_blacklist='{CHAR_BLACKLIST}'",
-    ]
-)
 
 
 def main():
@@ -32,7 +27,7 @@ def main():
     page_images_to_text(args)
 
     msg = " ".join("""You may need to edit this file manually.""".split())
-    print(f"\n{msg}\n")
+    rich.print(f"\n[bold yellow]{msg}[/bold yellow]\n")
 
 
 def page_images_to_text(args):
@@ -40,8 +35,8 @@ def page_images_to_text(args):
     pages = sorted(args.image_dir.glob("*.jpg"))
 
     with open(args.text_file, "w") as text_file:
-        for page in tqdm(range(len(pages))):
-            image = io.imread(pages[page])
+        for page in tqdm(pages):
+            image = io.imread(page)
 
             is_two_columns = args.columns == 2
             texts = pipeline(image, is_two_columns)
@@ -72,49 +67,52 @@ def pipeline(image, is_two_columns, sigma=11):
 
 def regions_to_text(regions, gray, min_words=8):
     """OCR each region of text."""
+    tess_config = " ".join(
+        [
+            f"-l {TESS_LANG}",
+            f"-c tessedit_char_blacklist='{CHAR_BLACKLIST}'",
+        ]
+    )
     texts = []
 
     for region in regions:
-        top, left, bottom, right = get_bbox(region)
+        top, left, bottom, right = get_bbox(region, gray.shape)
         cropped = gray[top:bottom, left:right] * 255.0
         cropped = Image.fromarray(cropped).convert("RGB")
-        text = pytesseract.image_to_string(cropped, config=TESS_CONFIG)
+        text = pytesseract.image_to_string(cropped, config=tess_config)
         if len(text.split()) > min_words:
             texts.append(text)
 
     return texts
 
 
-def region_key(region, threshold):
+def region_key(region, threshold, shape):
     """The sort order of the regions."""
-    top, left, bottom, right = get_bbox(region)
+    top, left, bottom, right = get_bbox(region, shape)
     return left // threshold, top, left
 
 
 def sort_regions(image, regions, pad=50):
     """Order the text regions so the text flows properly."""
     threshold = (image.shape[1] // 2) - pad
-    return sorted(regions, key=lambda r: region_key(r, threshold))
+    return sorted(regions, key=lambda r: region_key(r, threshold, image.shape))
 
 
 def get_regions(labeled, is_two_columns):
     """Get regions of text."""
     regions = sorted(measure.regionprops(labeled), key=lambda r: r.area, reverse=True)
-    regions = [r for r in regions if not too_small(r)]
+    regions = [r for r in regions if not too_small(r, labeled.shape)]
 
-    new_regions = []
+    big_regions = []
     for region in regions:
-        for bigger in new_regions:
+        for bigger in big_regions:
             if inside(region, bigger):
                 break
         else:
-            new_regions.append(region)
-    new_regions = regions
-
-    regions = new_regions
+            big_regions.append(region)
 
     if is_two_columns:
-        regions = [r for r in regions if not too_wide(r, labeled.shape[1])]
+        regions = [r for r in big_regions if not too_wide(r, labeled.shape)]
 
     return regions
 
@@ -132,30 +130,31 @@ def inside(smaller_region, bigger_region):
     return top_left or bottom_right or top_right or bottom_left
 
 
-def too_wide(region, image_width, pad=50):
+def too_wide(region, shape, pad=50):
     """Remove regions that are too wide.
 
     A method to get rid of headers, footers, and figure captions is to remove text
     that spans too many columns.
     """
-    top, left, bottom, right = get_bbox(region)
+    top, left, bottom, right = get_bbox(region, shape)
     width = right - left
-    return width > (image_width // 2) + pad
+    return width > (shape[1] // 2) + pad
 
 
-def get_bbox(region, border=6):
+def get_bbox(region, shape, border=6):
     """Create a clear border around the text."""
+    height, width = shape[:2]
     top, left, bottom, right = region.bbox
-    top -= border
-    left -= border
-    bottom += border
-    right += border
+    top = max(top - border, 0)
+    left = max(left - border, 0)
+    bottom = min(bottom + border, height)
+    right = min(right + border, width)
     return top, left, bottom, right
 
 
-def too_small(region, min_height=50, min_width=100):
+def too_small(region, shape, min_height=50, min_width=100):
     """Get rid of headers and footers and other small stray marks."""
-    top, left, bottom, right = get_bbox(region)
+    top, left, bottom, right = get_bbox(region, shape)
     width = right - left
     height = bottom - top
     return width < min_width or height < min_height
@@ -172,7 +171,7 @@ def parse_args():
         "--image-dir",
         type=Path,
         metavar="DIR",
-        help="""Where to place the images.""",
+        help="""The directory with the images of the pages.""",
     )
 
     arg_parser.add_argument(

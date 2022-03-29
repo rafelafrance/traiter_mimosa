@@ -5,6 +5,8 @@ import os
 import textwrap
 from pathlib import Path
 
+import rich
+
 
 def main():
     """Convert the file."""
@@ -16,7 +18,7 @@ def main():
         """You may now want to remove pages that
         do not contain useful traits.""".split()
     )
-    print(f"\n{msg}\n")
+    rich.print(f"\n[bold yellow]{msg}[/bold yellow]\n")
 
 
 def pdf_to_images(args):

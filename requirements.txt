@@ -8,6 +8,7 @@ numpy
 pandas
 pytesseract
 regex
+rich
 scikit-image
 spacy
 tqdm
