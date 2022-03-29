@@ -1,23 +1,29 @@
 #!/usr/bin/env python3
 """Clean text to prepare it for trait extraction."""
 import argparse
+import logging
 import textwrap
 from pathlib import Path
 
-import traiter.util
-from pylib.pipelines import sentence_pipeline as sp
+from pylib.pipelines import sentence_pipeline
+from traiter import log
+from traiter import util as t_util
 
 MOJIBAKE = {
     "{": "(",
     "}": ")",
 }
-TRANS = str.maketrans(MOJIBAKE)
 
 
 def main():
     """Clean the text."""
     args = parse_args()
+
+    log.started()
+
     clean_text(args)
+
+    log.finished()
 
 
 def clean_text(args):
@@ -26,15 +32,18 @@ def clean_text(args):
         text = raw_file.read()
 
     # The bulk of the text cleaning happens in this external function
-    text = traiter.util.clean_text(text, trans=TRANS)
+    logging.info("Cleaning text")
+    trans = str.maketrans(MOJIBAKE)
+    text = t_util.clean_text(text, trans=trans)
 
     # Break into sentences
-    nlp = sp.pipeline()
+    logging.info("Breaking text into sentences")
+    nlp = sentence_pipeline.pipeline()
     nlp.max_length = args.nlp_max_length
     doc = nlp(text)
 
     # Write output
-    lines = [s.text + "\n" for s in doc.sents]
+    lines = [s.text + "\n" for s in doc.sents if s and s.text]
     with open(args.output_text, "w") as clean_file:
         clean_file.writelines(lines)
 
@@ -49,6 +58,7 @@ def parse_args():
     arg_parser.add_argument(
         "--input-text",
         type=Path,
+        required=True,
         metavar="PATH",
         help="""Which text file to clean.""",
     )
@@ -56,6 +66,7 @@ def parse_args():
     arg_parser.add_argument(
         "--output-text",
         type=Path,
+        required=True,
         metavar="PATH",
         help="""Output the cleaned text to this file.""",
     )

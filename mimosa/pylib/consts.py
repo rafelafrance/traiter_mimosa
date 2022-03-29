@@ -36,16 +36,19 @@ REMOVE = TERMS.pattern_dict("remove")
 # Tokenizer constants
 ABBREVS = """
     Jan. Feb. Febr. Mar. Apr. Jun. Jul. Aug. Sep. Sept. Oct. Nov. Dec.
-    Acad. Amer. Ann. Arq. Bol. Bot. Bull. Cat. Coll. Com. Contr. Exot. FIG.
-    Gard. Gen. Geo. Herb. Hort. Hist. Is. Jahrb. Jr. Lab. Leg. Legum. Linn.
-    Mem. Mex. Mts. Mus. Nac. Nat. Neg. No. Ocas. Proc. Prodr. Prov. Pto. Publ.
-    Sci. Soc. Spec. Ser. Spp. Sr. Sta. Sto. Sul. Suppl. Syst.
+    Acad. Agri. Amer. Ann. Arb. Arq. Bol. Bot. Bras. Bull.
+    Cat. Coll. Columb. Com. Contr.
+    Exot. Fl. fig. FIG.
+    Gard. Gen. Geo. Herb. Hort. Hist. Is. Jahrb. Jard. Jr. Lab. Leg. Legum. Linn.
+    Mem. Mex. Mts. Mus. Nac. Nat. Natl. Neg. No. Ocas.
+    PI. Pl. Proc. Prodr. Prov. Pt. Pto. Publ.
+    Sa. Sci. Soc. Spec. Ser. Sp. Spp. Sr. Sta. Sto. Sul. Suppl. Syst.
     Tex. Trans. Univ. US. U.S. Veg. Wm.
     adj. al. alt. ann. bot. bras. ca. cent. centr. cf. coll. depto. diam. dtto.
     ed. ememd. ent. est.
-    fig. figs. fl. flor. flumin. gard. hb. hist. illeg. infra. is. jug.
+    fig. figs. fl. flor. flumin. gard. geograph. hb. hist. illeg. infra. is. jug.
     lam. lat. leg. lin. long. mem. mens. monac. mont. mun.
-    nat. no. nom. nud. p. pi. pr. prov. reg.
+    nat. no. nom. nud. p. pi. pl. pr. prov. reg. revis.
     s. sci. spp. stat. stk. str. superfl. suppl. surv. syn. telegr. veg.
     i. ii. iii. iv. v. vi. vii. viii. ix. x. xi. xii. xiii. xiv. xv. xvi. xvii.
     xviii. xix. xx. xxi. xxii. xxiii. xxiv. xxv.

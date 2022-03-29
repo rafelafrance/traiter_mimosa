@@ -25,6 +25,7 @@ def parse_args():
     arg_parser.add_argument(
         "--in-text",
         type=Path,
+        required=True,
         metavar="PATH",
         help="""Which text file (a converted PDF) to process.""",
     )

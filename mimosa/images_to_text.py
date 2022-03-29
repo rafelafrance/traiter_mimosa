@@ -170,6 +170,7 @@ def parse_args():
     arg_parser.add_argument(
         "--image-dir",
         type=Path,
+        required=True,
         metavar="DIR",
         help="""The directory with the images of the pages.""",
     )
@@ -177,6 +178,7 @@ def parse_args():
     arg_parser.add_argument(
         "--text-file",
         type=Path,
+        required=True,
         metavar="PATH",
         help="""Output the text to this file.""",
     )

@@ -48,6 +48,7 @@ def parse_args():
     arg_parser.add_argument(
         "--pdf-dir",
         type=Path,
+        required=True,
         metavar="DIR",
         help="""The PDF directory containing PDFs with ugly file names.""",
     )

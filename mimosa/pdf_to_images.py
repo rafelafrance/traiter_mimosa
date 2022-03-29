@@ -42,6 +42,7 @@ def parse_args():
     arg_parser.add_argument(
         "--pdf-file",
         type=Path,
+        required=True,
         metavar="PDF",
         help="""Which pdf file to convert to images.""",
     )
@@ -49,6 +50,7 @@ def parse_args():
     arg_parser.add_argument(
         "--image-dir",
         type=Path,
+        required=True,
         metavar="DIR",
         help="""Where to place the images.""",
     )
