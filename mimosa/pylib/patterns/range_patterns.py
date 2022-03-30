@@ -1,5 +1,5 @@
 """Shared range patterns."""
-from traiter.actions import REJECT_MATCH
+from traiter import actions
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
 from .. import consts
@@ -96,7 +96,7 @@ RANGE_MIN_LOW_HIGH_MAX = MatcherPatterns(
 
 NOT_A_RANGE = MatcherPatterns(
     "not_a_range",
-    on_match=REJECT_MATCH,
+    on_match=actions.REJECT_MATCH,
     decoder=DECODER,
     patterns=[
         "9 / 9",

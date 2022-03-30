@@ -2,12 +2,12 @@
 import re
 
 from spacy import registry
-from traiter.const import DASH
+from traiter import const as t_const
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
 from .. import consts
 
-TEMP = ["\\" + c for c in DASH[:2]]
+TEMP = ["\\" + c for c in t_const.DASH[:2]]
 MULTIPLE_DASHES = fr'[{"".join(TEMP)}]{{2,}}'
 
 DECODER = consts.COMMON_PATTERNS | {

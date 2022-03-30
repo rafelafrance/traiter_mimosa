@@ -5,7 +5,7 @@ For example: "with thick, woody rootstock" should link the "rootstock" part with
 the "woody" trait.
 """
 from traiter.patterns.dependency_patterns import DependencyPatterns
-from traiter.pipes.dependency import LINK_NEAREST
+from traiter.pipes import dependency
 
 from .. import consts
 from .. import utils
@@ -15,7 +15,7 @@ TRAITS_ = utils.remove_traits(consts.TRAITS, "part")
 PART_LINKER = DependencyPatterns(
     "part_linker",
     on_match={
-        "func": LINK_NEAREST,
+        "func": dependency.LINK_NEAREST,
         "kwargs": {"anchor": "part"},
     },
     decoder={

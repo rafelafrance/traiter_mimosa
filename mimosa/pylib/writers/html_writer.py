@@ -1,31 +1,29 @@
 """Write the extracted traits to an html file."""
-from collections import namedtuple
+import collections
+import html
+import itertools
 from datetime import datetime
-from html import escape
-from itertools import cycle
-from itertools import groupby
 
-from jinja2 import Environment
-from jinja2 import FileSystemLoader
+import jinja2
 from tqdm import tqdm
 
 COLOR_COUNT = 14
-BACKGROUNDS = cycle([f"cc{i}" for i in range(COLOR_COUNT)])
-BORDERS = cycle([f"bb{i}" for i in range(COLOR_COUNT)])
+BACKGROUNDS = itertools.cycle([f"cc{i}" for i in range(COLOR_COUNT)])
+BORDERS = itertools.cycle([f"bb{i}" for i in range(COLOR_COUNT)])
 
 TITLE_SKIPS = ["start", "end", "trait"]
 TRAIT_SKIPS = TITLE_SKIPS + ["part", "subpart"]
 
-Formatted = namedtuple("Formatted", "text traits")
-Trait = namedtuple("Trait", "label data")
-SortableTrait = namedtuple("SortableTrait", "label start trait")
+Formatted = collections.namedtuple("Formatted", "text traits")
+Trait = collections.namedtuple("Trait", "label data")
+SortableTrait = collections.namedtuple("SortableTrait", "label start trait")
 
 
 def write(args, data):
     """Output the parsed data."""
 
-    env = Environment(
-        loader=FileSystemLoader("./mimosa/pylib/writers/templates"),
+    env = jinja2.Environment(
+        loader=jinja2.FileSystemLoader("./mimosa/pylib/writers/templates"),
         autoescape=True,
     )
 
@@ -60,7 +58,7 @@ def format_text(datum, classes) -> str:
         end = trait["end"]
 
         if prev < start:
-            frags.append(escape(datum.text[prev:start]))
+            frags.append(html.escape(datum.text[prev:start]))
 
         label = get_label(trait)
         cls = get_class(label, classes)
@@ -70,17 +68,17 @@ def format_text(datum, classes) -> str:
         )
 
         frags.append(f'<span class="{cls}" title="{title}">')
-        frags.append(escape(datum.text[start:end]))
+        frags.append(html.escape(datum.text[start:end]))
         frags.append("</span>")
         prev = end
 
     if len(datum.text) > prev:
-        frags.append(escape(datum.text[prev:]))
+        frags.append(html.escape(datum.text[prev:]))
 
     return "".join(frags)
 
 
-def format_traits(datum, classes) -> list[namedtuple]:
+def format_traits(datum, classes) -> list[collections.namedtuple]:
     """Format the traits for output."""
     traits = []
 
@@ -91,7 +89,7 @@ def format_traits(datum, classes) -> list[namedtuple]:
 
     sortable = sorted(sortable)
 
-    for label, grouped in groupby(sortable, key=lambda x: x.label):
+    for label, grouped in itertools.groupby(sortable, key=lambda x: x.label):
         cls = get_class(label, classes)
         label = f'<span class="{cls}">{label}</span>'
         trait_list = []

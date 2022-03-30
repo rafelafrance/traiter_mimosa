@@ -2,18 +2,17 @@
 import re
 
 from spacy import registry
-from traiter.const import DASH
-from traiter.const import DASH_CHAR
-from traiter.patterns.matcher_patterns import MatcherPatterns
+from traiter import const as t_const
+from traiter.patterns import matcher_patterns
 
 from .. import consts
 
-MULTIPLE_DASHES = ["\\" + c for c in DASH_CHAR]
+MULTIPLE_DASHES = ["\\" + c for c in t_const.DASH_CHAR]
 MULTIPLE_DASHES = fr'\s*[{"".join(MULTIPLE_DASHES)}]{{2,}}\s*'
 
-SKIP = DASH + consts.MISSING
+SKIP = t_const.DASH + consts.MISSING
 
-COLOR = MatcherPatterns(
+COLOR = matcher_patterns.MatcherPatterns(
     "color",
     on_match="mimosa.color.v1",
     decoder=consts.COMMON_PATTERNS

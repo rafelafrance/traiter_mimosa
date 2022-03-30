@@ -3,11 +3,10 @@ import re
 from collections import deque
 
 from spacy import registry
+from traiter import const as t_const
+from traiter import util as t_util
 from traiter.actions import REJECT_MATCH
-from traiter.const import CROSS
-from traiter.const import FLOAT_RE
 from traiter.patterns.matcher_patterns import MatcherPatterns
-from traiter.util import to_positive_float
 
 from .. import consts
 
@@ -23,7 +22,7 @@ DECODER = consts.COMMON_PATTERNS | {
     "follow": {"ENT_TYPE": {"IN": FOLLOW}},
     "not_size": {"LOWER": {"IN": NOT_A_SIZE}},
     "sex": {"ENT_TYPE": "sex"},
-    "x": {"LOWER": {"IN": CROSS}},
+    "x": {"LOWER": {"IN": t_const.CROSS}},
 }
 
 SIZE = MatcherPatterns(
@@ -127,8 +126,8 @@ def scan_tokens(ent, high_only):
         label = token._.cached_label.split(".")[0]
 
         if label == "range":
-            values = re.findall(FLOAT_RE, token.text)
-            values = [to_positive_float(v) for v in values]
+            values = re.findall(t_const.FLOAT_RE, token.text)
+            values = [t_util.to_positive_float(v) for v in values]
 
             keys = token._.cached_label.split(".")[1:]
 
@@ -151,7 +150,7 @@ def scan_tokens(ent, high_only):
         elif label == "quest":
             dims[-1]["uncertain"] = True
 
-        elif token.lower_ in CROSS:
+        elif token.lower_ in t_const.CROSS:
             dims.append({})
 
     return dims

@@ -8,11 +8,6 @@ import pytesseract
 import rich
 import skimage
 from PIL import Image
-from skimage import color
-from skimage import filters
-from skimage import io
-from skimage import measure
-from skimage import util
 from tqdm import tqdm
 
 
@@ -36,7 +31,7 @@ def page_images_to_text(args):
 
     with open(args.text_file, "w") as text_file:
         for page in tqdm(pages):
-            image = io.imread(page)
+            image = skimage.io.imread(page)
 
             is_two_columns = args.columns == 2
             texts = pipeline(image, is_two_columns)
@@ -46,16 +41,16 @@ def page_images_to_text(args):
 def pipeline(image, is_two_columns, sigma=11):
     """Convert one page image into text."""
     image = skimage.img_as_float(image)
-    gray = color.rgb2gray(image)
+    gray = skimage.color.rgb2gray(image)
 
-    blurred = filters.gaussian(gray, sigma=sigma)
+    blurred = skimage.filters.gaussian(gray, sigma=sigma)
 
     # threshold = filters.threshold_sauvola(blurred, window_size=WINDOW_SIZE, k=K)
-    threshold = filters.threshold_otsu(blurred)
+    threshold = skimage.filters.threshold_otsu(blurred)
     binary = blurred > threshold
 
-    inverted = util.invert(binary)
-    labeled = measure.label(inverted)
+    inverted = skimage.util.invert(binary)
+    labeled = skimage.measure.label(inverted)
 
     regions = get_regions(labeled, is_two_columns)
     regions = sort_regions(image, regions)
@@ -100,7 +95,11 @@ def sort_regions(image, regions, pad=50):
 
 def get_regions(labeled, is_two_columns):
     """Get regions of text."""
-    regions = sorted(measure.regionprops(labeled), key=lambda r: r.area, reverse=True)
+    regions = sorted(
+        skimage.measure.regionprops(labeled),
+        key=lambda r: r.area,
+        reverse=True,
+    )
     regions = [r for r in regions if not too_small(r, labeled.shape)]
 
     big_regions = []

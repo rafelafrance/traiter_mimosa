@@ -3,14 +3,7 @@ import os
 import string
 from pathlib import Path
 
-from traiter.const import CLOSE
-from traiter.const import COMMA
-from traiter.const import CROSS
-from traiter.const import DASH
-from traiter.const import FLOAT_TOKEN_RE
-from traiter.const import OPEN
-from traiter.const import PLUS
-from traiter.const import SLASH
+from traiter import const
 from traiter.terms.csv_ import Csv
 
 # #########################################################################
@@ -76,21 +69,21 @@ MISSING = """
     """.split()
 
 COMMON_PATTERNS = {
-    "(": {"TEXT": {"IN": OPEN}},
-    ")": {"TEXT": {"IN": CLOSE}},
-    "-": {"TEXT": {"IN": DASH}, "OP": "+"},
-    "-*": {"TEXT": {"IN": DASH}, "OP": "*"},
-    "[+]": {"TEXT": {"IN": PLUS}},
-    "/": {"TEXT": {"IN": SLASH}},
-    ",": {"TEXT": {"IN": COMMA}},
-    "x": {"TEXT": {"IN": CROSS}},
+    "(": {"TEXT": {"IN": const.OPEN}},
+    ")": {"TEXT": {"IN": const.CLOSE}},
+    "-": {"TEXT": {"IN": const.DASH}, "OP": "+"},
+    "-*": {"TEXT": {"IN": const.DASH}, "OP": "*"},
+    "[+]": {"TEXT": {"IN": const.PLUS}},
+    "/": {"TEXT": {"IN": const.SLASH}},
+    ",": {"TEXT": {"IN": const.COMMA}},
+    "x": {"TEXT": {"IN": const.CROSS}},
     "to": {"LOWER": {"IN": TO}},
-    "-/or": {"LOWER": {"IN": DASH + TO + CONJ}, "OP": "+"},
-    "-/to": {"LOWER": {"IN": DASH + TO}, "OP": "+"},
+    "-/or": {"LOWER": {"IN": const.DASH + TO + CONJ}, "OP": "+"},
+    "-/to": {"LOWER": {"IN": const.DASH + TO}, "OP": "+"},
     "and/or": {"LOWER": {"IN": CONJ}},
     "missing": {"LOWER": {"IN": MISSING}},
     "9": {"IS_DIGIT": True},
-    "99.9": {"TEXT": {"REGEX": FLOAT_TOKEN_RE}},
+    "99.9": {"TEXT": {"REGEX": const.FLOAT_TOKEN_RE}},
     "99-99": {"ENT_TYPE": {"REGEX": "^range"}},
     "99.9-99.9": {"ENT_TYPE": {"REGEX": "^range"}},
 }
