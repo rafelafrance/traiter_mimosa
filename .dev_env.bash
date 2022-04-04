@@ -28,8 +28,8 @@ python -m spacy download en_core_web_sm
 # ##############################################################################
 # Use the 2nd line if you don't have traiter installed locally
 
-# pip install -e ../traiter
- pip install git+https://github.com/rafelafrance/traiter.git@master#egg=traiter
+pip install -e ../traiter
+# pip install git+https://github.com/rafelafrance/traiter.git@master#egg=traiter
 
 
 # ##############################################################################

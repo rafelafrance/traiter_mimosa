@@ -57,10 +57,12 @@ def pipeline():
     tokenizer_util.append_tokenizer_regexes(nlp)
     tokenizer_util.append_abbrevs(nlp, consts.ABBREVS)
 
-    # Add a pipe to identify phrases and patterns as base-level traits.
-    config = {"phrase_matcher_attr": "LOWER"}
+    # Add a pipe to identify phrases and patterns as base-level traits
     term_ruler = nlp.add_pipe(
-        "entity_ruler", name="term_ruler", config=config, before="parser"
+        "entity_ruler",
+        name="term_ruler",
+        config={"phrase_matcher_attr": "LOWER"},
+        before="parser",
     )
     term_ruler.add_patterns(consts.TERMS.for_entity_ruler())
     matcher_patterns.add_ruler_patterns(
@@ -80,14 +82,12 @@ def pipeline():
 
     nlp.add_pipe(SENTENCE, before="parser")
 
-    config = {"overwrite_ents": True}
-    match_ruler = nlp.add_pipe("entity_ruler", name="simple_ruler", config=config)
+    match_ruler = nlp.add_pipe(
+        "entity_ruler", name="simple_ruler", config={"overwrite_ents": True}
+    )
     matcher_patterns.add_ruler_patterns(
         match_ruler,
-        [
-            part_patterns.PART,
-            subpart_patterns.SUBPART,
-        ],
+        [part_patterns.PART, subpart_patterns.SUBPART],
     )
 
     nlp.add_pipe("merge_entities", name="term_merger")
