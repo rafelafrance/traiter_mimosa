@@ -6,7 +6,7 @@ Should note that pistillate petals are 3-10 mm and staminate petals are 5-8 mm.
 Named entity recognition (NER) must be run first.
 """
 from traiter.patterns.dependency_patterns import DependencyPatterns
-from traiter.pipes import dependency
+from traiter.pipes.dependency_pipe import LINK_NEAREST
 
 from . import linker_utils
 
@@ -15,7 +15,7 @@ TRAITS_ = linker_utils.remove_traits("sex")
 SEX_LINKER = DependencyPatterns(
     "sex_linker",
     on_match={
-        "func": dependency.LINK_NEAREST,
+        "func": LINK_NEAREST,
         "kwargs": {"anchor": "sex", "dir_bias": "after"},
     },
     decoder={

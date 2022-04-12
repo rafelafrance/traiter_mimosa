@@ -9,7 +9,7 @@ import copy
 
 from traiter import const as t_const
 from traiter.patterns.dependency_patterns import DependencyPatterns
-from traiter.pipes import dependency
+from traiter.pipes.dependency_pipe import LINK_NEAREST
 
 from . import linker_utils
 
@@ -21,7 +21,7 @@ punct_penalty[";"] = t_const.NEVER
 SUBPART_LINKER = DependencyPatterns(
     "subpart_linker",
     on_match={
-        "func": dependency.LINK_NEAREST,
+        "func": LINK_NEAREST,
         "kwargs": {"anchor": "subpart", "exclude": "part", "penalty": punct_penalty},
     },
     decoder={
