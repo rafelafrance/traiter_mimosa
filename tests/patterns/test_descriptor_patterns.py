@@ -67,7 +67,7 @@ class TestDescriptor(unittest.TestCase):
             test("Stems often caespitose"),
             [
                 {"part": "stem", "trait": "part", "start": 0, "end": 5},
-                {"habit": "cespitose", "trait": "habit", "start": 12, "end": 22},
+                {"habit": "caespitose", "trait": "habit", "start": 12, "end": 22},
             ],
         )
 

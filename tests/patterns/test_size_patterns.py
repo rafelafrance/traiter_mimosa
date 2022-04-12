@@ -1,12 +1,10 @@
 """Test plant size trait matcher."""
-# pylint: disable=missing-function-docstring, too-many-public-methods
 import unittest
 
 from tests.setup import test
 
 
 class TestSize(unittest.TestCase):
-    """Test plant size trait parsers."""
 
     # def test_size_00(self):
     #     test('Leaf (12-)23-34 × 45-56 cm wide')
@@ -851,6 +849,24 @@ class TestSize(unittest.TestCase):
                     "start": 31,
                     "end": 49,
                     "part": "bark",
+                },
+            ],
+        )
+
+    def test_size_35(self):
+        self.assertEqual(
+            test("Leaves (2-)3-5 mm ."),
+            [
+                {"part": "leaf", "trait": "part", "start": 0, "end": 6},
+                {
+                    "length_min": 2.0,
+                    "length_low": 3.0,
+                    "length_high": 5.0,
+                    "length_units": "mm",
+                    "trait": "size",
+                    "start": 7,
+                    "end": 19,
+                    "part": "leaf",
                 },
             ],
         )

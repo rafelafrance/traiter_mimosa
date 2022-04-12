@@ -12,6 +12,7 @@ from .. import consts
 
 FOLLOW = """ dim sex """.split()
 NOT_A_SIZE = """ for """.split()
+KEYS = """ min low high max """.split()
 
 DECODER = consts.COMMON_PATTERNS | {
     "[?]": {"ENT_TYPE": "quest"},
@@ -30,8 +31,8 @@ SIZE = MatcherPatterns(
     on_match="mimosa.size.v1",
     decoder=DECODER,
     patterns=[
-        "about? 99.9-99.9 cm follow*",
-        "      about? 99.9-99.9 cm? follow* " "x to? about? 99.9-99.9 cm  follow*",
+        "about? 99.9-99.9 cm  follow*",
+        "about? 99.9-99.9 cm? follow* x to? about? 99.9-99.9 cm follow*",
         (
             "      about? 99.9-99.9 cm? follow* "
             "x to? about? 99.9-99.9 cm? follow* "
@@ -55,7 +56,7 @@ SIZE_DOUBLE_DIM = MatcherPatterns(
     decoder=DECODER,
     patterns=[
         "about? 99.9-99.9 cm  sex? ,? dim and dim",
-        "about? 99.9-99.9 cm? sex? ,? 99.9-99.9 cm dim and dim",
+        "about? 99.9-99.9 cm? sex? ,? 99.9-99.9 cm dim and? ,? dim",
     ],
 )
 
@@ -88,23 +89,21 @@ def size_double_dim(ent):
 
     Like: Legumes 2.8-4.5 mm high and wide
     """
-    dims = [
-        consts.REPLACE.get(t.lower_, t.lower_) for t in ent if t._.cached_label == "dim"
-    ]
+    dims = [consts.REPLACE.get(t.lower_, t.lower_) for t in ent if t.ent_type_ == "dim"]
 
-    ranges = [e for e in ent.ents if e._.cached_label.split(".")[0] == "range"]
+    ranges = [e for e in ent.ents if e.label_ == "range"]
 
     for dim, range_ in zip(dims, ranges):
         _size(range_)
-        new_data = {}
         for key, value in range_._.data.items():
             key_parts = key.split("_")
-            if key_parts[-1] in ("low", "high", "max", "min"):
+            if key_parts[-1] in KEYS:
                 new_key = f"{dim}_{key_parts[-1]}"
-                new_data[new_key] = value
+                ent._.data[new_key] = value
             else:
-                new_data[key] = value
-        range_._.data = new_data
+                ent._.data[key] = value
+    if "range" in ent._.data:
+        del ent._.data["range"]
     ent._.new_label = "size"
 
 
@@ -122,17 +121,13 @@ def scan_tokens(ent, high_only):
     dims = [{}]
 
     # Process tokens in the entity
-    for t, token in enumerate(ent):
-        label = token._.cached_label.split(".")[0]
+    for token in ent:
+        label = token.ent_type_
 
         if label == "range":
-            values = re.findall(t_const.FLOAT_RE, token.text)
-            values = [t_util.to_positive_float(v) for v in values]
-
-            keys = token._.cached_label.split(".")[1:]
-
-            for key, value in zip(keys, values):
-                dims[-1][key] = value
+            for key in KEYS:
+                if key in token._.data:
+                    dims[-1][key] = t_util.to_positive_float(token._.data[key])
 
             if high_only:
                 dims[-1]["high"] = dims[-1]["low"]
@@ -181,26 +176,20 @@ def fix_units(dims):
 def fill_data(dims, ent):
     """Move fields into correct place & give them consistent names."""
     # Need to find entities using their character offsets
-    ranges = [e for e in ent.ents if e._.cached_label.startswith("range")]
-
-    for dim, range_ in zip(dims, ranges):
-        data = {}
+    for dim in dims:
         dimension = dim["dimension"]
 
-        for field in """ min low high max """.split():
+        for field in KEYS:
             if datum := dim.get(field):
                 key = f"{dimension}_{field}"
-                data[key] = round(datum, 3)
+                ent._.data[key] = round(datum, 3)
 
         if datum := dim.get("units"):
             key = f"{dimension}_units"
-            data[key] = datum.lower()
+            ent._.data[key] = datum.lower()
 
         if datum := dim.get("sex"):
-            data["sex"] = datum
+            ent._.data["sex"] = datum
 
         if dim.get("uncertain"):
-            data["uncertain"] = "true"
-
-        range_._.merge = True
-        range_._.data = data
+            ent._.data["uncertain"] = "true"

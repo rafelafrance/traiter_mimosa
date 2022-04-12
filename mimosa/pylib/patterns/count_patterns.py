@@ -1,6 +1,4 @@
 """Common count snippets."""
-import re
-
 from spacy import registry
 from traiter import actions
 from traiter import const as t_const
@@ -32,11 +30,12 @@ COUNT = MatcherPatterns(
     on_match="mimosa.count.v1",
     decoder=DECODER,
     patterns=[
-        "99-99 -* per_count?",
-        "99-99 per_count count_suffix?",
-        "per_count adp? 99-99 count_suffix?",
-        "( 99-99 count_suffix? ) per_count",
-        "99-99 - subpart",
+        "99-99",
+        "99-99 -* per_count",
+        "( 99-99 ) per_count",
+        # "99-99 per_count count_suffix?",
+        # "per_count adp? 99-99 count_suffix?",
+        # "99-99 - subpart",
     ],
 )
 
@@ -61,19 +60,6 @@ NOT_A_COUNT = MatcherPatterns(
 )
 
 
-@registry.misc(COUNT.on_match)
-def count(ent):
-    """Enrich the match with data."""
-    range_ = range_values(ent)
-
-    if pc := [e for e in ent.ents if e.label_ == "per_count"]:
-        pc = pc[0]
-        pc_text = pc.text.lower()
-        pc._.new_label = "count_group"
-        range_._.data["count_group"] = consts.REPLACE.get(pc_text, pc_text)
-        range_._.links["count_group_link"] = [(pc.start_char, pc.end_char)]
-
-
 @registry.misc(COUNT_WORD.on_match)
 def count_word(ent):
     """Enrich the match with data."""
@@ -83,21 +69,21 @@ def count_word(ent):
     word._.new_label = "count"
 
 
-def range_values(ent):
-    """Extract values from the range and cached label."""
-    data = {}
-    range_ = [e for e in ent.ents if e._.cached_label.split(".")[0] == "range"][0]
+@registry.misc(COUNT.on_match)
+def count(ent):
+    """Enrich the match with data."""
+    range_ = [t for t in ent if t.ent_type_ == "range"][0]
+    ent._.data = range_._.data
 
-    values = re.findall(t_const.FLOAT_RE, range_.text)
+    for key in ["min", "low", "high", "max"]:
+        if key in ent._.data:
+            ent._.data[key] = t_util.to_positive_int(ent._.data[key])
 
-    if not all([re.search(t_const.INT_TOKEN_RE, v) for v in values]):
-        raise actions.RejectMatch
+    if ent._.data.get("range"):
+        del ent._.data["range"]
 
-    keys = range_.label_.split(".")[1:]
-    for key, value in zip(keys, values):
-        data[key] = t_util.to_positive_int(value)
-
-    range_._.merge = True
-    range_._.data = data
-    range_._.new_label = "count"
-    return range_
+    if pc := [e for e in ent.ents if e.label_ == "per_count"]:
+        pc = pc[0]
+        pc_text = pc.text.lower()
+        pc._.new_label = "count_group"
+        ent._.data["count_group"] = consts.REPLACE.get(pc_text, pc_text)

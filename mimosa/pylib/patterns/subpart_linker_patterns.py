@@ -43,6 +43,6 @@ SUBPART_LINKER = DependencyPatterns(
         "subpart >  link  >> trait",
         "subpart <  trait >> trait",
         "subpart ;  part  <  link >> trait",
-        "subpart . trait . link . trait",
+        "subpart .  trait . link . trait",
     ],
 )

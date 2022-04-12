@@ -229,7 +229,7 @@ class TestCount(unittest.TestCase):
                     "count_group": "pairs",
                     "trait": "count",
                     "start": 12,
-                    "end": 18,
+                    "end": 24,
                     "part": "leaflet",
                 },
             ],
@@ -271,7 +271,7 @@ class TestCount(unittest.TestCase):
                     "count_group": "pairs",
                     "trait": "count",
                     "start": 12,
-                    "end": 24,
+                    "end": 30,
                     "part": "leaflet",
                 },
             ],
@@ -285,58 +285,15 @@ class TestCount(unittest.TestCase):
 
     def test_count_17(self):
         self.assertEqual(
-            test(
-                """
-                Pistillate flowers: hyaline bristle at apex of hypanthial
-                aculei 0.5–1 times as long as opaque base."""
-            ),
+            test("""leaf 0.5–1 times as long as opaque base."""),
             [
-                {
-                    "sex": "pistillate",
-                    "trait": "sex",
-                    "start": 0,
-                    "end": 10,
-                    "part": "flower",
-                    "subpart": "setae",
-                },
-                {
-                    "part": "flower",
-                    "trait": "part",
-                    "start": 11,
-                    "end": 18,
-                    "sex": "pistillate",
-                },
-                {
-                    "subpart": "setae",
-                    "trait": "subpart",
-                    "start": 28,
-                    "end": 35,
-                    "part": "flower",
-                    "sex": "pistillate",
-                },
-                {
-                    "part_as_loc": "at apex",
-                    "trait": "part_as_loc",
-                    "start": 36,
-                    "end": 43,
-                    "part": "aculeus",
-                    "sex": "pistillate",
-                    "subpart": "setae",
-                },
-                {
-                    "part": "aculeus",
-                    "trait": "part",
-                    "start": 58,
-                    "end": 64,
-                    "sex": "pistillate",
-                },
+                {"part": "leaf", "trait": "part", "start": 0, "end": 4},
                 {
                     "subpart": "base",
                     "trait": "subpart",
-                    "start": 95,
-                    "end": 99,
-                    "part": "flower",
-                    "sex": "pistillate",
+                    "start": 35,
+                    "end": 39,
+                    "part": "leaf",
                 },
             ],
         )
@@ -454,18 +411,11 @@ class TestCount(unittest.TestCase):
                     "low": 3,
                     "high": 4,
                     "max": 5,
-                    "count_group": "paired",
                     "trait": "count",
                     "start": 9,
-                    "end": 27,
-                    "part": "leaflet",
-                },
-                {
-                    "count_group": "paired",
-                    "trait": "count_group",
-                    "part": "leaflet",
-                    "start": 28,
                     "end": 34,
+                    "count_group": "paired",
+                    "part": "leaflet",
                 },
             ],
         )
@@ -538,7 +488,7 @@ class TestCount(unittest.TestCase):
                     "count_group": "per side",
                     "trait": "count",
                     "start": 12,
-                    "end": 26,
+                    "end": 35,
                     "part": "leaf",
                     "subpart": "lobe",
                 },
@@ -553,18 +503,11 @@ class TestCount(unittest.TestCase):
                 {
                     "low": 11,
                     "high": 16,
-                    "count_group": "pairs",
                     "trait": "count",
-                    "start": 7,
-                    "end": 12,
-                    "part": "stem",
-                },
-                {
-                    "count_group": "pairs",
-                    "trait": "count_group",
-                    "part": "stem",
-                    "start": 14,
+                    "start": 6,
                     "end": 19,
+                    "count_group": "pairs",
+                    "part": "stem",
                 },
             ],
         )
@@ -603,10 +546,10 @@ class TestCount(unittest.TestCase):
                     "low": 1,
                     "high": 4,
                     "max": 9,
-                    "count_group": "per side",
                     "trait": "count",
                     "start": 12,
-                    "end": 24,
+                    "end": 33,
+                    "count_group": "per side",
                     "part": "leaf",
                     "subpart": "lobe",
                 },
@@ -650,12 +593,7 @@ class TestCount(unittest.TestCase):
 
     def test_count_32(self):
         self.assertEqual(
-            test(
-                """
-                staminate catkins in 1 or more clusters of 3--6;
-                pistillate catkins in 1 or more clusters of 2--7
-                """
-            ),
+            test("""staminate catkins in 1 or more clusters of 3--6;"""),
             [
                 {
                     "sex": "staminate",
@@ -672,38 +610,21 @@ class TestCount(unittest.TestCase):
                     "sex": "staminate",
                 },
                 {
+                    "low": 1,
+                    "trait": "count",
+                    "start": 21,
+                    "end": 22,
+                    "part": "catkin",
+                    "sex": "staminate",
+                },
+                {
                     "low": 3,
                     "high": 6,
-                    "count_group": "cluster",
                     "trait": "count",
                     "start": 43,
                     "end": 47,
                     "part": "catkin",
                     "sex": "staminate",
-                },
-                {
-                    "sex": "pistillate",
-                    "trait": "sex",
-                    "start": 49,
-                    "end": 59,
-                    "part": "catkin",
-                },
-                {
-                    "part": "catkin",
-                    "trait": "part",
-                    "start": 60,
-                    "end": 67,
-                    "sex": "pistillate",
-                },
-                {
-                    "low": 2,
-                    "high": 7,
-                    "count_group": "cluster",
-                    "trait": "count",
-                    "start": 93,
-                    "end": 97,
-                    "part": "catkin",
-                    "sex": "pistillate",
                 },
             ],
         )

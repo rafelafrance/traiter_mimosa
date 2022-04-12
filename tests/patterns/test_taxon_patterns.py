@@ -40,7 +40,7 @@ class TestTaxon(unittest.TestCase):
             test("""M. polycarpa var. spegazzinii"""),
             [
                 {
-                    "level": "variant",
+                    "level": "variety",
                     "taxon": "M. polycarpa var. spegazzinii",
                     "trait": "taxon",
                     "start": 0,

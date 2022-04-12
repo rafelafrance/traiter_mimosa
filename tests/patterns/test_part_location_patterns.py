@@ -29,7 +29,6 @@ class TestPartLocation(unittest.TestCase):
                     "trait": "part_as_loc",
                     "start": 41,
                     "end": 62,
-                    "part_as_loc": "to petiole for 1-2 mm",
                     "part": "stipule",
                 },
             ],

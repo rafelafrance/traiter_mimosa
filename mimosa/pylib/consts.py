@@ -3,8 +3,8 @@ import os
 import string
 from pathlib import Path
 
-from traiter import const
-from traiter.terms.csv_ import Csv
+from traiter import const as t_const
+from traiter.terms.db import Db
 
 # #########################################################################
 CURR_DIR = Path(os.getcwd())
@@ -13,17 +13,21 @@ ROOT_DIR = Path(".." if IS_SUBDIR else ".")
 
 DATA_DIR = ROOT_DIR / "data"
 VOCAB_DIR = ROOT_DIR / "mimosa" / "vocabulary"
+TERM_DB = VOCAB_DIR / "terms.sqlite"
 
 
 # #########################################################################
-TERMS = Csv.shared("colors units plant_treatment")
-TERMS += Csv.hyphenate_terms(TERMS)
-TERMS += Csv.trailing_dash(TERMS, label="color")
-TERMS += Csv.read_csv(VOCAB_DIR / "taxa.csv")
+TERMS = Db.shared("colors units plant_treatment taxon_levels")
+TERMS += Db.hyphenate_terms(TERMS)
+TERMS += Db.trailing_dash(TERMS, label="color")
+TERMS += Db.select_term_set(TERM_DB, "plant_taxa")
 TERMS.drop("imperial_length")
 
 REPLACE = TERMS.pattern_dict("replace")
 REMOVE = TERMS.pattern_dict("remove")
+
+LEVELS = TERMS.pattern_dict("level")
+LEVELS = {k: v.split() for k, v in LEVELS.items()}
 
 # #########################################################################
 # Tokenizer constants
@@ -69,21 +73,23 @@ MISSING = """
     """.split()
 
 COMMON_PATTERNS = {
-    "(": {"TEXT": {"IN": const.OPEN}},
-    ")": {"TEXT": {"IN": const.CLOSE}},
-    "-": {"TEXT": {"IN": const.DASH}, "OP": "+"},
-    "-*": {"TEXT": {"IN": const.DASH}, "OP": "*"},
-    "[+]": {"TEXT": {"IN": const.PLUS}},
-    "/": {"TEXT": {"IN": const.SLASH}},
-    ",": {"TEXT": {"IN": const.COMMA}},
-    "x": {"TEXT": {"IN": const.CROSS}},
+    "(": {"TEXT": {"IN": t_const.OPEN}},
+    ")": {"TEXT": {"IN": t_const.CLOSE}},
+    "-": {"TEXT": {"IN": t_const.DASH}, "OP": "+"},
+    "-*": {"TEXT": {"IN": t_const.DASH}, "OP": "*"},
+    "[+]": {"TEXT": {"IN": t_const.PLUS}},
+    "/": {"TEXT": {"IN": t_const.SLASH}},
+    ",": {"TEXT": {"IN": t_const.COMMA}},
+    ".": {"TEXT": {"IN": t_const.DOT}},
+    "x": {"TEXT": {"IN": t_const.CROSS}},
+    ":": {"TEXT": {"IN": t_const.COLON}},
     "to": {"LOWER": {"IN": TO}},
-    "-/or": {"LOWER": {"IN": const.DASH + TO + CONJ}, "OP": "+"},
-    "-/to": {"LOWER": {"IN": const.DASH + TO}, "OP": "+"},
+    "-/or": {"LOWER": {"IN": t_const.DASH + TO + CONJ}, "OP": "+"},
+    "-/to": {"LOWER": {"IN": t_const.DASH + TO}, "OP": "+"},
     "and/or": {"LOWER": {"IN": CONJ}},
     "missing": {"LOWER": {"IN": MISSING}},
     "9": {"IS_DIGIT": True},
-    "99.9": {"TEXT": {"REGEX": const.FLOAT_TOKEN_RE}},
+    "99.9": {"TEXT": {"REGEX": t_const.FLOAT_TOKEN_RE}},
     "99-99": {"ENT_TYPE": {"REGEX": "^range"}},
     "99.9-99.9": {"ENT_TYPE": {"REGEX": "^range"}},
 }

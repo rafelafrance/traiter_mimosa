@@ -2,13 +2,11 @@
 import spacy
 from traiter import tokenizer_util
 from traiter.patterns import matcher_patterns
-from traiter.pipes.add_entity_data import ADD_ENTITY_DATA
-from traiter.pipes.cleanup import CLEANUP
+from traiter.pipes.add_traits import ADD_TRAITS
+from traiter.pipes.delete_traits import DELETE_TRAITS
 from traiter.pipes.dependency import DEPENDENCY
-from traiter.pipes.merge_entity_data import MERGE_ENTITY_DATA
 from traiter.pipes.sentence import SENTENCE
-from traiter.pipes.simple_entity_data import SIMPLE_ENTITY_DATA
-from traiter.pipes.update_entity_data import UPDATE_ENTITY_DATA
+from traiter.pipes.simple_traits import SIMPLE_TRAITS
 
 from .. import consts
 from ..patterns import color_patterns
@@ -28,27 +26,7 @@ from ..patterns import subpart_patterns
 from ..patterns import taxon_linker_patterns
 from ..patterns import taxon_patterns
 
-# from traiter.pipes.debug import DEBUG_TOKENS, DEBUG_ENTITIES
-
-ADD_DATA = [
-    taxon_patterns.SPECIES,
-    taxon_patterns.SUBSPECIES,
-    taxon_patterns.VARIANT,
-    taxon_patterns.FAMILY,
-    taxon_patterns.TRIBE,
-    taxon_patterns.SUBTRIBE,
-    taxon_patterns.GENUS,
-    taxon_patterns.SECTION,
-    taxon_patterns.SUBSECTION,
-    taxon_patterns.SERIES,
-    taxon_patterns.SUBSERIES,
-    color_patterns.COLOR,
-    margin_patterns.MARGIN_SHAPE,
-    shape_patterns.N_SHAPE,
-    shape_patterns.SHAPE,
-    part_location_patterns.PART_AS_LOCATION,
-    part_location_patterns.SUBPART_AS_LOCATION,
-]
+# from traiter.pipes import debug_traits
 
 
 def pipeline():
@@ -65,41 +43,46 @@ def pipeline():
         before="parser",
     )
     term_ruler.add_patterns(consts.TERMS.for_entity_ruler())
-    matcher_patterns.add_ruler_patterns(
-        term_ruler,
-        [
-            range_patterns.RANGE_LOW,
-            range_patterns.RANGE_MIN_LOW,
-            range_patterns.RANGE_LOW_HIGH,
-            range_patterns.RANGE_LOW_MAX,
-            range_patterns.RANGE_MIN_LOW_HIGH,
-            range_patterns.RANGE_MIN_LOW_MAX,
-            range_patterns.RANGE_LOW_HIGH_MAX,
-            range_patterns.RANGE_MIN_LOW_HIGH_MAX,
-            range_patterns.NOT_A_RANGE,
-        ],
-    )
 
     nlp.add_pipe(SENTENCE, before="parser")
 
-    match_ruler = nlp.add_pipe(
-        "entity_ruler", name="simple_ruler", config={"overwrite_ents": True}
+    nlp.add_pipe(
+        ADD_TRAITS,
+        name="range_pipe",
+        config={
+            "patterns": matcher_patterns.as_dicts(
+                [
+                    range_patterns.RANGE_LOW,
+                    range_patterns.RANGE_MIN_LOW,
+                    range_patterns.RANGE_LOW_HIGH,
+                    range_patterns.RANGE_LOW_MAX,
+                    range_patterns.RANGE_MIN_LOW_HIGH,
+                    range_patterns.RANGE_MIN_LOW_MAX,
+                    range_patterns.RANGE_LOW_HIGH_MAX,
+                    range_patterns.RANGE_MIN_LOW_HIGH_MAX,
+                    range_patterns.NOT_A_RANGE,
+                ]
+            )
+        },
     )
-    matcher_patterns.add_ruler_patterns(
-        match_ruler,
-        [part_patterns.PART, subpart_patterns.SUBPART],
+    nlp.add_pipe("merge_entities")
+
+    # Smaller traits that are part of larger traits
+    nlp.add_pipe(
+        ADD_TRAITS,
+        name="part_traits",
+        config={
+            "patterns": matcher_patterns.as_dicts(
+                [part_patterns.PART, subpart_patterns.SUBPART]
+            )
+        },
     )
 
-    nlp.add_pipe("merge_entities", name="term_merger")
-    nlp.add_pipe(
-        SIMPLE_ENTITY_DATA,
-        after="term_merger",
-        config={"replace": consts.REPLACE},
-    )
+    nlp.add_pipe(SIMPLE_TRAITS, config={"replace": consts.REPLACE})
 
     nlp.add_pipe(
-        MERGE_ENTITY_DATA,
-        name="merge_entities",
+        ADD_TRAITS,
+        name="numeric_traits",
         config={
             "patterns": matcher_patterns.as_dicts(
                 [
@@ -108,17 +91,6 @@ def pipeline():
                     size_patterns.SIZE_DOUBLE_DIM,
                     size_patterns.NOT_A_SIZE,
                     part_location_patterns.PART_AS_DISTANCE,
-                ]
-            )
-        },
-    )
-
-    nlp.add_pipe(
-        UPDATE_ENTITY_DATA,
-        name="update_entities",
-        config={
-            "patterns": matcher_patterns.as_dicts(
-                [
                     count_patterns.COUNT,
                     count_patterns.COUNT_WORD,
                     count_patterns.NOT_A_COUNT,
@@ -128,23 +100,28 @@ def pipeline():
     )
 
     # Add a pipe to group tokens into larger traits
-    config = {"overwrite_ents": True}
-    match_ruler = nlp.add_pipe("entity_ruler", name="match_ruler", config=config)
-    matcher_patterns.add_ruler_patterns(match_ruler, ADD_DATA)
-
     nlp.add_pipe(
-        ADD_ENTITY_DATA,
-        config={"dispatch": matcher_patterns.patterns_to_dispatch(ADD_DATA)},
+        ADD_TRAITS,
+        name="group_traits",
+        config={
+            "patterns": matcher_patterns.as_dicts(
+                [
+                    color_patterns.COLOR,
+                    margin_patterns.MARGIN_SHAPE,
+                    shape_patterns.N_SHAPE,
+                    shape_patterns.SHAPE,
+                    part_location_patterns.PART_AS_LOCATION,
+                    part_location_patterns.SUBPART_AS_LOCATION,
+                    taxon_patterns.TAXON,
+                ]
+            )
+        },
     )
 
-    nlp.add_pipe(CLEANUP, config={"forget": forget_utils.FORGET})
-
-    # nlp.add_pipe(DEBUG_TOKENS, config={'message': ''})
-    # nlp.add_pipe(DEBUG_ENTITIES, config={'message': ''})
+    nlp.add_pipe(DELETE_TRAITS, config={"delete": forget_utils.FORGET})
 
     nlp.add_pipe(
         DEPENDENCY,
-        name="part_linker",
         config={
             "patterns": matcher_patterns.as_dicts(
                 [
@@ -159,9 +136,11 @@ def pipeline():
     )
 
     nlp.add_pipe(
-        CLEANUP,
+        DELETE_TRAITS,
         name="forget_unlinked",
-        config={"forget_when": forget_utils.FORGET_WHEN},
+        config={"delete_when": forget_utils.FORGET_WHEN},
     )
+
+    # debug_traits.tokens(nlp)
 
     return nlp

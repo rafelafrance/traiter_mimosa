@@ -1,151 +1,85 @@
 """Get mimosa taxon notations."""
+import regex as re
 from spacy import registry
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
-DECODER = {
-    "family": {"ENT_TYPE": "family"},
-    "genus": {"ENT_TYPE": "genus"},
-    "m.": {"LOWER": "m."},
-    "roman": {"TEXT": {"REGEX": r"^[ivx]+\.?$"}},
-    "sect.": {"LOWER": {"IN": ["sect.", "section"]}},
-    "section": {"ENT_TYPE": "section"},
-    "ser.": {"LOWER": {"IN": ["ser.", "series"]}},
-    "series": {"ENT_TYPE": "series"},
-    "species": {"ENT_TYPE": "species"},
-    "subsect.": {"LOWER": {"IN": ["subsect.", "subsection"]}},
-    "subsection": {"ENT_TYPE": "subsection"},
-    "subser.": {"LOWER": {"IN": ["subser.", "subseries"]}},
-    "subseries": {"ENT_TYPE": "subseries"},
-    "subsp.": {"LOWER": {"IN": ["subsp.", "subspecies"]}},
-    "subspecies": {"ENT_TYPE": "subspecies"},
-    "subtribe": {"ENT_TYPE": "subtribe"},
-    "tribe": {"ENT_TYPE": "tribe"},
-    "var.": {"LOWER": {"IN": ["var.", "variant"]}},
-    "variant": {"ENT_TYPE": "variant"},
-    "word": {"LOWER": {"REGEX": r"^[\w\d-]{4,}$"}},
-}
+from .. import consts
 
-TAXON_ON_MATCH = "mimosa.taxon.v1"
 
-SPECIES = MatcherPatterns(
-    "species",
-    on_match=TAXON_ON_MATCH,
-    decoder=DECODER,
+LEVEL_LOWER = """ species subspecies variety subvariety form subform """.split()
+
+ON_TAXON_MATCH = "mimosa.taxon.v1"
+
+M_DOT = r"^[A-Z]\.?$"
+M_DOT_RE = re.compile(M_DOT)
+
+
+TAXON = MatcherPatterns(
+    "taxon",
+    on_match=ON_TAXON_MATCH,
+    decoder=consts.COMMON_PATTERNS
+    | {
+        "auth": {"POS": "PROPN"},
+        "maybe": {"POS": "NOUN"},
+        "taxon": {"ENT_TYPE": "plant_taxon"},
+        "level": {"ENT_TYPE": "level"},
+        "word": {"LOWER": {"REGEX": r"^[a-z-]+$"}},
+        "M.": {"TEXT": {"REGEX": M_DOT}},
+    },
     patterns=[
-        "genus species",
-        "m. species",
-    ],
-)
-
-SUBSPECIES = MatcherPatterns(
-    "subspecies",
-    on_match=TAXON_ON_MATCH,
-    decoder=DECODER,
-    patterns=[
-        "genus species subsp. word",
-        "genus species subspecies",
-        "m. species subsp. word",
-    ],
-)
-
-VARIANT = MatcherPatterns(
-    "variant",
-    on_match=TAXON_ON_MATCH,
-    decoder=DECODER,
-    patterns=[
-        "genus species subsp. word var. word",
-        "genus species subspecies variant",
-        "genus species var. word",
-        "genus species variant",
-        "m. species subsp. word var. word",
-        "m. species var. word",
-        "var. word",
-    ],
-)
-
-FAMILY = MatcherPatterns(
-    "family",
-    on_match=TAXON_ON_MATCH,
-    decoder=DECODER,
-    patterns=[
-        "family",
-    ],
-)
-
-TRIBE = MatcherPatterns(
-    "tribe",
-    on_match=TAXON_ON_MATCH,
-    decoder=DECODER,
-    patterns=[
-        "tribe",
-    ],
-)
-
-SUBTRIBE = MatcherPatterns(
-    "subtribe",
-    on_match=TAXON_ON_MATCH,
-    decoder=DECODER,
-    patterns=[
-        "subtribe",
-    ],
-)
-
-GENUS = MatcherPatterns(
-    "genus",
-    on_match=TAXON_ON_MATCH,
-    decoder=DECODER,
-    patterns=[
-        "genus",
-    ],
-)
-
-SECTION = MatcherPatterns(
-    "section",
-    on_match=TAXON_ON_MATCH,
-    decoder=DECODER,
-    patterns=[
-        "sect. word",
-        "section",
-    ],
-)
-
-SUBSECTION = MatcherPatterns(
-    "subsection",
-    on_match=TAXON_ON_MATCH,
-    decoder=DECODER,
-    patterns=[
-        "subsect. word",
-        "subsection",
-    ],
-)
-
-SERIES = MatcherPatterns(
-    "series",
-    on_match=TAXON_ON_MATCH,
-    decoder=DECODER,
-    patterns=[
-        "ser. roman word",
-        "ser. word",
-        "series",
-    ],
-)
-
-SUBSERIES = MatcherPatterns(
-    "subseries",
-    on_match=TAXON_ON_MATCH,
-    decoder=DECODER,
-    patterns=[
-        "subser. word",
-        "subseries",
+        "M.? taxon+ (? auth* )?",
+        "M.? taxon+ (? auth+ maybe auth+ )?",
+        "M.? taxon+ (? auth* )?             level .? word",
+        "M.? taxon+ (? auth+ maybe auth+ )? level .? word",
+        "level .? taxon+",
     ],
 )
 
 
-@registry.misc(TAXON_ON_MATCH)
-def taxon_match(ent):
+@registry.misc(ON_TAXON_MATCH)
+def on_taxon_match(ent):
     """Enrich a taxon match."""
-    ent._.new_label = "taxon"
-    ent._.data = {
-        "level": ent.label_,
-        "taxon": ent.text,
-    }
+    auth = []
+    used_levels = []
+    taxa = []
+    is_level = ""
+
+    for token in ent:
+        if token._.cached_label == "level":
+            taxa.append(token.lower_)
+            is_level = token.lower_
+            ent._.data["level"] = consts.REPLACE.get(token.lower_, token.lower_)
+        elif is_level:
+            if ent._.data["level"] in LEVEL_LOWER:
+                taxa.append(token.lower_)
+            else:
+                taxa.append(token.text.title())
+            is_level = ""
+
+        elif M_DOT_RE.match(token.text):
+            taxa.append(token.text)
+            used_levels.append("genus")
+
+        elif token._.cached_label == "plant_taxon":
+            levels = consts.LEVELS.get(token.lower_, ["unknown"])
+
+            # Find the highest unused taxon level
+            for level in levels:
+                if level not in used_levels:
+                    used_levels.append(level)
+                    ent._.data["level"] = level
+                    if level in LEVEL_LOWER:
+                        taxa.append(token.lower_)
+                    else:
+                        taxa.append(token.text.title())
+                    break
+            else:
+                taxa.append(token.text)
+
+        elif token.pos_ in ["PROPN", "NOUN"]:
+            auth.append(token.text)
+
+    if auth:
+        ent._.data["authority"] = " ".join(auth)
+
+    ent._.data["taxon"] = " ".join(taxa)
