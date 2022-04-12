@@ -29,7 +29,7 @@ def page_images_to_text(args):
     """Convert images of PDF pages into text via OCR."""
     pages = sorted(args.image_dir.glob("*.jpg"))
 
-    with open(args.text_file, "w") as text_file:
+    with open(args.out_text, "w") as text_file:
         for page in tqdm(pages):
             image = skimage.io.imread(page)
 
@@ -175,7 +175,7 @@ def parse_args():
     )
 
     arg_parser.add_argument(
-        "--text-file",
+        "--out-text",
         type=Path,
         required=True,
         metavar="PATH",

@@ -18,7 +18,6 @@ NOT_COUNT_ENTS = """ imperial_length metric_mass imperial_mass """.split()
 
 DECODER = common_patterns.COMMON_PATTERNS | {
     "adp": {"POS": {"IN": ["ADP"]}},
-    "count_suffix": {"ENT_TYPE": "count_suffix"},
     "count_word": {"ENT_TYPE": "count_word"},
     "not_count_ent": {"ENT_TYPE": {"IN": NOT_COUNT_ENTS}},
     "not_count_word": {"LOWER": {"IN": NOT_COUNT_WORDS}},

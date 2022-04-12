@@ -24,9 +24,9 @@ def main():
 
 def pdf_to_text(args):
     """Convert the PDF to text."""
-    text_file = args.text_dir / args.pdf_file.name
+    text_file = args.text_dir / args.in_pdf.name
     text_file = text_file.with_suffix(".txt")
-    os.system(f"pdftotext {args.pdf_file} {text_file}")
+    os.system(f"pdftotext {args.in_pdf} {text_file}")
 
 
 def parse_args():
@@ -39,7 +39,7 @@ def parse_args():
     )
 
     arg_parser.add_argument(
-        "--pdf-file",
+        "--in-pdf",
         type=Path,
         required=True,
         metavar="PDF",

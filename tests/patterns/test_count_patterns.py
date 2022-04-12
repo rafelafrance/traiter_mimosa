@@ -309,9 +309,9 @@ class TestCount(unittest.TestCase):
                     "trait": "count",
                     "start": 7,
                     "end": 16,
-                    "subpart": "foliolate",
+                    "subpart": "lobe",
                 },
-                {"subpart": "foliolate", "trait": "subpart", "start": 17, "end": 26},
+                {"subpart": "lobe", "trait": "subpart", "start": 16, "end": 26},
             ],
         )
 
@@ -328,12 +328,11 @@ class TestCount(unittest.TestCase):
                     "start": 22,
                     "end": 35,
                     "part": "leaf",
-                    "subpart": "foliolate",
                 },
                 {
-                    "subpart": "foliolate",
+                    "subpart": "lobe",
                     "trait": "subpart",
-                    "start": 36,
+                    "start": 35,
                     "end": 45,
                     "part": "leaf",
                 },
@@ -377,7 +376,7 @@ class TestCount(unittest.TestCase):
                 {
                     "subpart": "flowered",
                     "trait": "subpart",
-                    "start": 33,
+                    "start": 32,
                     "end": 41,
                     "part": "inflorescence",
                 },
@@ -395,9 +394,9 @@ class TestCount(unittest.TestCase):
                     "trait": "count",
                     "start": 0,
                     "end": 9,
-                    "subpart": "foliolate",
+                    "subpart": "lobe",
                 },
-                {"subpart": "foliolate", "trait": "subpart", "start": 10, "end": 19},
+                {"subpart": "lobe", "trait": "subpart", "start": 9, "end": 19},
             ],
         )
 
@@ -414,7 +413,7 @@ class TestCount(unittest.TestCase):
                     "trait": "count",
                     "start": 9,
                     "end": 34,
-                    "count_group": "paired",
+                    "count_group": "pair",
                     "part": "leaflet",
                 },
             ],
@@ -433,12 +432,12 @@ class TestCount(unittest.TestCase):
                     "start": 7,
                     "end": 21,
                     "part": "leaf",
-                    "subpart": "foliolate",
+                    "subpart": "lobe",
                 },
                 {
-                    "subpart": "foliolate",
+                    "subpart": "lobe",
                     "trait": "subpart",
-                    "start": 22,
+                    "start": 21,
                     "end": 31,
                     "part": "leaf",
                 },
@@ -461,7 +460,7 @@ class TestCount(unittest.TestCase):
                 {
                     "subpart": "lobe",
                     "trait": "subpart",
-                    "start": 9,
+                    "start": 8,
                     "end": 14,
                     "part": "calyx",
                 },
@@ -575,7 +574,7 @@ class TestCount(unittest.TestCase):
                 {
                     "subpart": "flowered",
                     "trait": "subpart",
-                    "start": 31,
+                    "start": 30,
                     "end": 39,
                     "part": "inflorescence",
                 },
@@ -645,7 +644,7 @@ class TestCount(unittest.TestCase):
                 {
                     "subpart": "flowered",
                     "trait": "subpart",
-                    "start": 21,
+                    "start": 20,
                     "end": 29,
                     "part": "cyme",
                 },
@@ -670,7 +669,7 @@ class TestCount(unittest.TestCase):
                 {
                     "subpart": "locular",
                     "trait": "subpart",
-                    "start": 20,
+                    "start": 19,
                     "end": 27,
                     "part": "capsule",
                 },
@@ -693,17 +692,35 @@ class TestCount(unittest.TestCase):
                 {
                     "subpart": "locular",
                     "trait": "subpart",
-                    "start": 10,
+                    "start": 9,
                     "end": 17,
                     "part": "capsule",
                 },
                 {"part": "x", "trait": "part", "start": 19, "end": 22},
+                {"low": 9, "trait": "count", "start": 23, "end": 24, "part": "x"},
+            ],
+        )
+
+    def test_count_36(self):
+        self.assertEqual(
+            test("""Flowers mostly 4- or 5-merous"""),
+            [
+                {"part": "flower", "trait": "part", "start": 0, "end": 7},
                 {
-                    "low": 9,
+                    "low": 4,
+                    "high": 5,
                     "trait": "count",
-                    "start": 23,
-                    "end": 24,
-                    "part": "x",
+                    "start": 15,
+                    "end": 22,
+                    "part": "flower",
+                    "subpart": "merous",
+                },
+                {
+                    "subpart": "merous",
+                    "trait": "subpart",
+                    "start": 22,
+                    "end": 29,
+                    "part": "flower",
                 },
             ],
         )

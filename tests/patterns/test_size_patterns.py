@@ -71,7 +71,7 @@ class TestSize(unittest.TestCase):
                 {
                     "subpart": "lobe",
                     "trait": "subpart",
-                    "start": 29,
+                    "start": 28,
                     "end": 34,
                     "part": "leaf",
                 },
@@ -254,11 +254,7 @@ class TestSize(unittest.TestCase):
 
     def test_size_13(self):
         self.assertEqual(
-            test(
-                """
-                Leaves 3-foliolate, lateral pair of leaflets
-                deeply lobed, petiolules 2–5 mm,"""
-            ),
+            test("""Leaves 3-foliolate,"""),
             [
                 {"part": "leaf", "trait": "part", "start": 0, "end": 6},
                 {
@@ -267,33 +263,14 @@ class TestSize(unittest.TestCase):
                     "start": 7,
                     "end": 8,
                     "part": "leaf",
-                    "subpart": "foliolate",
+                    "subpart": "lobe",
                 },
                 {
-                    "subpart": "foliolate",
+                    "subpart": "lobe",
                     "trait": "subpart",
-                    "start": 9,
+                    "start": 8,
                     "end": 18,
                     "part": "leaf",
-                },
-                {"part": "leaflet", "trait": "part", "start": 36, "end": 44},
-                {
-                    "subpart": "lobe",
-                    "trait": "subpart",
-                    "start": 52,
-                    "end": 57,
-                    "part": "leaflet",
-                },
-                {"part": "petiolule", "trait": "part", "start": 59, "end": 69},
-                {
-                    "length_low": 2.0,
-                    "length_high": 5.0,
-                    "length_units": "mm",
-                    "trait": "size",
-                    "start": 70,
-                    "end": 76,
-                    "part": "petiolule",
-                    "subpart": "lobe",
                 },
             ],
         )
@@ -359,12 +336,11 @@ class TestSize(unittest.TestCase):
                     "start": 15,
                     "end": 22,
                     "part": "leaf",
-                    "subpart": "lobe",
                 },
                 {
                     "subpart": "lobe",
                     "trait": "subpart",
-                    "start": 23,
+                    "start": 22,
                     "end": 28,
                     "part": "leaf",
                 },
@@ -398,7 +374,7 @@ class TestSize(unittest.TestCase):
                     "end": 5,
                     "subpart": "lobe",
                 },
-                {"subpart": "lobe", "trait": "subpart", "start": 6, "end": 11},
+                {"subpart": "lobe", "trait": "subpart", "start": 5, "end": 11},
                 {
                     "length_low": 6.0,
                     "length_high": 20.0,

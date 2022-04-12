@@ -90,3 +90,41 @@ class TestPart(unittest.TestCase):
                 },
             ],
         )
+
+    def test_part_06(self):
+        self.assertEqual(
+            test("Heads more than 2-flowered"),
+            [
+                {"part": "head", "trait": "part", "start": 0, "end": 5},
+                {
+                    "low": 2,
+                    "trait": "count",
+                    "start": 16,
+                    "end": 17,
+                    "part": "head",
+                    "subpart": "flowered",
+                },
+                {
+                    "subpart": "flowered",
+                    "trait": "subpart",
+                    "start": 17,
+                    "end": 26,
+                    "part": "head",
+                },
+            ],
+        )
+
+    def test_part_07(self):
+        self.assertEqual(
+            test("Phyllodes glaucous"),
+            [
+                {"part": "phyllode", "trait": "part", "start": 0, "end": 9},
+                {
+                    "color": "glaucous",
+                    "trait": "color",
+                    "start": 10,
+                    "end": 18,
+                    "part": "phyllode",
+                },
+            ],
+        )

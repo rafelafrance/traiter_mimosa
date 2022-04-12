@@ -10,6 +10,7 @@ ON_RANGE_MATCH = "mimosa.range.v1"
 
 DECODER = common_patterns.COMMON_PATTERNS | {
     "ambiguous": {"LOWER": {"IN": ["few", "many"]}},
+    "conj": {"POS": {"IN": ["CCONJ"]}},
 }
 
 RANGE_LOW = MatcherPatterns(
@@ -39,6 +40,7 @@ RANGE_LOW_HIGH = MatcherPatterns(
     patterns=[
         "99.9 and/or 99.9",
         "99.9 -/to   99.9",
+        "9 -* conj 9",
     ],
 )
 

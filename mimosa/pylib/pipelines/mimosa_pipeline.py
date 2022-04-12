@@ -26,7 +26,7 @@ from ..patterns import taxon_linker_patterns
 from ..patterns import taxon_patterns
 from ..patterns import terms_utils
 
-# from traiter.pipes import debug_traits
+# from traiter.pipes import debug_pipes
 
 
 def pipeline():
@@ -132,12 +132,12 @@ def pipeline():
         },
     )
 
+    # debug_pipes.tokens(nlp)
+
     nlp.add_pipe(
         DELETE_TRAITS,
         name="forget_unlinked",
         config={"delete_when": delete_trait_utils.DELETE_WHEN},
     )
-
-    # debug_traits.tokens(nlp)
 
     return nlp

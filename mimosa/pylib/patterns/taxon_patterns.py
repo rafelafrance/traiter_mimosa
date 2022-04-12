@@ -32,6 +32,7 @@ TAXON = MatcherPatterns(
         "M.? taxon+ (? auth* )?             level .? word",
         "M.? taxon+ (? auth+ maybe auth+ )? level .? word",
         "level .? taxon+",
+        "taxon+",
     ],
 )
 

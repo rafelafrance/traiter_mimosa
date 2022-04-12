@@ -28,7 +28,7 @@ def main():
 
 def clean_text(args):
     """Clean text to prepare it for trait extraction."""
-    with open(args.input_text) as raw_file:
+    with open(args.in_text) as raw_file:
         text = raw_file.read()
 
     # The bulk of the text cleaning happens in this external function
@@ -44,7 +44,7 @@ def clean_text(args):
 
     # Write output
     lines = [s.text + "\n" for s in doc.sents if s and s.text]
-    with open(args.output_text, "w") as clean_file:
+    with open(args.out_text, "w") as clean_file:
         clean_file.writelines(lines)
 
 
@@ -56,7 +56,7 @@ def parse_args():
     )
 
     arg_parser.add_argument(
-        "--input-text",
+        "--in-text",
         type=Path,
         required=True,
         metavar="PATH",
@@ -64,7 +64,7 @@ def parse_args():
     )
 
     arg_parser.add_argument(
-        "--output-text",
+        "--out-text",
         type=Path,
         required=True,
         metavar="PATH",

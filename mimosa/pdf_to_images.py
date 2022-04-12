@@ -23,7 +23,7 @@ def main():
 
 def pdf_to_images(args):
     """Convert the file."""
-    stem = args.pdf_file.stem
+    stem = args.in_pdf.stem
     dst = args.image_dir / stem
 
     os.system(f"mkdir -p {dst}")
@@ -40,7 +40,7 @@ def parse_args():
     )
 
     arg_parser.add_argument(
-        "--pdf-file",
+        "--in-pdf",
         type=Path,
         required=True,
         metavar="PDF",
