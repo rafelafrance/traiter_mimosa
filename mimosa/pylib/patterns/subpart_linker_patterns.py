@@ -11,10 +11,9 @@ from traiter import const as t_const
 from traiter.patterns.dependency_patterns import DependencyPatterns
 from traiter.pipes import dependency
 
-from .. import consts
-from .. import utils
+from . import linker_utils
 
-TRAITS_ = utils.remove_traits(consts.TRAITS, "subpart")
+TRAITS_ = linker_utils.remove_traits("subpart")
 
 punct_penalty = copy.deepcopy(t_const.PUNCT_PENALTY)
 punct_penalty[";"] = t_const.NEVER

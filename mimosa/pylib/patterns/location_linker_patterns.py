@@ -2,10 +2,9 @@
 from traiter.patterns.dependency_patterns import DependencyPatterns
 from traiter.pipes import dependency
 
-from .. import consts
-from .. import utils
+from . import linker_utils
 
-TRAITS_ = utils.remove_traits(consts.TRAITS, "location")
+TRAITS_ = linker_utils.remove_traits("location")
 
 LOCATION_LINKER = DependencyPatterns(
     "location_linker",

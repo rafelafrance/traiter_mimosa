@@ -2,9 +2,9 @@
 from traiter.patterns.dependency_patterns import DependencyPatterns
 from traiter.pipes import dependency
 
-from .. import consts
+from . import linker_utils
 
-TRAITS_ = list(consts.TRAITS)
+TRAITS_ = list(linker_utils.TRAITS)
 
 TAXON_LINKER = DependencyPatterns(
     "taxon_linker",

@@ -5,17 +5,18 @@ from spacy import registry
 from traiter import const as t_const
 from traiter.patterns import matcher_patterns
 
-from .. import consts
+from . import common_patterns
+from . import terms_utils
 
 MULTIPLE_DASHES = ["\\" + c for c in t_const.DASH_CHAR]
-MULTIPLE_DASHES = fr'\s*[{"".join(MULTIPLE_DASHES)}]{{2,}}\s*'
+MULTIPLE_DASHES = rf'\s*[{"".join(MULTIPLE_DASHES)}]{{2,}}\s*'
 
-SKIP = t_const.DASH + consts.MISSING
+SKIP = t_const.DASH + common_patterns.MISSING
 
 COLOR = matcher_patterns.MatcherPatterns(
     "color",
     on_match="mimosa.color.v1",
-    decoder=consts.COMMON_PATTERNS
+    decoder=common_patterns.COMMON_PATTERNS
     | {
         "color_words": {"ENT_TYPE": {"IN": ["color", "color_mod"]}},
         "color": {"ENT_TYPE": "color"},
@@ -30,19 +31,19 @@ COLOR = matcher_patterns.MatcherPatterns(
 
 @registry.misc(COLOR.on_match)
 def color(ent):
-    """Enrich a color match."""
     parts = []
     for token in ent:
-        replace = consts.REPLACE.get(token.lower_, token.lower_)
+        replace = terms_utils.REPLACE.get(token.lower_, token.lower_)
         if replace in SKIP:
             continue
-        if consts.REMOVE.get(token.lower_):
+        if terms_utils.REMOVE.get(token.lower_):
             continue
         if token.pos_ in ["AUX"]:
             continue
         parts.append(replace)
+
     value = "-".join(parts)
     value = re.sub(MULTIPLE_DASHES, r"-", value)
-    ent._.data["color"] = consts.REPLACE.get(value, value)
-    if any(t for t in ent if t.lower_ in consts.MISSING):
+    ent._.data["color"] = terms_utils.REPLACE.get(value, value)
+    if any(t for t in ent if t.lower_ in common_patterns.MISSING):
         ent._.data["missing"] = True

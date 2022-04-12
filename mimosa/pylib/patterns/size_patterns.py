@@ -8,13 +8,14 @@ from traiter import util as t_util
 from traiter.actions import REJECT_MATCH
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
-from .. import consts
+from . import common_patterns
+from . import terms_utils
 
 FOLLOW = """ dim sex """.split()
 NOT_A_SIZE = """ for """.split()
-KEYS = """ min low high max """.split()
+SIZE_FIELDS = """ min low high max """.split()
 
-DECODER = consts.COMMON_PATTERNS | {
+DECODER = common_patterns.COMMON_PATTERNS | {
     "[?]": {"ENT_TYPE": "quest"},
     "about": {"ENT_TYPE": "about"},
     "and": {"LOWER": "and"},
@@ -73,13 +74,11 @@ NOT_A_SIZE = MatcherPatterns(
 
 @registry.misc(SIZE.on_match)
 def size(ent):
-    """Enrich a phrase match."""
     _size(ent)
 
 
 @registry.misc(SIZE_HIGH_ONLY.on_match)
 def size_high_only(ent):
-    """Enrich a phrase match."""
     _size(ent, True)
 
 
@@ -89,7 +88,9 @@ def size_double_dim(ent):
 
     Like: Legumes 2.8-4.5 mm high and wide
     """
-    dims = [consts.REPLACE.get(t.lower_, t.lower_) for t in ent if t.ent_type_ == "dim"]
+    dims = [
+        terms_utils.REPLACE.get(t.lower_, t.lower_) for t in ent if t.ent_type_ == "dim"
+    ]
 
     ranges = [e for e in ent.ents if e.label_ == "range"]
 
@@ -97,7 +98,7 @@ def size_double_dim(ent):
         _size(range_)
         for key, value in range_._.data.items():
             key_parts = key.split("_")
-            if key_parts[-1] in KEYS:
+            if key_parts[-1] in SIZE_FIELDS:
                 new_key = f"{dim}_{key_parts[-1]}"
                 ent._.data[new_key] = value
             else:
@@ -108,7 +109,6 @@ def size_double_dim(ent):
 
 
 def _size(ent, high_only=False):
-    """Enrich a phrase match."""
     dims = scan_tokens(ent, high_only)
     dims = fix_dimensions(dims)
     dims = fix_units(dims)
@@ -117,27 +117,25 @@ def _size(ent, high_only=False):
 
 
 def scan_tokens(ent, high_only):
-    """Scan tokens for the various fields."""
     dims = [{}]
 
-    # Process tokens in the entity
     for token in ent:
         label = token.ent_type_
 
         if label == "range":
-            for key in KEYS:
-                if key in token._.data:
-                    dims[-1][key] = t_util.to_positive_float(token._.data[key])
+            for field in SIZE_FIELDS:
+                if field in token._.data:
+                    dims[-1][field] = t_util.to_positive_float(token._.data[field])
 
             if high_only:
                 dims[-1]["high"] = dims[-1]["low"]
                 del dims[-1]["low"]
 
         elif label == "metric_length":
-            dims[-1]["units"] = consts.REPLACE[token.lower_]
+            dims[-1]["units"] = terms_utils.REPLACE[token.lower_]
 
         elif label == "dim":
-            dims[-1]["dimension"] = consts.REPLACE[token.lower_]
+            dims[-1]["dimension"] = terms_utils.REPLACE[token.lower_]
 
         elif label == "sex":
             dims[-1]["sex"] = re.sub(r"\W+", "", token.lower_)
@@ -152,7 +150,7 @@ def scan_tokens(ent, high_only):
 
 
 def fix_dimensions(dims):
-    """Handle width comes before length and one of them is missing units."""
+    """Handle when width comes before length & one of them is missing units."""
     noted = [d for n in dims if (d := n.get("dimension"))]
     defaults = deque(d for d in ("length", "width", "thickness") if d not in noted)
 
@@ -179,7 +177,7 @@ def fill_data(dims, ent):
     for dim in dims:
         dimension = dim["dimension"]
 
-        for field in KEYS:
+        for field in SIZE_FIELDS:
             if datum := dim.get(field):
                 key = f"{dimension}_{field}"
                 ent._.data[key] = round(datum, 3)

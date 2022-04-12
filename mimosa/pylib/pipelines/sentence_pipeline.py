@@ -6,11 +6,8 @@ from traiter.tokenizer_util import append_tokenizer_regexes
 
 from .. import consts
 
-# from traiter.pipes.debug import DEBUG_ENTITIES, DEBUG_TOKENS
-
 
 def pipeline():
-    """Create a pipeline for extracting traits."""
     exclude = """ tagger ner lemmatizer """.split()
     nlp = spacy.load("en_core_web_sm", exclude=exclude)
 

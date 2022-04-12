@@ -5,7 +5,8 @@ from traiter import const as t_const
 from traiter import util as t_util
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
-from .. import consts
+from . import common_patterns
+from . import terms_utils
 
 NOT_COUNT_WORDS = (
     t_const.CROSS
@@ -15,7 +16,7 @@ NOT_COUNT_WORDS = (
 )
 NOT_COUNT_ENTS = """ imperial_length metric_mass imperial_mass """.split()
 
-DECODER = consts.COMMON_PATTERNS | {
+DECODER = common_patterns.COMMON_PATTERNS | {
     "adp": {"POS": {"IN": ["ADP"]}},
     "count_suffix": {"ENT_TYPE": "count_suffix"},
     "count_word": {"ENT_TYPE": "count_word"},
@@ -33,9 +34,6 @@ COUNT = MatcherPatterns(
         "99-99",
         "99-99 -* per_count",
         "( 99-99 ) per_count",
-        # "99-99 per_count count_suffix?",
-        # "per_count adp? 99-99 count_suffix?",
-        # "99-99 - subpart",
     ],
 )
 
@@ -62,16 +60,16 @@ NOT_A_COUNT = MatcherPatterns(
 
 @registry.misc(COUNT_WORD.on_match)
 def count_word(ent):
-    """Enrich the match with data."""
     ent._.new_label = "count"
     word = [e for e in ent.ents if e.label_ == "count_word"][0]
-    word._.data = {"low": t_util.to_positive_int(consts.REPLACE[word.text.lower()])}
+    word._.data = {
+        "low": t_util.to_positive_int(terms_utils.REPLACE[word.text.lower()])
+    }
     word._.new_label = "count"
 
 
 @registry.misc(COUNT.on_match)
 def count(ent):
-    """Enrich the match with data."""
     range_ = [t for t in ent if t.ent_type_ == "range"][0]
     ent._.data = range_._.data
 
@@ -86,4 +84,4 @@ def count(ent):
         pc = pc[0]
         pc_text = pc.text.lower()
         pc._.new_label = "count_group"
-        ent._.data["count_group"] = consts.REPLACE.get(pc_text, pc_text)
+        ent._.data["count_group"] = terms_utils.REPLACE.get(pc_text, pc_text)

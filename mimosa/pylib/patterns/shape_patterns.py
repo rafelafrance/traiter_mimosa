@@ -5,12 +5,14 @@ from spacy import registry
 from traiter import const as t_const
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
-from .. import consts
+from . import common_patterns
+from . import terms_utils
+
 
 TEMP = ["\\" + c for c in t_const.DASH[:2]]
-MULTIPLE_DASHES = fr'[{"".join(TEMP)}]{{2,}}'
+MULTIPLE_DASHES = rf'[{"".join(TEMP)}]{{2,}}'
 
-DECODER = consts.COMMON_PATTERNS | {
+DECODER = common_patterns.COMMON_PATTERNS | {
     "shape": {"ENT_TYPE": "shape"},
     "shape_leader": {"ENT_TYPE": "shape_leader"},
     "shape_loc": {"ENT_TYPE": {"IN": ["shape", "shape_leader", "location"]}},
@@ -42,16 +44,17 @@ N_SHAPE = MatcherPatterns(
 
 @registry.misc(SHAPE.on_match)
 def shape(ent):
-    """Enrich a phrase match."""
+    # Sets do not preserve order
     parts = {
         r: 1
         for t in ent
-        if (r := consts.REPLACE.get(t.lower_, t.lower_))
+        if (r := terms_utils.REPLACE.get(t.lower_, t.lower_))
         and t._.cached_label in {"shape", "shape_suffix"}
     }
+
     value = "-".join(parts.keys())
     value = re.sub(rf"\s*{MULTIPLE_DASHES}\s*", r"-", value)
-    ent._.data["shape"] = consts.REPLACE.get(value, value)
+    ent._.data["shape"] = terms_utils.REPLACE.get(value, value)
     loc = [t.lower_ for t in ent if t._.cached_label == "location"]
     if loc:
         ent._.data["location"] = loc[0]

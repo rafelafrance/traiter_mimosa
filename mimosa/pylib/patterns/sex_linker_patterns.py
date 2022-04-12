@@ -8,10 +8,9 @@ Named entity recognition (NER) must be run first.
 from traiter.patterns.dependency_patterns import DependencyPatterns
 from traiter.pipes import dependency
 
-from .. import consts
-from .. import utils
+from . import linker_utils
 
-TRAITS_ = utils.remove_traits(consts.TRAITS, "sex")
+TRAITS_ = linker_utils.remove_traits("sex")
 
 SEX_LINKER = DependencyPatterns(
     "sex_linker",

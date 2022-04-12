@@ -4,11 +4,11 @@ from spacy import registry
 from traiter import actions
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
-from .. import consts
+from . import common_patterns
 
 ON_RANGE_MATCH = "mimosa.range.v1"
 
-DECODER = consts.COMMON_PATTERNS | {
+DECODER = common_patterns.COMMON_PATTERNS | {
     "ambiguous": {"LOWER": {"IN": ["few", "many"]}},
 }
 

@@ -12,7 +12,7 @@ if [[ ! -z "$VIRTUAL_ENV" ]]; then
 fi
 
 rm -rf .venv
-virtualenv -p python3.9 .venv
+virtualenv -p python3.10 .venv
 source ./.venv/bin/activate
 
 python -m pip install --upgrade pip setuptools wheel

@@ -3,8 +3,8 @@ import regex as re
 from spacy import registry
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
-from .. import consts
-
+from . import common_patterns
+from . import terms_utils
 
 LEVEL_LOWER = """ species subspecies variety subvariety form subform """.split()
 
@@ -17,7 +17,7 @@ M_DOT_RE = re.compile(M_DOT)
 TAXON = MatcherPatterns(
     "taxon",
     on_match=ON_TAXON_MATCH,
-    decoder=consts.COMMON_PATTERNS
+    decoder=common_patterns.COMMON_PATTERNS
     | {
         "auth": {"POS": "PROPN"},
         "maybe": {"POS": "NOUN"},
@@ -38,7 +38,6 @@ TAXON = MatcherPatterns(
 
 @registry.misc(ON_TAXON_MATCH)
 def on_taxon_match(ent):
-    """Enrich a taxon match."""
     auth = []
     used_levels = []
     taxa = []
@@ -48,7 +47,7 @@ def on_taxon_match(ent):
         if token._.cached_label == "level":
             taxa.append(token.lower_)
             is_level = token.lower_
-            ent._.data["level"] = consts.REPLACE.get(token.lower_, token.lower_)
+            ent._.data["level"] = terms_utils.REPLACE.get(token.lower_, token.lower_)
         elif is_level:
             if ent._.data["level"] in LEVEL_LOWER:
                 taxa.append(token.lower_)
@@ -61,7 +60,7 @@ def on_taxon_match(ent):
             used_levels.append("genus")
 
         elif token._.cached_label == "plant_taxon":
-            levels = consts.LEVELS.get(token.lower_, ["unknown"])
+            levels = terms_utils.LEVELS.get(token.lower_, ["unknown"])
 
             # Find the highest unused taxon level
             for level in levels:

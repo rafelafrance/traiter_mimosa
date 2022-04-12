@@ -6,7 +6,6 @@ from ..pipelines import mimosa_pipeline
 
 
 def read(args):
-    """Do the parsing here."""
     with open(args.in_text) as in_file:
         lines = in_file.readlines()
 

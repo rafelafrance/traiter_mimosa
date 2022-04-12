@@ -8,10 +8,9 @@ from traiter.pipes.dependency import DEPENDENCY
 from traiter.pipes.sentence import SENTENCE
 from traiter.pipes.simple_traits import SIMPLE_TRAITS
 
-from .. import consts
 from ..patterns import color_patterns
 from ..patterns import count_patterns
-from ..patterns import forget_utils
+from ..patterns import delete_trait_utils
 from ..patterns import location_linker_patterns
 from ..patterns import margin_patterns
 from ..patterns import part_linker_patterns
@@ -25,24 +24,23 @@ from ..patterns import subpart_linker_patterns
 from ..patterns import subpart_patterns
 from ..patterns import taxon_linker_patterns
 from ..patterns import taxon_patterns
+from ..patterns import terms_utils
 
 # from traiter.pipes import debug_traits
 
 
 def pipeline():
-    """Create a pipeline for extracting traits."""
     nlp = spacy.load("en_core_web_sm", exclude=["ner"])
     tokenizer_util.append_tokenizer_regexes(nlp)
-    tokenizer_util.append_abbrevs(nlp, consts.ABBREVS)
+    tokenizer_util.append_abbrevs(nlp, terms_utils.ABBREVS)
 
-    # Add a pipe to identify phrases and patterns as base-level traits
     term_ruler = nlp.add_pipe(
         "entity_ruler",
         name="term_ruler",
         config={"phrase_matcher_attr": "LOWER"},
         before="parser",
     )
-    term_ruler.add_patterns(consts.TERMS.for_entity_ruler())
+    term_ruler.add_patterns(terms_utils.TERMS.for_entity_ruler())
 
     nlp.add_pipe(SENTENCE, before="parser")
 
@@ -78,7 +76,7 @@ def pipeline():
         },
     )
 
-    nlp.add_pipe(SIMPLE_TRAITS, config={"replace": consts.REPLACE})
+    nlp.add_pipe(SIMPLE_TRAITS, config={"replace": terms_utils.REPLACE})
 
     nlp.add_pipe(
         ADD_TRAITS,
@@ -99,7 +97,6 @@ def pipeline():
         },
     )
 
-    # Add a pipe to group tokens into larger traits
     nlp.add_pipe(
         ADD_TRAITS,
         name="group_traits",
@@ -118,7 +115,7 @@ def pipeline():
         },
     )
 
-    nlp.add_pipe(DELETE_TRAITS, config={"delete": forget_utils.FORGET})
+    nlp.add_pipe(DELETE_TRAITS, config={"delete": delete_trait_utils.PARTIAL_TRAITS})
 
     nlp.add_pipe(
         DEPENDENCY,
@@ -138,7 +135,7 @@ def pipeline():
     nlp.add_pipe(
         DELETE_TRAITS,
         name="forget_unlinked",
-        config={"delete_when": forget_utils.FORGET_WHEN},
+        config={"delete_when": delete_trait_utils.DELETE_WHEN},
     )
 
     # debug_traits.tokens(nlp)

@@ -3,10 +3,10 @@ from spacy import registry
 from traiter import actions
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
+from . import common_patterns
 from . import size_patterns
-from .. import consts
 
-DECODER = consts.COMMON_PATTERNS | {
+DECODER = common_patterns.COMMON_PATTERNS | {
     "adj": {"POS": "ADJ"},
     "cm": {"ENT_TYPE": "metric_length"},
     "leader": {"LOWER": {"IN": """to at embracing""".split()}},
@@ -49,7 +49,6 @@ SUBPART_AS_LOCATION = MatcherPatterns(
 
 @registry.misc(PART_AS_DISTANCE.on_match)
 def part_as_distance(ent):
-    """Convert a part as location with a distance."""
     size_patterns.size(ent)
     ent._.new_label = "part_as_loc"
     for e in [e for e in ent.ents if e._.cached_label != "metric_length"]:
@@ -58,6 +57,5 @@ def part_as_distance(ent):
 
 @registry.misc(SUBPART_AS_LOCATION.on_match)
 def subpart_location(ent):
-    """Enrich the match with data."""
     ent._.new_label = "part_as_loc"
     actions.text_action(ent)
