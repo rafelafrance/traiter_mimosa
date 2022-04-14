@@ -7,6 +7,7 @@ from traiter.pipes.delete_traits_pipe import DELETE_TRAITS
 from traiter.pipes.dependency_pipe import DEPENDENCY
 from traiter.pipes.sentence_pipe import SENTENCE
 from traiter.pipes.simple_traits_pipe import SIMPLE_TRAITS
+from traiter.pipes.term_pipe import TERM_PIPE
 
 from ..patterns import color_patterns
 from ..patterns import count_patterns
@@ -34,13 +35,14 @@ def pipeline():
     tokenizer_util.append_tokenizer_regexes(nlp)
     tokenizer_util.append_abbrevs(nlp, terms_utils.ABBREVS)
 
-    term_ruler = nlp.add_pipe(
-        "entity_ruler",
-        name="term_ruler",
-        config={"phrase_matcher_attr": "LOWER"},
+    nlp.add_pipe(
+        TERM_PIPE,
         before="parser",
+        config={
+            "terms": terms_utils.TERMS.terms,
+            "replace": terms_utils.REPLACE,
+        },
     )
-    term_ruler.add_patterns(terms_utils.TERMS.for_entity_ruler())
 
     nlp.add_pipe(SENTENCE, before="parser")
 
