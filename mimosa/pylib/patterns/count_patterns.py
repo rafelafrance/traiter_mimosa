@@ -6,7 +6,7 @@ from traiter import util as t_util
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
 from . import common_patterns
-from . import terms_utils
+from . import term_utils
 
 NOT_COUNT_WORDS = (
     t_const.CROSS
@@ -61,9 +61,7 @@ NOT_A_COUNT = MatcherPatterns(
 def count_word(ent):
     ent._.new_label = "count"
     word = [e for e in ent.ents if e.label_ == "count_word"][0]
-    word._.data = {
-        "low": t_util.to_positive_int(terms_utils.REPLACE[word.text.lower()])
-    }
+    word._.data = {"low": t_util.to_positive_int(term_utils.REPLACE[word.text.lower()])}
     word._.new_label = "count"
 
 
@@ -83,4 +81,4 @@ def count(ent):
         pc = pc[0]
         pc_text = pc.text.lower()
         pc._.new_label = "count_group"
-        ent._.data["count_group"] = terms_utils.REPLACE.get(pc_text, pc_text)
+        ent._.data["count_group"] = term_utils.REPLACE.get(pc_text, pc_text)

@@ -9,23 +9,23 @@ from traiter.pipes.sentence_pipe import SENTENCE
 from traiter.pipes.simple_traits_pipe import SIMPLE_TRAITS
 from traiter.pipes.term_pipe import TERM_PIPE
 
-from ..patterns import color_patterns
-from ..patterns import count_patterns
-from ..patterns import delete_trait_utils
-from ..patterns import location_linker_patterns
-from ..patterns import margin_patterns
-from ..patterns import part_linker_patterns
-from ..patterns import part_location_patterns
-from ..patterns import part_patterns
-from ..patterns import range_patterns
-from ..patterns import sex_linker_patterns
-from ..patterns import shape_patterns
-from ..patterns import size_patterns
-from ..patterns import subpart_linker_patterns
-from ..patterns import subpart_patterns
-from ..patterns import taxon_linker_patterns
-from ..patterns import taxon_patterns
-from ..patterns import terms_utils
+from .patterns import color_patterns
+from .patterns import count_patterns
+from .patterns import delete_trait_utils
+from .patterns import location_linker_patterns
+from .patterns import margin_patterns
+from .patterns import part_linker_patterns
+from .patterns import part_location_patterns
+from .patterns import part_patterns
+from .patterns import range_patterns
+from .patterns import sex_linker_patterns
+from .patterns import shape_patterns
+from .patterns import size_patterns
+from .patterns import subpart_linker_patterns
+from .patterns import subpart_patterns
+from .patterns import taxon_linker_patterns
+from .patterns import taxon_patterns
+from .patterns import term_utils
 
 # from traiter.pipes import debug_pipes
 
@@ -33,14 +33,14 @@ from ..patterns import terms_utils
 def pipeline():
     nlp = spacy.load("en_core_web_sm", exclude=["ner"])
     tokenizer_util.append_tokenizer_regexes(nlp)
-    tokenizer_util.append_abbrevs(nlp, terms_utils.ABBREVS)
+    tokenizer_util.append_abbrevs(nlp, term_utils.ABBREVS)
 
     nlp.add_pipe(
         TERM_PIPE,
         before="parser",
         config={
-            "terms": terms_utils.TERMS.terms,
-            "replace": terms_utils.REPLACE,
+            "terms": term_utils.TERMS.terms,
+            "replace": term_utils.REPLACE,
         },
     )
 
@@ -78,7 +78,7 @@ def pipeline():
         },
     )
 
-    nlp.add_pipe(SIMPLE_TRAITS, config={"replace": terms_utils.REPLACE})
+    nlp.add_pipe(SIMPLE_TRAITS, config={"replace": term_utils.REPLACE})
 
     nlp.add_pipe(
         ADD_TRAITS,

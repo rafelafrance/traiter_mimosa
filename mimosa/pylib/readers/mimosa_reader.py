@@ -1,8 +1,8 @@
 """Parse PDFs about mimosas."""
 from tqdm import tqdm
 
+from .. import mimosa_pipeline
 from ..parsed_data import Datum
-from ..pipelines import mimosa_pipeline
 
 
 def read(args):

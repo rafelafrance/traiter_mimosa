@@ -6,7 +6,7 @@ from traiter import const as t_const
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
 from . import common_patterns
-from . import terms_utils
+from . import term_utils
 
 
 TEMP = ["\\" + c for c in t_const.DASH[:2]]
@@ -48,13 +48,13 @@ def shape(ent):
     parts = {
         r: 1
         for t in ent
-        if (r := terms_utils.REPLACE.get(t.lower_, t.lower_))
+        if (r := term_utils.REPLACE.get(t.lower_, t.lower_))
         and t._.cached_label in {"shape", "shape_suffix"}
     }
 
     value = "-".join(parts.keys())
     value = re.sub(rf"\s*{MULTIPLE_DASHES}\s*", r"-", value)
-    ent._.data["shape"] = terms_utils.REPLACE.get(value, value)
+    ent._.data["shape"] = term_utils.REPLACE.get(value, value)
     loc = [t.lower_ for t in ent if t._.cached_label == "location"]
     if loc:
         ent._.data["location"] = loc[0]

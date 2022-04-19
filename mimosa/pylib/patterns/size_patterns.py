@@ -9,7 +9,7 @@ from traiter.actions import REJECT_MATCH
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
 from . import common_patterns
-from . import terms_utils
+from . import term_utils
 
 FOLLOW = """ dim sex """.split()
 NOT_A_SIZE = """ for """.split()
@@ -89,7 +89,7 @@ def size_double_dim(ent):
     Like: Legumes 2.8-4.5 mm high and wide
     """
     dims = [
-        terms_utils.REPLACE.get(t.lower_, t.lower_) for t in ent if t.ent_type_ == "dim"
+        term_utils.REPLACE.get(t.lower_, t.lower_) for t in ent if t.ent_type_ == "dim"
     ]
 
     ranges = [e for e in ent.ents if e.label_ == "range"]
@@ -132,10 +132,10 @@ def scan_tokens(ent, high_only):
                 del dims[-1]["low"]
 
         elif label == "metric_length":
-            dims[-1]["units"] = terms_utils.REPLACE[token.lower_]
+            dims[-1]["units"] = term_utils.REPLACE[token.lower_]
 
         elif label == "dim":
-            dims[-1]["dimension"] = terms_utils.REPLACE[token.lower_]
+            dims[-1]["dimension"] = term_utils.REPLACE[token.lower_]
 
         elif label == "sex":
             dims[-1]["sex"] = re.sub(r"\W+", "", token.lower_)

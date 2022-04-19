@@ -5,9 +5,10 @@ import logging
 import textwrap
 from pathlib import Path
 
-from pylib.pipelines import sentence_pipeline
 from traiter import log
 from traiter import util as t_util
+
+from .pylib import sentence_pipeline
 
 MOJIBAKE = {
     "{": "(",

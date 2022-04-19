@@ -4,7 +4,7 @@ from typing import List
 
 from traiter.util import shorten
 
-from mimosa.pylib.pipelines.mimosa_pipeline import pipeline
+from mimosa.pylib.mimosa_pipeline import pipeline
 
 NLP = pipeline()  # Singleton for testing
 
