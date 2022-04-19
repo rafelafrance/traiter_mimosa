@@ -134,7 +134,7 @@ def pipeline():
         },
     )
 
-    # debug_pipes.tokens(nlp)
+    # debug_pipes.tokens(nlp)  # ######################################################
 
     nlp.add_pipe(
         DELETE_TRAITS,

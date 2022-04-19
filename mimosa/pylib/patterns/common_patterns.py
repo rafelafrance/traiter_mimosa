@@ -25,6 +25,6 @@ COMMON_PATTERNS = {
     "missing": {"LOWER": {"IN": MISSING}},
     "9": {"IS_DIGIT": True},
     "99.9": {"TEXT": {"REGEX": t_const.FLOAT_TOKEN_RE}},
-    "99-99": {"ENT_TYPE": {"REGEX": "range"}},
-    "99.9-99.9": {"ENT_TYPE": {"REGEX": "range"}},
+    "99-99": {"ENT_TYPE": "range"},
+    "99.9-99.9": {"ENT_TYPE": "range"},
 }

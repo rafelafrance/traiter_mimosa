@@ -8,6 +8,7 @@ from traiter.patterns.matcher_patterns import MatcherPatterns
 from . import common_patterns
 from . import term_utils
 
+# ####################################################################################
 NOT_COUNT_WORDS = (
     t_const.CROSS
     + t_const.SLASH
@@ -25,6 +26,7 @@ DECODER = common_patterns.COMMON_PATTERNS | {
     "subpart": {"ENT_TYPE": "subpart"},
 }
 
+# ####################################################################################
 COUNT = MatcherPatterns(
     "count",
     on_match="mimosa.count.v1",
@@ -36,37 +38,11 @@ COUNT = MatcherPatterns(
     ],
 )
 
-COUNT_WORD = MatcherPatterns(
-    "count_word",
-    on_match="mimosa.count_word.v1",
-    decoder=DECODER,
-    patterns=[
-        "count_word",
-    ],
-)
-
-NOT_A_COUNT = MatcherPatterns(
-    "not_a_count",
-    on_match=actions.REJECT_MATCH,
-    decoder=DECODER,
-    patterns=[
-        "99-99 not_count_ent",
-        "99-99 not_count_word 99-99? not_count_ent?",
-        "9 / 9",
-    ],
-)
-
-
-@registry.misc(COUNT_WORD.on_match)
-def count_word(ent):
-    ent._.new_label = "count"
-    word = [e for e in ent.ents if e.label_ == "count_word"][0]
-    word._.data = {"low": t_util.to_positive_int(term_utils.REPLACE[word.text.lower()])}
-    word._.new_label = "count"
-
 
 @registry.misc(COUNT.on_match)
 def count(ent):
+    ent._.new_label = "count"
+
     range_ = [t for t in ent if t.ent_type_ == "range"][0]
     ent._.data = range_._.data
 
@@ -82,3 +58,35 @@ def count(ent):
         pc_text = pc.text.lower()
         pc._.new_label = "count_group"
         ent._.data["count_group"] = term_utils.REPLACE.get(pc_text, pc_text)
+
+
+# ####################################################################################
+COUNT_WORD = MatcherPatterns(
+    "count_word",
+    on_match="mimosa.count_word.v1",
+    decoder=DECODER,
+    patterns=[
+        "count_word",
+    ],
+)
+
+
+@registry.misc(COUNT_WORD.on_match)
+def count_word(ent):
+    ent._.new_label = "count"
+    word = [e for e in ent.ents if e.label_ == "count_word"][0]
+    word._.data = {"low": t_util.to_positive_int(term_utils.REPLACE[word.text.lower()])}
+    word._.new_label = "count"
+
+
+# ####################################################################################
+NOT_A_COUNT = MatcherPatterns(
+    "not_a_count",
+    on_match=actions.REJECT_MATCH,
+    decoder=DECODER,
+    patterns=[
+        "99-99 not_count_ent",
+        "99-99 not_count_word 99-99? not_count_ent?",
+        "9 / 9",
+    ],
+)
