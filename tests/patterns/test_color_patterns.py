@@ -394,7 +394,7 @@ class TestColor(unittest.TestCase):
 
     def test_color_14(self):
         self.assertEqual(
-            test("leaflets surfaces rather densely spotted with minute blackish dots"),
+            test("leaflets surfaces rather densely spotted with blackish dots"),
             [
                 {"part": "leaflet", "trait": "part", "start": 0, "end": 8},
                 {
@@ -405,18 +405,10 @@ class TestColor(unittest.TestCase):
                     "part": "leaflet",
                 },
                 {
-                    "shape": "minute",
-                    "trait": "shape",
-                    "start": 46,
-                    "end": 52,
-                    "part": "leaflet",
-                    "subpart": "surface",
-                },
-                {
                     "color": "black-dots",
                     "trait": "color",
-                    "start": 53,
-                    "end": 66,
+                    "start": 46,
+                    "end": 59,
                     "part": "leaflet",
                     "subpart": "surface",
                 },

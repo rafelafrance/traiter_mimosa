@@ -7,14 +7,16 @@ from datetime import datetime
 import jinja2
 from tqdm import tqdm
 
+from .. import consts
+
 COLOR_COUNT = 14
 BACKGROUNDS = itertools.cycle([f"cc{i}" for i in range(COLOR_COUNT)])
 BORDERS = itertools.cycle([f"bb{i}" for i in range(COLOR_COUNT)])
 
-TITLE_SKIPS = ["start", "end", "trait"]
-TRAIT_SKIPS = TITLE_SKIPS + ["part", "subpart"]
+TITLE_SKIPS = ["start", "end"]
+TRAIT_SKIPS = TITLE_SKIPS + ["part", "subpart", "trait"]
 
-Formatted = collections.namedtuple("Formatted", "text traits")
+Formatted = collections.namedtuple("Formatted", "text traits debug")
 Trait = collections.namedtuple("Trait", "label data")
 SortableTrait = collections.namedtuple("SortableTrait", "label start trait")
 
@@ -23,17 +25,21 @@ def write(args, data):
     """Output the parsed data."""
 
     env = jinja2.Environment(
-        loader=jinja2.FileSystemLoader("./mimosa/pylib/writers/templates"),
+        loader=jinja2.FileSystemLoader(
+            f"{consts.ROOT_DIR}/mimosa/pylib/writers/templates"
+        ),
         autoescape=True,
     )
 
     classes = {}
     formatted = []
     for datum in tqdm(data):
+        traits_used = {t["trait"] for t in datum.traits}
         formatted.append(
             Formatted(
                 format_text(datum, classes),
                 format_traits(datum, classes),
+                "debug" if len(traits_used) < 2 else "real",
             )
         )
 

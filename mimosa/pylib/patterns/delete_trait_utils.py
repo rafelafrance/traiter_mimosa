@@ -9,7 +9,7 @@ PARTIAL_TRAITS = """ about cross color_mod dim dimension imperial_length imperia
     quest shape_leader shape_suffix units
     range.low range.min.low range.low.high range.low.max range.min.low.high
     range.min.low.max range.low.high.max range.min.low.high.max range
-    level
+    level month
     """.split()
 
 

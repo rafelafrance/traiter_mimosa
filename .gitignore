@@ -126,3 +126,5 @@ junk*
 .idea/
 .virtual_documents/
 .vscode/
+
+*sqlite-journal

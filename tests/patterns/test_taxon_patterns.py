@@ -48,3 +48,17 @@ class TestTaxon(unittest.TestCase):
                 }
             ],
         )
+
+    def test_taxon_04(self):
+        self.assertEqual(
+            test("""A. pachyphloia subsp. brevipinnula."""),
+            [
+                {
+                    "level": "subspecies",
+                    "taxon": "A. pachyphloia subsp. brevipinnula",
+                    "trait": "taxon",
+                    "start": 0,
+                    "end": 34,
+                }
+            ],
+        )

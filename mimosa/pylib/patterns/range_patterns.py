@@ -11,6 +11,8 @@ ON_RANGE_MATCH = "mimosa.range.v1"
 DECODER = common_patterns.COMMON_PATTERNS | {
     "ambiguous": {"LOWER": {"IN": ["few", "many"]}},
     "conj": {"POS": {"IN": ["CCONJ"]}},
+    "month": {"ENT_TYPE": "month"},
+    "nope": {"TEXT": {"REGEX": "^[&/]+$"}},
 }
 
 RANGE_LOW = MatcherPatterns(
@@ -113,7 +115,10 @@ NOT_A_RANGE = MatcherPatterns(
     on_match=actions.REJECT_MATCH,
     decoder=DECODER,
     patterns=[
-        "9 / 9",
+        "9 nope",
+        "nope 9",
+        "9 month",
+        "month 9",
     ],
 )
 

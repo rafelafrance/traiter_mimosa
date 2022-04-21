@@ -10,10 +10,7 @@ from . import term_utils
 
 # ####################################################################################
 NOT_COUNT_WORDS = (
-    t_const.CROSS
-    + t_const.SLASH
-    + """
-    average side times days weeks by """.split()
+    t_const.CROSS + t_const.SLASH + """ average side times days weeks by """.split()
 )
 NOT_COUNT_ENTS = """ imperial_length metric_mass imperial_mass """.split()
 
@@ -76,7 +73,6 @@ def count_word(ent):
     ent._.new_label = "count"
     word = [e for e in ent.ents if e.label_ == "count_word"][0]
     word._.data = {"low": t_util.to_positive_int(term_utils.REPLACE[word.text.lower()])}
-    word._.new_label = "count"
 
 
 # ####################################################################################
