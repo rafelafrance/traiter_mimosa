@@ -12,4 +12,3 @@ rich
 scikit-image
 spacy
 tqdm
-click==7.1.2

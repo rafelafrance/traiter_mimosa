@@ -37,8 +37,8 @@ PART_AS_DISTANCE = MatcherPatterns(
 )
 
 SUBPART_AS_LOCATION = MatcherPatterns(
-    "subpart_location",
-    on_match="mimosa.subpart_location.v1",
+    "subpart_as_loc",
+    on_match=actions.TEXT_ACTION,
     decoder=DECODER,
     patterns=[
         "leader subpart",
@@ -51,11 +51,3 @@ SUBPART_AS_LOCATION = MatcherPatterns(
 def part_as_distance(ent):
     size_patterns.size(ent)
     ent._.new_label = "part_as_loc"
-    for e in [e for e in ent.ents if e._.cached_label != "metric_length"]:
-        e._.merge = True
-
-
-@registry.misc(SUBPART_AS_LOCATION.on_match)
-def subpart_location(ent):
-    ent._.new_label = "part_as_loc"
-    actions.text_action(ent)

@@ -724,3 +724,9 @@ class TestCount(unittest.TestCase):
                 },
             ],
         )
+
+    def test_count_37(self):
+        self.assertEqual(
+            test("Seeds 1000"),
+            [{"end": 5, "part": "seed", "start": 0, "trait": "part"}],
+        )

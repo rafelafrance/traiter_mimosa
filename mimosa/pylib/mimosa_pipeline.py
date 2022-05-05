@@ -1,6 +1,5 @@
 """Create a trait pipeline."""
 import spacy
-from traiter import tokenizer_util
 from traiter.patterns import matcher_patterns
 from traiter.pipes.add_traits_pipe import ADD_TRAITS
 from traiter.pipes.delete_traits_pipe import DELETE_TRAITS
@@ -9,6 +8,7 @@ from traiter.pipes.sentence_pipe import SENTENCE
 from traiter.pipes.simple_traits_pipe import SIMPLE_TRAITS
 from traiter.pipes.term_pipe import TERM_PIPE
 
+from . import tokenizer
 from .patterns import color_patterns
 from .patterns import count_patterns
 from .patterns import delete_trait_utils
@@ -25,22 +25,22 @@ from .patterns import subpart_linker_patterns
 from .patterns import subpart_patterns
 from .patterns import taxon_linker_patterns
 from .patterns import taxon_patterns
-from .patterns import term_utils
+from .patterns import term_patterns
 
 # from traiter.pipes import debug_pipes
 
 
 def pipeline():
     nlp = spacy.load("en_core_web_sm", exclude=["ner"])
-    tokenizer_util.append_tokenizer_regexes(nlp)
-    tokenizer_util.append_abbrevs(nlp, term_utils.ABBREVS)
+
+    tokenizer.setup_tokenizer(nlp)
 
     nlp.add_pipe(
         TERM_PIPE,
         before="parser",
         config={
-            "terms": term_utils.TERMS.terms,
-            "replace": term_utils.REPLACE,
+            "terms": term_patterns.TERMS.terms,
+            "replace": term_patterns.REPLACE,
         },
     )
 
@@ -78,7 +78,7 @@ def pipeline():
         },
     )
 
-    nlp.add_pipe(SIMPLE_TRAITS, config={"replace": term_utils.REPLACE})
+    nlp.add_pipe(SIMPLE_TRAITS, config={"replace": term_patterns.REPLACE})
 
     nlp.add_pipe(
         ADD_TRAITS,
@@ -129,7 +129,7 @@ def pipeline():
                     sex_linker_patterns.SEX_LINKER,
                     subpart_linker_patterns.SUBPART_LINKER,
                     taxon_linker_patterns.TAXON_LINKER,
-                ]
+                ],
             )
         },
     )

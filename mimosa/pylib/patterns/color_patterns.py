@@ -6,7 +6,7 @@ from traiter import const as t_const
 from traiter.patterns import matcher_patterns
 
 from . import common_patterns
-from . import term_utils
+from . import term_patterns
 
 MULTIPLE_DASHES = ["\\" + c for c in t_const.DASH_CHAR]
 MULTIPLE_DASHES = rf'\s*[{"".join(MULTIPLE_DASHES)}]{{2,}}\s*'
@@ -33,10 +33,10 @@ COLOR = matcher_patterns.MatcherPatterns(
 def color(ent):
     parts = []
     for token in ent:
-        replace = term_utils.REPLACE.get(token.lower_, token.lower_)
+        replace = term_patterns.REPLACE.get(token.lower_, token.lower_)
         if replace in SKIP:
             continue
-        if term_utils.REMOVE.get(token.lower_):
+        if term_patterns.REMOVE.get(token.lower_):
             continue
         if token.pos_ in ["AUX"]:
             continue
@@ -44,6 +44,6 @@ def color(ent):
 
     value = "-".join(parts)
     value = re.sub(MULTIPLE_DASHES, r"-", value)
-    ent._.data["color"] = term_utils.REPLACE.get(value, value)
+    ent._.data["color"] = term_patterns.REPLACE.get(value, value)
     if any(t for t in ent if t.lower_ in common_patterns.MISSING):
         ent._.data["missing"] = True

@@ -127,7 +127,13 @@ NOT_A_RANGE = MatcherPatterns(
 def on_range_match(ent):
     keys = ent.label_.split(".")[1:]
     nums = [t.text for t in ent if re.match(r"^[\d.]+$", t.text)]
+
+    # Reject big numbers
+    if any(float(n) >= 1000.0 for n in nums):
+        raise actions.RejectMatch()
+
     ent._.data = {k: v for k, v in zip(keys, nums)}
     for token in ent:
         token._.data = ent._.data
+
     ent._.new_label = "range"

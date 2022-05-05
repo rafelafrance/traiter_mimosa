@@ -1,31 +1,8 @@
-"""Utilities for dealing with terms."""
 import string
 
-from traiter.terms.db import Db
+from spacy.util import registry
+from traiter import tokenizer_util
 
-from .. import consts
-
-TERM_DB = consts.DATA_DIR / "plant_terms.sqlite"
-if not TERM_DB.exists():
-    TERM_DB = consts.MOCK_DIR / "plant_terms.sqlite"
-
-# #########################################################################
-TERMS = Db.shared("colors units taxon_levels time")
-TERMS += Db.select_term_set(TERM_DB, "plant_treatment")
-TERMS += Db.hyphenate_terms(TERMS)
-TERMS += Db.trailing_dash(TERMS, label="color")
-TERMS += Db.select_term_set(TERM_DB, "plant_taxa")
-TERMS.drop("imperial_length")
-TERMS.drop("time_units")
-
-REPLACE = TERMS.pattern_dict("replace")
-REMOVE = TERMS.pattern_dict("remove")
-
-LEVELS = TERMS.pattern_dict("level")
-LEVELS = {k: v.split() for k, v in LEVELS.items()}
-
-# #########################################################################
-# Tokenizer constants
 ABBREVS = """
     Jan. Feb. Febr. Mar. Apr. Jun. Jul. Aug. Sep. Sept. Oct. Nov. Dec.
     M. Var. Sect. Subsect. Ser. Subser. Subsp. Spec. Sp. Spp.
@@ -58,3 +35,18 @@ ABBREVS = """
     xviii. xx. xxi. xxii. xxiii. xxiv. xxv.
     """.split()
 ABBREVS += [f"{c}." for c in string.ascii_uppercase]
+
+TOKENIZER = "mimosa.custom_tokenizer.v1"
+
+
+def setup_tokenizer(nlp):
+    tokenizer_util.append_tokenizer_regexes(nlp)
+    tokenizer_util.append_abbrevs(nlp, ABBREVS)
+
+
+@registry.callbacks(TOKENIZER)
+def make_customized_tokenizer():
+    def customized_tokenizer(nlp):
+        setup_tokenizer(nlp)
+
+    return customized_tokenizer

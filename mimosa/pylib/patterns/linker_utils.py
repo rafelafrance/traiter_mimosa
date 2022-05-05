@@ -2,7 +2,7 @@
 
 TRAITS = set(
     """ color color_mod count location margin_shape part surface
-    size shape sex subpart woodiness part_as_loc """.split()
+    size shape sex subpart woodiness part_as_loc subpart_as_loc """.split()
 )
 
 

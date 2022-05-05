@@ -11,26 +11,26 @@ if [[ ! -z "$VIRTUAL_ENV" ]]; then
   exit 1
 fi
 
-rm -rf .venv
-virtualenv -p python3.10 .venv
+rm -r .venv
+python3.10 -m venv .venv
 source ./.venv/bin/activate
 
 python -m pip install --upgrade pip setuptools wheel
 if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-
 # ##############################################################################
-# Install a language library for spacy
+# Install spacy and language libraries
 
+python -m pip install -U 'spacy[cuda113,transformers,lookups]'
 python -m spacy download en_core_web_sm
+python -m spacy download en_core_web_lg
 
 
 # ##############################################################################
 # Use the 2nd line if you don't have traiter installed locally
 
-pip install -e ../traiter
 # pip install git+https://github.com/rafelafrance/traiter.git@master#egg=traiter
-
+pip install -e ../traiter
 
 # ##############################################################################
 # Some useful directories
@@ -39,7 +39,6 @@ mkdir -p data/images
 mkdir -p data/output
 mkdir -p data/pdfs
 mkdir -p data/text
-
 
 # ##############################################################################
 # Dev only installs (not required because they're personal preference)
@@ -58,3 +57,8 @@ pip install -U nbdime
 jupyter labextension install jupyterlab_onedarkpro
 jupyter server extension enable --py jupyterlab_git
 jupyter serverextension enable --py jupyterlab_code_formatter
+
+# ##############################################################################
+# I Run pre-commit hooks (optional)
+
+pre-commit install
