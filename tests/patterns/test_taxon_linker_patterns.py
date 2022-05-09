@@ -33,7 +33,6 @@ class TestTaxonLinker(unittest.TestCase):
                     "trait": "shape",
                     "start": 52,
                     "end": 57,
-                    "location": "petiolar",
                     "part": "anther",
                     "taxon": "ser. Glanduliferae",
                 },

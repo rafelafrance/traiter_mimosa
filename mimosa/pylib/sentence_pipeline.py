@@ -22,6 +22,6 @@ def pipeline():
         },
     )
 
-    nlp.add_pipe(SENTENCE, before="parser")
+    nlp.add_pipe(SENTENCE, before="parser", config={"abbrev": tokenizer.ABBREVS})
 
     return nlp

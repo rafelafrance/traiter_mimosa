@@ -3,8 +3,8 @@ import spacy
 from traiter.patterns import matcher_patterns
 from traiter.pipes.add_traits_pipe import ADD_TRAITS
 from traiter.pipes.delete_traits_pipe import DELETE_TRAITS
-from traiter.pipes.dependency_pipe import DEPENDENCY
-from traiter.pipes.sentence_pipe import SENTENCE
+from traiter.pipes.link_traits_pipe import LINK_TRAITS
+from traiter.pipes.merge_traits import MERGE_TRAITS
 from traiter.pipes.simple_traits_pipe import SIMPLE_TRAITS
 from traiter.pipes.term_pipe import TERM_PIPE
 
@@ -43,8 +43,6 @@ def pipeline():
             "replace": term_patterns.REPLACE,
         },
     )
-
-    nlp.add_pipe(SENTENCE, before="parser")
 
     nlp.add_pipe(
         ADD_TRAITS,
@@ -119,18 +117,59 @@ def pipeline():
 
     nlp.add_pipe(DELETE_TRAITS, config={"delete": delete_trait_utils.PARTIAL_TRAITS})
 
+    nlp.add_pipe(MERGE_TRAITS)
+
     nlp.add_pipe(
-        DEPENDENCY,
+        LINK_TRAITS,
+        name="link_parts",
         config={
+            "parent": part_linker_patterns.PART_PARENT,
+            "children": part_linker_patterns.PART_CHILDREN,
+            "patterns": matcher_patterns.as_dicts([part_linker_patterns.PART_LINKER]),
+        },
+    )
+
+    nlp.add_pipe(
+        LINK_TRAITS,
+        name="link_subparts",
+        config={
+            "parent": subpart_linker_patterns.SUBPART_PARENT,
+            "children": subpart_linker_patterns.SUBPART_CHILDREN,
             "patterns": matcher_patterns.as_dicts(
-                [
-                    location_linker_patterns.LOCATION_LINKER,
-                    part_linker_patterns.PART_LINKER,
-                    sex_linker_patterns.SEX_LINKER,
-                    subpart_linker_patterns.SUBPART_LINKER,
-                    taxon_linker_patterns.TAXON_LINKER,
-                ],
-            )
+                [subpart_linker_patterns.SUBPART_LINKER]
+            ),
+        },
+    )
+
+    nlp.add_pipe(
+        LINK_TRAITS,
+        name="link_taxa",
+        config={
+            "parent": taxon_linker_patterns.TAXON_PARENT,
+            "children": taxon_linker_patterns.TAXON_CHILDREN,
+            "patterns": matcher_patterns.as_dicts([taxon_linker_patterns.TAXON_LINKER]),
+        },
+    )
+
+    nlp.add_pipe(
+        LINK_TRAITS,
+        name="link_sex",
+        config={
+            "parent": sex_linker_patterns.SEX_PARENT,
+            "children": sex_linker_patterns.SEX_CHILDREN,
+            "patterns": matcher_patterns.as_dicts([sex_linker_patterns.SEX_LINKER]),
+        },
+    )
+
+    nlp.add_pipe(
+        LINK_TRAITS,
+        name="link_location",
+        config={
+            "parent": location_linker_patterns.LOCATION_PARENT,
+            "children": location_linker_patterns.LOCATION_CHILDREN,
+            "patterns": matcher_patterns.as_dicts(
+                [location_linker_patterns.LOCATION_LINKER],
+            ),
         },
     )
 

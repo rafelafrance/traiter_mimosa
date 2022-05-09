@@ -5,8 +5,8 @@ from traiter import tokenizer_util
 
 ABBREVS = """
     Jan. Feb. Febr. Mar. Apr. Jun. Jul. Aug. Sep. Sept. Oct. Nov. Dec.
-    M. Var. Sect. Subsect. Ser. Subser. Subsp. Spec. Sp. Spp.
-    m. var. sect. subsect. ser. subser. subsp. spec. sp. spp. nov.
+    Var. Sect. Subsect. Ser. Subser. Subsp. Spec. Sp. Spp.
+    var. sect. subsect. ser. subser. subsp. spec. sp. spp. nov.
     Acad. Agri. Amer. Ann. Arb. Arq. adj. al. alt. ann.
     Bol. Bot. Bras. Bull. bot. bras.
     Cat. Ci. Coll. Columb. Com. Contr. Cur. ca. cent. centr. cf. coll.

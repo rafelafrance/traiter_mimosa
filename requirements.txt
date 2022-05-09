@@ -10,5 +10,5 @@ pytesseract
 regex
 rich
 scikit-image
-spacy==3.2.4
+spacy
 tqdm

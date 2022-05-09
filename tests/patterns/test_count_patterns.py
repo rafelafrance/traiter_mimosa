@@ -325,6 +325,7 @@ class TestCount(unittest.TestCase):
                     "high": 7,
                     "max": 9,
                     "trait": "count",
+                    "subpart": "lobe",
                     "start": 22,
                     "end": 35,
                     "part": "leaf",

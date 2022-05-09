@@ -5,43 +5,23 @@ For example: "leaves are covered with white hairs 1-(1.5) mm long."
 Should link "hairs" with the color "white" and to the length "1 to 1.5 mm".
 Named entity recognition (NER) must be run first.
 """
-import copy
+from traiter.patterns import matcher_patterns
 
-from traiter import const as t_const
-from traiter.patterns.dependency_patterns import DependencyPatterns
-from traiter.pipes.dependency_pipe import LINK_NEAREST
+from . import common_patterns
+from . import term_patterns
 
-from . import linker_utils
+SUBPART_PARENT = "subpart"
+SUBPART_CHILDREN = term_patterns.remove_traits("subpart part location sex habit")
 
-TRAITS_ = linker_utils.remove_traits("subpart")
-
-punct_penalty = copy.deepcopy(t_const.PUNCT_PENALTY)
-punct_penalty[";"] = t_const.NEVER
-
-SUBPART_LINKER = DependencyPatterns(
+SUBPART_LINKER = matcher_patterns.MatcherPatterns(
     "subpart_linker",
-    on_match={
-        "func": LINK_NEAREST,
-        "kwargs": {"anchor": "subpart", "exclude": "part", "penalty": punct_penalty},
-    },
-    decoder={
-        "subpart": {"ENT_TYPE": "subpart"},
-        "part": {"ENT_TYPE": "part"},
-        "trait": {"ENT_TYPE": {"IN": TRAITS_}},
-        "count": {"ENT_TYPE": "count"},
-        "dash": {"TEXT": {"IN": t_const.DASH}},
-        "link": {"POS": {"IN": ["ADJ", "AUX", "VERB", "PART"]}},
+    decoder=common_patterns.COMMON_PATTERNS
+    | {
+        "subpart": {"ENT_TYPE": SUBPART_PARENT},
+        "trait": {"ENT_TYPE": {"IN": SUBPART_CHILDREN}},
     },
     patterns=[
-        "subpart ; dash ; count",
-        "subpart >> trait",
-        "subpart <  trait",
-        "subpart .  trait",
-        "subpart .  trait >> trait",
-        "subpart .  link  >> trait",
-        "subpart >  link  >> trait",
-        "subpart <  trait >> trait",
-        "subpart ;  part  <  link >> trait",
-        "subpart .  trait . link . trait",
+        "trait   word* subpart",
+        "subpart word* trait",
     ],
 )

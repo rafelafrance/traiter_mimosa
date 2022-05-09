@@ -2,6 +2,7 @@
 from tqdm import tqdm
 
 from .. import mimosa_pipeline
+from .. import sentence_pipeline
 from ..parsed_data import Datum
 
 
@@ -13,13 +14,21 @@ def read(args):
         lines = lines[: args.limit]
 
     nlp = mimosa_pipeline.pipeline()
+    sent_nlp = sentence_pipeline.pipeline()
 
     data = []
 
     for ln in tqdm(lines):
         ln = ln.strip()
-        doc = nlp(ln)
-        traits = [e._.data for e in doc.ents]
-        data.append(Datum(text=ln, traits=traits))
+        sent_doc = sent_nlp(ln)
+        for sent in sent_doc.sents:
+            doc = nlp(sent.text)
+            traits = []
+            for ent in doc.ents:
+                trait = ent._.data
+                trait["start"] += sent.start_char
+                trait["end"] += sent.start_char
+                traits += [e._.data for e in doc.ents]
+            data.append(Datum(text=sent.text, traits=traits))
 
     return data

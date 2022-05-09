@@ -1,23 +1,21 @@
 """Link traits to taxa."""
-from traiter.patterns.dependency_patterns import DependencyPatterns
-from traiter.pipes.dependency_pipe import LINK_NEAREST
+from traiter.patterns import matcher_patterns
 
-from . import linker_utils
+from . import common_patterns
+from . import term_patterns
 
-TRAITS_ = list(linker_utils.TRAITS)
+TAXON_PARENT = "taxon"
+TAXON_CHILDREN = term_patterns.remove_traits("taxon")
 
-TAXON_LINKER = DependencyPatterns(
+TAXON_LINKER = matcher_patterns.MatcherPatterns(
     "taxon_linker",
-    on_match={
-        "func": LINK_NEAREST,
-        "kwargs": {"anchor": "taxon"},
-    },
-    decoder={
-        "trait": {"ENT_TYPE": {"IN": TRAITS_}},
-        "taxon": {"ENT_TYPE": "taxon"},
+    decoder=common_patterns.COMMON_PATTERNS
+    | {
+        "taxon": {"ENT_TYPE": TAXON_PARENT},
+        "trait": {"ENT_TYPE": {"IN": TAXON_CHILDREN}},
     },
     patterns=[
-        "trait >> taxon",
-        "taxon >> trait",
+        "trait any* taxon",
+        "taxon any* trait",
     ],
 )

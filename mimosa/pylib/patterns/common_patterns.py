@@ -8,6 +8,7 @@ MISSING = """
     """.split()
 
 COMMON_PATTERNS = {
+    "any": {"LOWER": {"REGEX": r"""^(\w+\.\w*|\w*\.\w+|[\w()\[\],\-]+)$"""}},
     "(": {"TEXT": {"IN": t_const.OPEN}},
     ")": {"TEXT": {"IN": t_const.CLOSE}},
     "-": {"TEXT": {"IN": t_const.DASH}, "OP": "+"},
@@ -27,4 +28,5 @@ COMMON_PATTERNS = {
     "99.9": {"TEXT": {"REGEX": t_const.FLOAT_TOKEN_RE}},
     "99-99": {"ENT_TYPE": "range"},
     "99.9-99.9": {"ENT_TYPE": "range"},
+    "word": {"LOWER": {"REGEX": r"""^(\w+\.\w*|\w*\.\w+|[\w()\[\],\-]+)$"""}},
 }

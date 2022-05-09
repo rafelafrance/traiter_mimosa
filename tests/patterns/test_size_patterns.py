@@ -661,6 +661,7 @@ class TestSize(unittest.TestCase):
                     "start": 7,
                     "end": 18,
                     "part": "petal",
+                    "subpart": "keel",
                 },
                 {
                     "subpart": "keel",
@@ -816,13 +817,13 @@ class TestSize(unittest.TestCase):
                     "trait": "size",
                     "start": 18,
                     "end": 25,
-                    "part": "shrub",
+                    "part": "tree",
                 },
                 {"part": "bark", "trait": "part", "start": 26, "end": 30},
                 {
                     "color": "gray",
                     "trait": "color",
-                    "start": 31,
+                    "start": 40,
                     "end": 49,
                     "part": "bark",
                 },
