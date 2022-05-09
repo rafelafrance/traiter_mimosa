@@ -11,14 +11,14 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("Seeds [1–]3–12[–30]."),
             [
-                {"part": "seed", "trait": "part", "start": 0, "end": 5},
+                {"fruit_part": "seed", "trait": "fruit_part", "start": 0, "end": 5},
                 {
                     "min": 1,
                     "low": 3,
                     "high": 12,
                     "max": 30,
                     "trait": "count",
-                    "part": "seed",
+                    "fruit_part": "seed",
                     "start": 6,
                     "end": 19,
                 },
@@ -30,12 +30,12 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("Seeds 3–12."),
             [
-                {"part": "seed", "trait": "part", "start": 0, "end": 5},
+                {"fruit_part": "seed", "trait": "fruit_part", "start": 0, "end": 5},
                 {
                     "low": 3,
                     "high": 12,
                     "trait": "count",
-                    "part": "seed",
+                    "fruit_part": "seed",
                     "start": 6,
                     "end": 10,
                 },
@@ -46,7 +46,7 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("blade 5–10 × 4–9 cm"),
             [
-                {"part": "leaf", "trait": "part", "start": 0, "end": 5},
+                {"leaf_part": "blade", "trait": "leaf_part", "start": 0, "end": 5},
                 {
                     "length_low": 5.0,
                     "length_high": 10.0,
@@ -54,7 +54,7 @@ class TestCount(unittest.TestCase):
                     "trait": "size",
                     "start": 6,
                     "end": 19,
-                    "part": "leaf",
+                    "leaf_part": "blade",
                     "width_low": 4.0,
                     "width_high": 9.0,
                     "width_units": "cm",
@@ -66,14 +66,13 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("petals 5, connate 1/2–2/3 length"),
             [
-                {"part": "petal", "trait": "part", "start": 0, "end": 6},
-                {"low": 5, "trait": "count", "part": "petal", "start": 7, "end": 8},
+                {"flower_part": "petal", "trait": "flower_part", "start": 0, "end": 6},
                 {
-                    "shape": "connate",
-                    "trait": "shape",
-                    "part": "petal",
-                    "start": 10,
-                    "end": 17,
+                    "low": 5,
+                    "trait": "count",
+                    "flower_part": "petal",
+                    "start": 7,
+                    "end": 8,
                 },
             ],
         )
@@ -82,12 +81,17 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("ovules mostly 120–200."),
             [
-                {"part": "ovary", "trait": "part", "start": 0, "end": 6},
+                {
+                    "female_flower_part": "ovary",
+                    "trait": "female_flower_part",
+                    "start": 0,
+                    "end": 6,
+                },
                 {
                     "low": 120,
                     "high": 200,
                     "trait": "count",
-                    "part": "ovary",
+                    "female_flower_part": "ovary",
                     "start": 14,
                     "end": 21,
                 },
@@ -100,14 +104,14 @@ class TestCount(unittest.TestCase):
             [
                 {
                     "sex": "staminate",
-                    "part": "flower",
+                    "flower_part": "flower",
                     "trait": "sex",
                     "start": 0,
                     "end": 9,
                 },
                 {
-                    "part": "flower",
-                    "trait": "part",
+                    "flower_part": "flower",
+                    "trait": "flower_part",
                     "start": 10,
                     "end": 17,
                     "sex": "staminate",
@@ -120,7 +124,7 @@ class TestCount(unittest.TestCase):
                     "trait": "count",
                     "start": 18,
                     "end": 31,
-                    "part": "flower",
+                    "flower_part": "flower",
                     "sex": "staminate",
                 },
             ],
@@ -130,12 +134,17 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("Ovaries (4 or)5,"),
             [
-                {"part": "ovary", "trait": "part", "start": 0, "end": 7},
+                {
+                    "female_flower_part": "ovary",
+                    "trait": "female_flower_part",
+                    "start": 0,
+                    "end": 7,
+                },
                 {
                     "min": 4,
                     "low": 5,
                     "trait": "count",
-                    "part": "ovary",
+                    "female_flower_part": "ovary",
                     "start": 8,
                     "end": 15,
                 },
@@ -146,12 +155,12 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("Seeds 5(or 6)"),
             [
-                {"part": "seed", "trait": "part", "start": 0, "end": 5},
+                {"fruit_part": "seed", "trait": "fruit_part", "start": 0, "end": 5},
                 {
                     "low": 5,
                     "max": 6,
                     "trait": "count",
-                    "part": "seed",
+                    "fruit_part": "seed",
                     "start": 6,
                     "end": 13,
                 },
@@ -162,12 +171,12 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("Seeds 5 (or 6)"),
             [
-                {"part": "seed", "trait": "part", "start": 0, "end": 5},
+                {"fruit_part": "seed", "trait": "fruit_part", "start": 0, "end": 5},
                 {
                     "low": 5,
                     "max": 6,
                     "trait": "count",
-                    "part": "seed",
+                    "fruit_part": "seed",
                     "start": 6,
                     "end": 14,
                 },
@@ -177,23 +186,36 @@ class TestCount(unittest.TestCase):
     def test_count_10(self):
         self.assertEqual(
             test("leaf (12-)23-34 × 45-56"),
-            [{"part": "leaf", "trait": "part", "start": 0, "end": 4}],
+            [{"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 4}],
         )
 
     def test_count_11(self):
         self.assertEqual(
             test("stigma papillose on 1 side,"),
-            [{"part": "stigma", "trait": "part", "start": 0, "end": 6}],
+            [
+                {
+                    "female_flower_part": "stigma",
+                    "trait": "female_flower_part",
+                    "start": 0,
+                    "end": 6,
+                }
+            ],
         )
 
     def test_count_12(self):
         self.assertEqual(
             test("Male flowers with 2-8(-20) stamens;"),
             [
-                {"sex": "male", "trait": "sex", "start": 0, "end": 4, "part": "flower"},
                 {
-                    "part": "flower",
-                    "trait": "part",
+                    "sex": "male",
+                    "trait": "sex",
+                    "start": 0,
+                    "end": 4,
+                    "flower_part": "flower",
+                },
+                {
+                    "flower_part": "flower",
+                    "trait": "flower_part",
                     "start": 5,
                     "end": 12,
                     "sex": "male",
@@ -205,12 +227,12 @@ class TestCount(unittest.TestCase):
                     "trait": "count",
                     "start": 18,
                     "end": 26,
-                    "part": "stamen",
+                    "male_flower_part": "stamen",
                     "sex": "male",
                 },
                 {
-                    "part": "stamen",
-                    "trait": "part",
+                    "male_flower_part": "stamen",
+                    "trait": "male_flower_part",
                     "start": 27,
                     "end": 34,
                     "sex": "male",
@@ -222,7 +244,7 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("leaflets in 3 or 4 pairs,"),
             [
-                {"part": "leaflet", "trait": "part", "start": 0, "end": 8},
+                {"leaf_part": "leaflet", "trait": "leaf_part", "start": 0, "end": 8},
                 {
                     "low": 3,
                     "high": 4,
@@ -230,7 +252,7 @@ class TestCount(unittest.TestCase):
                     "trait": "count",
                     "start": 12,
                     "end": 24,
-                    "part": "leaflet",
+                    "leaf_part": "leaflet",
                 },
             ],
         )
@@ -239,10 +261,10 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("leaflets/lobes 11–23,"),
             [
-                {"part": "leaflet", "trait": "part", "start": 0, "end": 8},
+                {"leaf_part": "leaflet", "trait": "leaf_part", "start": 0, "end": 8},
                 {
                     "subpart": "lobe",
-                    "part": "leaflet",
+                    "leaf_part": "leaflet",
                     "trait": "subpart",
                     "start": 9,
                     "end": 14,
@@ -251,7 +273,7 @@ class TestCount(unittest.TestCase):
                     "low": 11,
                     "high": 23,
                     "trait": "count",
-                    "part": "leaflet",
+                    "leaf_part": "leaflet",
                     "subpart": "lobe",
                     "start": 15,
                     "end": 20,
@@ -263,7 +285,7 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("leaflets in 3 or 4(or 5) pairs,"),
             [
-                {"part": "leaflet", "trait": "part", "start": 0, "end": 8},
+                {"leaf_part": "leaflet", "trait": "leaf_part", "start": 0, "end": 8},
                 {
                     "low": 3,
                     "high": 4,
@@ -272,7 +294,7 @@ class TestCount(unittest.TestCase):
                     "trait": "count",
                     "start": 12,
                     "end": 30,
-                    "part": "leaflet",
+                    "leaf_part": "leaflet",
                 },
             ],
         )
@@ -287,13 +309,13 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("""leaf 0.5–1 times as long as opaque base."""),
             [
-                {"part": "leaf", "trait": "part", "start": 0, "end": 4},
+                {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 4},
                 {
                     "subpart": "base",
                     "trait": "subpart",
                     "start": 35,
                     "end": 39,
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                 },
             ],
         )
@@ -319,23 +341,30 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("Leaves imparipinnate, 5- or 7(or 9)-foliolate;"),
             [
-                {"part": "leaf", "trait": "part", "start": 0, "end": 6},
+                {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 6},
+                {
+                    "leaf_shape": "imparipinnate",
+                    "trait": "leaf_shape",
+                    "start": 7,
+                    "end": 20,
+                    "leaf_part": "leaf",
+                },
                 {
                     "low": 5,
                     "high": 7,
                     "max": 9,
                     "trait": "count",
-                    "subpart": "lobe",
                     "start": 22,
                     "end": 35,
-                    "part": "leaf",
+                    "leaf_part": "leaf",
+                    "subpart": "lobe",
                 },
                 {
                     "subpart": "lobe",
                     "trait": "subpart",
                     "start": 35,
                     "end": 45,
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                 },
             ],
         )
@@ -344,7 +373,7 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("Seeds (1 or)2 or 3 per legume,"),
             [
-                {"part": "seed", "trait": "part", "start": 0, "end": 5},
+                {"fruit_part": "seed", "trait": "fruit_part", "start": 0, "end": 5},
                 {
                     "min": 1,
                     "low": 2,
@@ -352,9 +381,9 @@ class TestCount(unittest.TestCase):
                     "trait": "count",
                     "start": 6,
                     "end": 18,
-                    "part": "seed",
+                    "fruit_part": "seed",
                 },
-                {"part": "legume", "trait": "part", "start": 23, "end": 29},
+                {"fruit_part": "legume", "trait": "fruit_part", "start": 23, "end": 29},
             ],
         )
 
@@ -362,7 +391,12 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("Racemes compact, 1- or 2- or 5-7-flowered"),
             [
-                {"part": "inflorescence", "trait": "part", "start": 0, "end": 7},
+                {
+                    "inflorescence": "racemes",
+                    "trait": "inflorescence",
+                    "start": 0,
+                    "end": 7,
+                },
                 {
                     "min": 1,
                     "low": 2,
@@ -371,15 +405,15 @@ class TestCount(unittest.TestCase):
                     "trait": "count",
                     "start": 17,
                     "end": 32,
-                    "part": "inflorescence",
+                    "inflorescence": "racemes",
                     "subpart": "flowered",
                 },
                 {
                     "subpart": "flowered",
+                    "inflorescence": "racemes",
                     "trait": "subpart",
                     "start": 32,
                     "end": 41,
-                    "part": "inflorescence",
                 },
             ],
         )
@@ -405,7 +439,7 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("leaflets (2or)3- or 4(or 5)-paired"),
             [
-                {"part": "leaflet", "trait": "part", "start": 0, "end": 8},
+                {"leaf_part": "leaflet", "trait": "leaf_part", "start": 0, "end": 8},
                 {
                     "min": 2,
                     "low": 3,
@@ -414,8 +448,8 @@ class TestCount(unittest.TestCase):
                     "trait": "count",
                     "start": 9,
                     "end": 34,
-                    "count_group": "pair",
-                    "part": "leaflet",
+                    "count_group": "pairs",
+                    "leaf_part": "leaflet",
                 },
             ],
         )
@@ -424,7 +458,7 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("Leaves (19-)23- or 25-foliolate;"),
             [
-                {"part": "leaf", "trait": "part", "start": 0, "end": 6},
+                {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 6},
                 {
                     "min": 19,
                     "low": 23,
@@ -432,7 +466,7 @@ class TestCount(unittest.TestCase):
                     "trait": "count",
                     "start": 7,
                     "end": 21,
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "subpart": "lobe",
                 },
                 {
@@ -440,7 +474,7 @@ class TestCount(unittest.TestCase):
                     "trait": "subpart",
                     "start": 21,
                     "end": 31,
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                 },
             ],
         )
@@ -449,11 +483,11 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("Calyx (5-lobed)"),
             [
-                {"part": "calyx", "trait": "part", "start": 0, "end": 5},
+                {"flower_part": "calyx", "trait": "flower_part", "start": 0, "end": 5},
                 {
                     "low": 5,
                     "trait": "count",
-                    "part": "calyx",
+                    "flower_part": "calyx",
                     "subpart": "lobe",
                     "start": 7,
                     "end": 8,
@@ -463,7 +497,7 @@ class TestCount(unittest.TestCase):
                     "trait": "subpart",
                     "start": 8,
                     "end": 14,
-                    "part": "calyx",
+                    "flower_part": "calyx",
                 },
             ],
         )
@@ -472,13 +506,13 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("blade lobes 0 or 1–4(or 5) per side"),
             [
-                {"part": "leaf", "trait": "part", "start": 0, "end": 5},
+                {"leaf_part": "blade", "trait": "leaf_part", "start": 0, "end": 5},
                 {
                     "subpart": "lobe",
                     "trait": "subpart",
                     "start": 6,
                     "end": 11,
-                    "part": "leaf",
+                    "leaf_part": "blade",
                 },
                 {
                     "min": 0,
@@ -489,7 +523,7 @@ class TestCount(unittest.TestCase):
                     "trait": "count",
                     "start": 12,
                     "end": 35,
-                    "part": "leaf",
+                    "leaf_part": "blade",
                     "subpart": "lobe",
                 },
             ],
@@ -516,13 +550,18 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("stamens 5–10 or 20."),
             [
-                {"part": "stamen", "trait": "part", "start": 0, "end": 7},
+                {
+                    "male_flower_part": "stamen",
+                    "trait": "male_flower_part",
+                    "start": 0,
+                    "end": 7,
+                },
                 {
                     "low": 5,
                     "high": 10,
                     "max": 20,
                     "trait": "count",
-                    "part": "stamen",
+                    "male_flower_part": "stamen",
                     "start": 8,
                     "end": 18,
                 },
@@ -533,13 +572,13 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("blade lobes 0 or 1–4(–9) per side"),
             [
-                {"part": "leaf", "trait": "part", "start": 0, "end": 5},
+                {"leaf_part": "blade", "trait": "leaf_part", "start": 0, "end": 5},
                 {
                     "subpart": "lobe",
                     "trait": "subpart",
                     "start": 6,
                     "end": 11,
-                    "part": "leaf",
+                    "leaf_part": "blade",
                 },
                 {
                     "min": 0,
@@ -550,7 +589,7 @@ class TestCount(unittest.TestCase):
                     "start": 12,
                     "end": 33,
                     "count_group": "per side",
-                    "part": "leaf",
+                    "leaf_part": "blade",
                     "subpart": "lobe",
                 },
             ],
@@ -560,24 +599,29 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("Inflorescences 1–64(–90)[–100]-flowered"),
             [
-                {"part": "inflorescence", "trait": "part", "start": 0, "end": 14},
+                {
+                    "inflorescence": "inflorescence",
+                    "trait": "inflorescence",
+                    "start": 0,
+                    "end": 14,
+                },
                 {
                     "min": 1,
                     "low": 64,
                     "high": 90,
                     "max": 100,
                     "trait": "count",
-                    "part": "inflorescence",
-                    "subpart": "flowered",
                     "start": 15,
                     "end": 30,
+                    "inflorescence": "inflorescence",
+                    "subpart": "flowered",
                 },
                 {
                     "subpart": "flowered",
                     "trait": "subpart",
                     "start": 30,
                     "end": 39,
-                    "part": "inflorescence",
+                    "inflorescence": "inflorescence",
                 },
             ],
         )
@@ -586,8 +630,14 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("sepals absent;"),
             [
-                {"part": "sepal", "trait": "part", "start": 0, "end": 6},
-                {"low": 0, "trait": "count", "part": "sepal", "start": 7, "end": 13},
+                {"flower_part": "sepal", "trait": "flower_part", "start": 0, "end": 6},
+                {
+                    "low": 0,
+                    "trait": "count",
+                    "flower_part": "sepal",
+                    "start": 7,
+                    "end": 13,
+                },
             ],
         )
 
@@ -600,11 +650,11 @@ class TestCount(unittest.TestCase):
                     "trait": "sex",
                     "start": 0,
                     "end": 9,
-                    "part": "catkin",
+                    "inflorescence": "catkin",
                 },
                 {
-                    "part": "catkin",
-                    "trait": "part",
+                    "inflorescence": "catkin",
+                    "trait": "inflorescence",
                     "start": 10,
                     "end": 17,
                     "sex": "staminate",
@@ -614,7 +664,7 @@ class TestCount(unittest.TestCase):
                     "trait": "count",
                     "start": 21,
                     "end": 22,
-                    "part": "catkin",
+                    "inflorescence": "catkin",
                     "sex": "staminate",
                 },
                 {
@@ -623,7 +673,7 @@ class TestCount(unittest.TestCase):
                     "trait": "count",
                     "start": 43,
                     "end": 47,
-                    "part": "catkin",
+                    "inflorescence": "catkin",
                     "sex": "staminate",
                 },
             ],
@@ -633,13 +683,18 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("""Cymes [1–]few[–many]-flowered."""),
             [
-                {"part": "cyme", "trait": "part", "start": 0, "end": 5},
+                {
+                    "inflorescence": "cyme",
+                    "trait": "inflorescence",
+                    "start": 0,
+                    "end": 5,
+                },
                 {
                     "low": 1,
                     "trait": "count",
                     "start": 6,
                     "end": 20,
-                    "part": "cyme",
+                    "inflorescence": "cyme",
                     "subpart": "flowered",
                 },
                 {
@@ -647,7 +702,7 @@ class TestCount(unittest.TestCase):
                     "trait": "subpart",
                     "start": 20,
                     "end": 29,
-                    "part": "cyme",
+                    "inflorescence": "cyme",
                 },
             ],
         )
@@ -656,7 +711,7 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("""Capsules [2–]3[–5+]-locular."""),
             [
-                {"part": "capsule", "trait": "part", "start": 0, "end": 8},
+                {"fruit_part": "capsule", "trait": "fruit_part", "start": 0, "end": 8},
                 {
                     "min": 2,
                     "low": 3,
@@ -664,7 +719,7 @@ class TestCount(unittest.TestCase):
                     "trait": "count",
                     "start": 9,
                     "end": 19,
-                    "part": "capsule",
+                    "fruit_part": "capsule",
                     "subpart": "locular",
                 },
                 {
@@ -672,7 +727,7 @@ class TestCount(unittest.TestCase):
                     "trait": "subpart",
                     "start": 19,
                     "end": 27,
-                    "part": "capsule",
+                    "fruit_part": "capsule",
                 },
             ],
         )
@@ -681,13 +736,13 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("""Capsule 2-locular. x = 9."""),
             [
-                {"part": "capsule", "trait": "part", "start": 0, "end": 7},
+                {"fruit_part": "capsule", "trait": "fruit_part", "start": 0, "end": 7},
                 {
                     "low": 2,
                     "trait": "count",
                     "start": 8,
                     "end": 9,
-                    "part": "capsule",
+                    "fruit_part": "capsule",
                     "subpart": "locular",
                 },
                 {
@@ -695,10 +750,8 @@ class TestCount(unittest.TestCase):
                     "trait": "subpart",
                     "start": 9,
                     "end": 17,
-                    "part": "capsule",
+                    "fruit_part": "capsule",
                 },
-                {"part": "x", "trait": "part", "start": 19, "end": 22},
-                {"low": 9, "trait": "count", "start": 23, "end": 24, "part": "x"},
             ],
         )
 
@@ -706,14 +759,14 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("""Flowers mostly 4- or 5-merous"""),
             [
-                {"part": "flower", "trait": "part", "start": 0, "end": 7},
+                {"flower_part": "flower", "trait": "flower_part", "start": 0, "end": 7},
                 {
                     "low": 4,
                     "high": 5,
                     "trait": "count",
                     "start": 15,
                     "end": 22,
-                    "part": "flower",
+                    "flower_part": "flower",
                     "subpart": "merous",
                 },
                 {
@@ -721,7 +774,7 @@ class TestCount(unittest.TestCase):
                     "trait": "subpart",
                     "start": 22,
                     "end": 29,
-                    "part": "flower",
+                    "flower_part": "flower",
                 },
             ],
         )
@@ -729,5 +782,5 @@ class TestCount(unittest.TestCase):
     def test_count_37(self):
         self.assertEqual(
             test("Seeds 1000"),
-            [{"end": 5, "part": "seed", "start": 0, "trait": "part"}],
+            [{"end": 5, "fruit_part": "seed", "start": 0, "trait": "fruit_part"}],
         )

@@ -23,8 +23,7 @@ LEVELS = {k: v.split() for k, v in LEVELS.items()}
 
 
 # #########################################################################
-PARTS = set(
-    """
+PARTS = """
     female_flower_part
     flower_part
     fruit_part
@@ -33,18 +32,26 @@ PARTS = set(
     male_flower_part
     part
     """.split()
-)
-LOCATIONS = set(""" flower_location location """.split())
-MORPHOLOGIES = set(""" flower_morphology plant_morphology """.split())
-SHAPES = set(""" leaf_shape shape """.split())
-TRAITS = PARTS | set(
-    """
+PARTS_SET = set(PARTS)
+
+LOCATIONS = """ flower_location location """.split()
+MORPHOLOGIES = """ flower_morphology plant_morphology """.split()
+SHAPES = """ leaf_shape shape """.split()
+PLANT_TRAITS = """ plant_duration plant_habit """.split()
+
+TRAITS = (
+    PARTS
+    + LOCATIONS
+    + SHAPES
+    + """
+    color
+    color_mod
+    count
+    size
     habitat
     leaf_duration
     leaf_folding
     leaf_margin
-    plant_duration
-    plant_habit
     reproduction
     sex
     subpart
@@ -57,5 +64,5 @@ TRAITS = PARTS | set(
 )
 
 
-def remove_traits(remove: str) -> list:
-    return list(set(TRAITS) - set(remove.split()))
+def remove_traits(removes: list[str]) -> list:
+    return [t for t in TRAITS if t not in removes]

@@ -4,14 +4,14 @@ from traiter.patterns import matcher_patterns
 from . import common_patterns
 from . import term_patterns
 
-TAXON_PARENT = "taxon"
+TAXON_PARENTS = ["taxon"]
 TAXON_CHILDREN = term_patterns.remove_traits("taxon")
 
 TAXON_LINKER = matcher_patterns.MatcherPatterns(
     "taxon_linker",
     decoder=common_patterns.COMMON_PATTERNS
     | {
-        "taxon": {"ENT_TYPE": TAXON_PARENT},
+        "taxon": {"ENT_TYPE": {"IN": TAXON_PARENTS}},
         "trait": {"ENT_TYPE": {"IN": TAXON_CHILDREN}},
     },
     patterns=[

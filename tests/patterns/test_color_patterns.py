@@ -15,20 +15,25 @@ class TestColor(unittest.TestCase):
             """
             ),
             [
-                {"part": "hypanthium", "trait": "part", "start": 0, "end": 10},
+                {
+                    "flower_part": "hypanthium",
+                    "trait": "flower_part",
+                    "start": 0,
+                    "end": 10,
+                },
                 {
                     "color": "green",
                     "trait": "color",
                     "start": 11,
                     "end": 16,
-                    "part": "hypanthium",
+                    "flower_part": "hypanthium",
                 },
                 {
                     "color": "green-yellow",
                     "trait": "color",
                     "start": 20,
                     "end": 35,
-                    "part": "hypanthium",
+                    "flower_part": "hypanthium",
                 },
                 {
                     "color": "purple-spotted",
@@ -36,7 +41,7 @@ class TestColor(unittest.TestCase):
                     "trait": "color",
                     "start": 45,
                     "end": 63,
-                    "part": "hypanthium",
+                    "flower_part": "hypanthium",
                 },
                 {
                     "color": "purple-spotted",
@@ -45,7 +50,7 @@ class TestColor(unittest.TestCase):
                     "start": 65,
                     "end": 86,
                     "location": "distally",
-                    "part": "hypanthium",
+                    "flower_part": "hypanthium",
                 },
             ],
         )
@@ -54,25 +59,30 @@ class TestColor(unittest.TestCase):
         self.assertEqual(
             test("hypanthium straw-colored to sulphur-yellow or golden-yellow."),
             [
-                {"part": "hypanthium", "trait": "part", "start": 0, "end": 10},
+                {
+                    "flower_part": "hypanthium",
+                    "trait": "flower_part",
+                    "start": 0,
+                    "end": 10,
+                },
                 {
                     "color": "yellow",
                     "trait": "color",
-                    "part": "hypanthium",
+                    "flower_part": "hypanthium",
                     "start": 11,
                     "end": 24,
                 },
                 {
                     "color": "yellow",
                     "trait": "color",
-                    "part": "hypanthium",
+                    "flower_part": "hypanthium",
                     "start": 28,
                     "end": 42,
                 },
                 {
                     "color": "yellow",
                     "trait": "color",
-                    "part": "hypanthium",
+                    "flower_part": "hypanthium",
                     "start": 46,
                     "end": 59,
                 },
@@ -83,18 +93,18 @@ class TestColor(unittest.TestCase):
         self.assertEqual(
             test("sepals erect, green- or red-tipped."),
             [
-                {"part": "sepal", "trait": "part", "start": 0, "end": 6},
+                {"flower_part": "sepal", "trait": "flower_part", "start": 0, "end": 6},
                 {
                     "color": "green",
                     "trait": "color",
-                    "part": "sepal",
+                    "flower_part": "sepal",
                     "start": 14,
                     "end": 20,
                 },
                 {
                     "color": "red-tipped",
                     "trait": "color",
-                    "part": "sepal",
+                    "flower_part": "sepal",
                     "start": 24,
                     "end": 34,
                 },
@@ -105,39 +115,39 @@ class TestColor(unittest.TestCase):
         self.assertEqual(
             test("petals white, cream, or pale green [orange to yellow]."),
             [
-                {"part": "petal", "trait": "part", "start": 0, "end": 6},
+                {"flower_part": "petal", "trait": "flower_part", "start": 0, "end": 6},
                 {
                     "color": "white",
                     "trait": "color",
-                    "part": "petal",
+                    "flower_part": "petal",
                     "start": 7,
                     "end": 12,
                 },
                 {
                     "color": "white",
                     "trait": "color",
-                    "part": "petal",
+                    "flower_part": "petal",
                     "start": 14,
                     "end": 19,
                 },
                 {
                     "color": "green",
                     "trait": "color",
-                    "part": "petal",
+                    "flower_part": "petal",
                     "start": 24,
                     "end": 34,
                 },
                 {
                     "color": "orange",
                     "trait": "color",
-                    "part": "petal",
+                    "flower_part": "petal",
                     "start": 36,
                     "end": 42,
                 },
                 {
                     "color": "yellow",
                     "trait": "color",
-                    "part": "petal",
+                    "flower_part": "petal",
                     "start": 46,
                     "end": 52,
                 },
@@ -156,53 +166,53 @@ class TestColor(unittest.TestCase):
                 """
             ),
             [
-                {"part": "petal", "trait": "part", "start": 0, "end": 6},
+                {"flower_part": "petal", "trait": "flower_part", "start": 0, "end": 6},
                 {
                     "color": "white",
                     "trait": "color",
-                    "part": "petal",
+                    "flower_part": "petal",
                     "start": 17,
                     "end": 22,
                 },
                 {
                     "color": "white",
                     "trait": "color",
-                    "part": "petal",
+                    "flower_part": "petal",
                     "start": 26,
                     "end": 31,
                 },
                 {
                     "color": "green-yellow",
                     "trait": "color",
-                    "part": "petal",
+                    "flower_part": "petal",
                     "start": 33,
                     "end": 48,
                 },
                 {
                     "color": "yellow",
                     "trait": "color",
-                    "part": "petal",
+                    "flower_part": "petal",
                     "start": 59,
                     "end": 68,
                 },
                 {
                     "color": "brown",
                     "trait": "color",
-                    "part": "petal",
+                    "flower_part": "petal",
                     "start": 72,
                     "end": 82,
                 },
                 {
                     "color": "green",
                     "trait": "color",
-                    "part": "petal",
+                    "flower_part": "petal",
                     "start": 109,
                     "end": 120,
                 },
                 {
                     "color": "white-longitudinal-stripes",
                     "trait": "color",
-                    "part": "petal",
+                    "flower_part": "petal",
                     "start": 124,
                     "end": 150,
                 },
@@ -219,53 +229,53 @@ class TestColor(unittest.TestCase):
                 """
             ),
             [
-                {"part": "petal", "trait": "part", "start": 0, "end": 6},
+                {"flower_part": "petal", "trait": "flower_part", "start": 0, "end": 6},
                 {
                     "color": "white",
                     "trait": "color",
-                    "part": "petal",
+                    "flower_part": "petal",
                     "start": 17,
                     "end": 22,
                 },
                 {
                     "color": "white",
                     "trait": "color",
-                    "part": "petal",
+                    "flower_part": "petal",
                     "start": 26,
                     "end": 31,
                 },
                 {
                     "color": "green-white",
                     "trait": "color",
-                    "part": "petal",
+                    "flower_part": "petal",
                     "start": 33,
                     "end": 47,
                 },
                 {
                     "color": "yellow-green",
                     "trait": "color",
-                    "part": "petal",
+                    "flower_part": "petal",
                     "start": 52,
                     "end": 67,
                 },
                 {
                     "color": "yellow",
                     "trait": "color",
-                    "part": "petal",
+                    "flower_part": "petal",
                     "start": 72,
                     "end": 81,
                 },
                 {
                     "color": "green-throated",
                     "trait": "color",
-                    "part": "petal",
+                    "flower_part": "petal",
                     "start": 91,
                     "end": 105,
                 },
                 {
                     "color": "green-lined",
                     "trait": "color",
-                    "part": "petal",
+                    "flower_part": "petal",
                     "start": 110,
                     "end": 129,
                 },
@@ -276,11 +286,11 @@ class TestColor(unittest.TestCase):
         self.assertEqual(
             test("calyx yellow"),
             [
-                {"part": "calyx", "trait": "part", "start": 0, "end": 5},
+                {"flower_part": "calyx", "trait": "flower_part", "start": 0, "end": 5},
                 {
                     "color": "yellow",
                     "trait": "color",
-                    "part": "calyx",
+                    "flower_part": "calyx",
                     "start": 6,
                     "end": 12,
                 },
@@ -291,11 +301,16 @@ class TestColor(unittest.TestCase):
         self.assertEqual(
             test("corolla yellow"),
             [
-                {"part": "corolla", "trait": "part", "start": 0, "end": 7},
+                {
+                    "flower_part": "corolla",
+                    "trait": "flower_part",
+                    "start": 0,
+                    "end": 7,
+                },
                 {
                     "color": "yellow",
                     "trait": "color",
-                    "part": "corolla",
+                    "flower_part": "corolla",
                     "start": 8,
                     "end": 14,
                 },
@@ -306,11 +321,11 @@ class TestColor(unittest.TestCase):
         self.assertEqual(
             test("flower yellow"),
             [
-                {"part": "flower", "trait": "part", "start": 0, "end": 6},
+                {"flower_part": "flower", "trait": "flower_part", "start": 0, "end": 6},
                 {
                     "color": "yellow",
                     "trait": "color",
-                    "part": "flower",
+                    "flower_part": "flower",
                     "start": 7,
                     "end": 13,
                 },
@@ -321,11 +336,16 @@ class TestColor(unittest.TestCase):
         self.assertEqual(
             test("hypanthium yellow"),
             [
-                {"part": "hypanthium", "trait": "part", "start": 0, "end": 10},
+                {
+                    "flower_part": "hypanthium",
+                    "trait": "flower_part",
+                    "start": 0,
+                    "end": 10,
+                },
                 {
                     "color": "yellow",
                     "trait": "color",
-                    "part": "hypanthium",
+                    "flower_part": "hypanthium",
                     "start": 11,
                     "end": 17,
                 },
@@ -336,11 +356,11 @@ class TestColor(unittest.TestCase):
         self.assertEqual(
             test("petal pale sulfur-yellow."),
             [
-                {"part": "petal", "trait": "part", "start": 0, "end": 5},
+                {"flower_part": "petal", "trait": "flower_part", "start": 0, "end": 5},
                 {
                     "color": "yellow",
                     "trait": "color",
-                    "part": "petal",
+                    "flower_part": "petal",
                     "start": 6,
                     "end": 24,
                 },
@@ -351,11 +371,11 @@ class TestColor(unittest.TestCase):
         self.assertEqual(
             test("sepal yellow"),
             [
-                {"part": "sepal", "trait": "part", "start": 0, "end": 5},
+                {"flower_part": "sepal", "trait": "flower_part", "start": 0, "end": 5},
                 {
                     "color": "yellow",
                     "trait": "color",
-                    "part": "sepal",
+                    "flower_part": "sepal",
                     "start": 6,
                     "end": 12,
                 },
@@ -366,25 +386,25 @@ class TestColor(unittest.TestCase):
         self.assertEqual(
             test("Leaves acaulescent or nearly so, with white hairs."),
             [
-                {"part": "leaf", "trait": "part", "start": 0, "end": 6},
+                {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 6},
                 {
-                    "habit": "acaulescent",
-                    "trait": "habit",
-                    "part": "leaf",
+                    "plant_habit": "acaulescent",
+                    "trait": "plant_habit",
+                    "leaf_part": "leaf",
                     "start": 7,
                     "end": 18,
                 },
                 {
                     "color": "white",
                     "trait": "color",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "subpart": "hair",
                     "start": 38,
                     "end": 43,
                 },
                 {
                     "subpart": "hair",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "trait": "subpart",
                     "start": 44,
                     "end": 49,
@@ -396,21 +416,20 @@ class TestColor(unittest.TestCase):
         self.assertEqual(
             test("leaflets surfaces rather densely spotted with blackish dots"),
             [
-                {"part": "leaflet", "trait": "part", "start": 0, "end": 8},
+                {"leaf_part": "leaflet", "trait": "leaf_part", "start": 0, "end": 8},
                 {
-                    "subpart": "surface",
-                    "trait": "subpart",
+                    "surface": "surface",
+                    "trait": "surface",
                     "start": 9,
                     "end": 17,
-                    "part": "leaflet",
+                    "leaf_part": "leaflet",
                 },
                 {
                     "color": "black-dots",
                     "trait": "color",
                     "start": 46,
                     "end": 59,
-                    "part": "leaflet",
-                    "subpart": "surface",
+                    "leaf_part": "leaflet",
                 },
             ],
         )
@@ -419,18 +438,18 @@ class TestColor(unittest.TestCase):
         self.assertEqual(
             test("Petals purplish in life, whitish yel-lowish when dry;"),
             [
-                {"part": "petal", "trait": "part", "start": 0, "end": 6},
+                {"flower_part": "petal", "trait": "flower_part", "start": 0, "end": 6},
                 {
                     "color": "purple",
                     "trait": "color",
-                    "part": "petal",
+                    "flower_part": "petal",
                     "start": 7,
                     "end": 15,
                 },
                 {
                     "color": "white-yellow",
                     "trait": "color",
-                    "part": "petal",
+                    "flower_part": "petal",
                     "start": 25,
                     "end": 43,
                 },
@@ -441,18 +460,18 @@ class TestColor(unittest.TestCase):
         self.assertEqual(
             test("Petals red or golden yellowish"),
             [
-                {"part": "petal", "trait": "part", "start": 0, "end": 6},
+                {"flower_part": "petal", "trait": "flower_part", "start": 0, "end": 6},
                 {
                     "color": "red",
                     "trait": "color",
-                    "part": "petal",
+                    "flower_part": "petal",
                     "start": 7,
                     "end": 10,
                 },
                 {
                     "color": "yellow",
                     "trait": "color",
-                    "part": "petal",
+                    "flower_part": "petal",
                     "start": 14,
                     "end": 30,
                 },
@@ -480,7 +499,3 @@ class TestColor(unittest.TestCase):
                 },
             ],
         )
-
-
-if __name__ == "__main__":
-    unittest.main(argv=["first-arg-is-ignored"], exit=False)

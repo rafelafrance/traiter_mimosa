@@ -17,30 +17,48 @@ class TestDescriptor(unittest.TestCase):
             ),
             [
                 {
-                    "reproduction": "bisexual",
-                    "trait": "reproduction",
+                    "sex": "bisexual",
+                    "trait": "sex",
                     "start": 0,
                     "end": 8,
+                    "part": "plant",
                 },
                 {
-                    "reproduction": "unisexual",
-                    "trait": "reproduction",
+                    "sex": "unisexual",
+                    "trait": "sex",
                     "start": 10,
                     "end": 19,
+                    "part": "plant",
                 },
-                {"part": "plant", "trait": "part", "start": 24, "end": 30},
+                {
+                    "part": "plant",
+                    "trait": "part",
+                    "start": 24,
+                    "end": 30,
+                    "sex": "unisexual",
+                },
                 {
                     "reproduction": "gynodioecious",
                     "trait": "reproduction",
                     "start": 41,
                     "end": 54,
+                    "part": "plant",
+                    "sex": "unisexual",
                 },
-                {"part": "plant", "trait": "part", "start": 59, "end": 65},
+                {
+                    "part": "plant",
+                    "trait": "part",
+                    "start": 59,
+                    "end": 65,
+                    "sex": "unisexual",
+                },
                 {
                     "reproduction": "dioecious",
                     "trait": "reproduction",
                     "start": 66,
                     "end": 75,
+                    "part": "plant",
+                    "sex": "unisexual",
                 },
             ],
         )
@@ -67,7 +85,12 @@ class TestDescriptor(unittest.TestCase):
             test("Stems often caespitose"),
             [
                 {"part": "stem", "trait": "part", "start": 0, "end": 5},
-                {"habit": "caespitose", "trait": "habit", "start": 12, "end": 22},
+                {
+                    "plant_habit": "cespitose",
+                    "trait": "plant_habit",
+                    "start": 12,
+                    "end": 22,
+                },
             ],
         )
 
@@ -76,20 +99,30 @@ class TestDescriptor(unittest.TestCase):
             test("Herbs perennial or subshrubs, epiphytic or epilithic."),
             [
                 {
-                    "woodiness": "herbaceous",
+                    "woodiness": "herb",
                     "trait": "woodiness",
                     "start": 0,
                     "end": 5,
                     "part": "shrub",
                 },
                 {
-                    "duration": "perennial",
-                    "trait": "duration",
+                    "plant_duration": "perennial",
+                    "trait": "plant_duration",
                     "start": 6,
                     "end": 15,
                 },
                 {"part": "shrub", "trait": "part", "start": 19, "end": 28},
-                {"habitat": "epiphytic", "trait": "habitat", "start": 30, "end": 39},
-                {"habitat": "epilithic", "trait": "habitat", "start": 43, "end": 52},
+                {
+                    "plant_habit": "epiphytic",
+                    "trait": "plant_habit",
+                    "start": 30,
+                    "end": 39,
+                },
+                {
+                    "plant_habit": "epilithic",
+                    "trait": "plant_habit",
+                    "start": 43,
+                    "end": 52,
+                },
             ],
         )

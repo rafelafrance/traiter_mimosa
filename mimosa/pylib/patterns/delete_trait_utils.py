@@ -1,6 +1,8 @@
 """Remove entities when they meet these criteria."""
 from spacy import registry
 
+from . import term_patterns
+
 DELETE_WHEN = "mimosa.delete_when.v1"
 
 # Forget traits were supposed to be parts of a larger trait
@@ -20,7 +22,8 @@ PARTIAL_TRAITS = """ about cross color_mod dim dimension imperial_length imperia
 def part_and_subpart(ent):
     """Remove trait if it is missing both the part and subpart."""
     data = ent._.data
-    return not data.get("part") and not data.get("subpart")
+    has_part = set(data.keys()) & term_patterns.PARTS_SET
+    return not has_part and not data.get("subpart")
 
 
 def always(_):

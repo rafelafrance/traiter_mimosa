@@ -11,14 +11,14 @@ from . import common_patterns
 from . import term_patterns
 
 
-SEX_PARENT = "sex"
-SEX_CHILDREN = term_patterns.remove_traits("sex")
+SEX_PARENTS = ["sex"]
+SEX_CHILDREN = term_patterns.remove_traits(["sex"])
 
 SEX_LINKER = matcher_patterns.MatcherPatterns(
     "sex_linker",
     decoder=common_patterns.COMMON_PATTERNS
     | {
-        "sex": {"ENT_TYPE": SEX_PARENT},
+        "sex": {"ENT_TYPE": {"IN": SEX_PARENTS}},
         "trait": {"ENT_TYPE": {"IN": SEX_CHILDREN}},
     },
     patterns=[

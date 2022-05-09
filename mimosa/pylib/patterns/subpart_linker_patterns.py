@@ -10,14 +10,18 @@ from traiter.patterns import matcher_patterns
 from . import common_patterns
 from . import term_patterns
 
-SUBPART_PARENT = "subpart"
-SUBPART_CHILDREN = term_patterns.remove_traits("subpart part location sex habit")
+SUBPART_PARENTS = ["subpart"]
+SUBPART_CHILDREN = term_patterns.remove_traits(
+    "subpart location sex reproduction plant_habit".split()
+    + term_patterns.PARTS
+    + term_patterns.PLANT_TRAITS
+)
 
 SUBPART_LINKER = matcher_patterns.MatcherPatterns(
     "subpart_linker",
     decoder=common_patterns.COMMON_PATTERNS
     | {
-        "subpart": {"ENT_TYPE": SUBPART_PARENT},
+        "subpart": {"ENT_TYPE": {"IN": SUBPART_PARENTS}},
         "trait": {"ENT_TYPE": {"IN": SUBPART_CHILDREN}},
     },
     patterns=[

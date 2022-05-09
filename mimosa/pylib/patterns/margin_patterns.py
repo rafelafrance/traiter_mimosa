@@ -11,30 +11,30 @@ from . import term_patterns
 TEMP = ["\\" + c for c in t_const.DASH[:2]]
 MULTIPLE_DASHES = rf'[{"".join(TEMP)}]{{2,}}'
 
-LEADERS = """ shape shape_leader margin_leader """.split()
-FOLLOWERS = """ margin_shape margin_follower """.split()
-SHAPES = """ margin_shape shape """.split()
+LEADERS = """ leaf_shape shape shape_leader margin_leader """.split()
+FOLLOWERS = """ leaf_margin margin_follower """.split()
+SHAPES = """ leaf_margin shape leaf_shape """.split()
 
-MARGIN_SHAPE = MatcherPatterns(
-    "margin_shape",
+LEAF_MARGIN = MatcherPatterns(
+    "leaf_margin",
     on_match="mimosa.margin.v1",
     decoder=common_patterns.COMMON_PATTERNS
     | {
-        "margin_shape": {"ENT_TYPE": "margin_shape"},
+        "leaf_margin": {"ENT_TYPE": "leaf_margin"},
         "shape": {"ENT_TYPE": {"IN": SHAPES}},
         "leader": {"ENT_TYPE": {"IN": LEADERS}},
         "follower": {"ENT_TYPE": {"IN": FOLLOWERS}},
     },
     patterns=[
-        "leader* -* margin_shape+",
-        "leader* -* margin_shape -* follower*",
-        "leader* -* margin_shape -* shape? follower+ shape?",
+        "leader* -* leaf_margin+",
+        "leader* -* leaf_margin -* follower*",
+        "leader* -* leaf_margin -* shape? follower+ shape?",
         "shape+ -* follower+",
     ],
 )
 
 
-@registry.misc(MARGIN_SHAPE.on_match)
+@registry.misc(LEAF_MARGIN.on_match)
 def margin(ent):
     value = {
         r: 1
@@ -44,4 +44,4 @@ def margin(ent):
     }
     value = "-".join(value.keys())
     value = re.sub(rf"\s*{MULTIPLE_DASHES}\s*", r"-", value)
-    ent._.data["margin_shape"] = term_patterns.REPLACE.get(value, value)
+    ent._.data["leaf_margin"] = term_patterns.REPLACE.get(value, value)

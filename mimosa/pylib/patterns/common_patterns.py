@@ -8,7 +8,7 @@ MISSING = """
     """.split()
 
 COMMON_PATTERNS = {
-    "any": {"LOWER": {"REGEX": r"""^(\w+\.\w*|\w*\.\w+|[\w()\[\],\-]+)$"""}},
+    "any": {},
     "(": {"TEXT": {"IN": t_const.OPEN}},
     ")": {"TEXT": {"IN": t_const.CLOSE}},
     "-": {"TEXT": {"IN": t_const.DASH}, "OP": "+"},

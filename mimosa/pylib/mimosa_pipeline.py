@@ -1,6 +1,7 @@
 """Create a trait pipeline."""
 import spacy
 from traiter.patterns import matcher_patterns
+from traiter.pipes import debug_pipes
 from traiter.pipes.add_traits_pipe import ADD_TRAITS
 from traiter.pipes.delete_traits_pipe import DELETE_TRAITS
 from traiter.pipes.link_traits_pipe import LINK_TRAITS
@@ -26,8 +27,6 @@ from .patterns import subpart_patterns
 from .patterns import taxon_linker_patterns
 from .patterns import taxon_patterns
 from .patterns import term_patterns
-
-# from traiter.pipes import debug_pipes
 
 
 def pipeline():
@@ -104,7 +103,7 @@ def pipeline():
             "patterns": matcher_patterns.as_dicts(
                 [
                     color_patterns.COLOR,
-                    margin_patterns.MARGIN_SHAPE,
+                    margin_patterns.LEAF_MARGIN,
                     shape_patterns.N_SHAPE,
                     shape_patterns.SHAPE,
                     part_location_patterns.PART_AS_LOCATION,
@@ -123,7 +122,7 @@ def pipeline():
         LINK_TRAITS,
         name="link_parts",
         config={
-            "parent": part_linker_patterns.PART_PARENT,
+            "parents": part_linker_patterns.PART_PARENTS,
             "children": part_linker_patterns.PART_CHILDREN,
             "patterns": matcher_patterns.as_dicts([part_linker_patterns.PART_LINKER]),
         },
@@ -133,7 +132,7 @@ def pipeline():
         LINK_TRAITS,
         name="link_subparts",
         config={
-            "parent": subpart_linker_patterns.SUBPART_PARENT,
+            "parents": subpart_linker_patterns.SUBPART_PARENTS,
             "children": subpart_linker_patterns.SUBPART_CHILDREN,
             "patterns": matcher_patterns.as_dicts(
                 [subpart_linker_patterns.SUBPART_LINKER]
@@ -145,7 +144,7 @@ def pipeline():
         LINK_TRAITS,
         name="link_taxa",
         config={
-            "parent": taxon_linker_patterns.TAXON_PARENT,
+            "parents": taxon_linker_patterns.TAXON_PARENTS,
             "children": taxon_linker_patterns.TAXON_CHILDREN,
             "patterns": matcher_patterns.as_dicts([taxon_linker_patterns.TAXON_LINKER]),
         },
@@ -155,7 +154,7 @@ def pipeline():
         LINK_TRAITS,
         name="link_sex",
         config={
-            "parent": sex_linker_patterns.SEX_PARENT,
+            "parents": sex_linker_patterns.SEX_PARENTS,
             "children": sex_linker_patterns.SEX_CHILDREN,
             "patterns": matcher_patterns.as_dicts([sex_linker_patterns.SEX_LINKER]),
         },
@@ -165,7 +164,7 @@ def pipeline():
         LINK_TRAITS,
         name="link_location",
         config={
-            "parent": location_linker_patterns.LOCATION_PARENT,
+            "parents": location_linker_patterns.LOCATION_PARENTS,
             "children": location_linker_patterns.LOCATION_CHILDREN,
             "patterns": matcher_patterns.as_dicts(
                 [location_linker_patterns.LOCATION_LINKER],
@@ -173,7 +172,7 @@ def pipeline():
         },
     )
 
-    # debug_pipes.tokens(nlp)  # #####################################################
+    debug_pipes.tokens(nlp)  # #####################################################
 
     nlp.add_pipe(
         DELETE_TRAITS,

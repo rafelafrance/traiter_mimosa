@@ -14,8 +14,8 @@ class TestMargin(unittest.TestCase):
             [
                 {"subpart": "margin", "trait": "subpart", "start": 0, "end": 6},
                 {
-                    "margin_shape": "undulate-crenate",
-                    "trait": "margin_shape",
+                    "leaf_margin": "undulate-crenate",
+                    "trait": "leaf_margin",
                     "subpart": "margin",
                     "start": 7,
                     "end": 33,
@@ -30,16 +30,16 @@ class TestMargin(unittest.TestCase):
             [
                 {"subpart": "margin", "trait": "subpart", "start": 0, "end": 7},
                 {
-                    "margin_shape": "ciliate",
-                    "trait": "margin_shape",
+                    "leaf_margin": "ciliate",
+                    "trait": "leaf_margin",
                     "subpart": "margin",
                     "start": 8,
                     "end": 15,
                 },
                 {"subpart": "apex", "trait": "subpart", "start": 17, "end": 21},
                 {
-                    "shape": "acute",
-                    "trait": "shape",
+                    "leaf_shape": "acute",
+                    "trait": "leaf_shape",
                     "subpart": "apex",
                     "start": 22,
                     "end": 27,
@@ -58,10 +58,10 @@ class TestMargin(unittest.TestCase):
         self.assertEqual(
             test("reniform, undulate-margined"),
             [
-                {"shape": "reniform", "trait": "shape", "start": 0, "end": 8},
+                {"leaf_shape": "reniform", "trait": "leaf_shape", "start": 0, "end": 8},
                 {
-                    "margin_shape": "undulate",
-                    "trait": "margin_shape",
+                    "leaf_margin": "undulate",
+                    "trait": "leaf_margin",
                     "start": 10,
                     "end": 27,
                 },
@@ -74,8 +74,8 @@ class TestMargin(unittest.TestCase):
             [
                 {"subpart": "margin", "trait": "subpart", "start": 0, "end": 7},
                 {
-                    "margin_shape": "corrugated",
-                    "trait": "margin_shape",
+                    "leaf_margin": "corrugated",
+                    "trait": "leaf_margin",
                     "subpart": "margin",
                     "start": 8,
                     "end": 28,
@@ -93,22 +93,22 @@ class TestMargin(unittest.TestCase):
             [
                 {"subpart": "margin", "trait": "subpart", "start": 0, "end": 7},
                 {
-                    "margin_shape": "toothed",
-                    "trait": "margin_shape",
+                    "leaf_margin": "toothed",
+                    "trait": "leaf_margin",
                     "subpart": "margin",
                     "start": 8,
                     "end": 24,
                 },
                 {
-                    "margin_shape": "sinuate-dentate",
-                    "trait": "margin_shape",
+                    "leaf_margin": "sinuate-dentate",
+                    "trait": "leaf_margin",
                     "subpart": "margin",
                     "start": 28,
                     "end": 52,
                 },
                 {
-                    "margin_shape": "serrate",
-                    "trait": "margin_shape",
+                    "leaf_margin": "serrate",
+                    "trait": "leaf_margin",
                     "subpart": "margin",
                     "start": 56,
                     "end": 63,

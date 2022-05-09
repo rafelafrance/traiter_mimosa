@@ -21,6 +21,8 @@ DECODER = common_patterns.COMMON_PATTERNS | {
     "not_count_word": {"LOWER": {"IN": NOT_COUNT_WORDS}},
     "per_count": {"ENT_TYPE": "per_count"},
     "subpart": {"ENT_TYPE": "subpart"},
+    "x": {"LOWER": {"IN": ["x", "X"]}},
+    "=": {"TEXT": {"IN": ["=", ":"]}},
 }
 
 # ####################################################################################
@@ -86,5 +88,6 @@ NOT_A_COUNT = MatcherPatterns(
         "99-99 not_count_ent",
         "99-99 not_count_word 99-99? not_count_ent?",
         "9 / 9",
+        "x =? 99-99",
     ],
 )

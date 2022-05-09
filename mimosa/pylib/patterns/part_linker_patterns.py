@@ -10,14 +10,16 @@ from . import common_patterns
 from . import term_patterns
 
 
-PART_PARENT = "part"
-PART_CHILDREN = term_patterns.remove_traits("part location")
+PART_PARENTS = term_patterns.PARTS
+PART_CHILDREN = term_patterns.remove_traits(
+    term_patterns.PARTS + term_patterns.LOCATIONS + term_patterns.PLANT_TRAITS
+)
 
 PART_LINKER = matcher_patterns.MatcherPatterns(
     "part_linker",
     decoder=common_patterns.COMMON_PATTERNS
     | {
-        "part": {"ENT_TYPE": PART_PARENT},
+        "part": {"ENT_TYPE": {"IN": PART_PARENTS}},
         "trait": {"ENT_TYPE": {"IN": PART_CHILDREN}},
     },
     patterns=[
