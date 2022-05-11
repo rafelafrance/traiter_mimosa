@@ -24,8 +24,7 @@ def test(text: str) -> List[Dict]:
             trait["end"] += sent.start_char
             traits.append(trait)
 
-    from pprint import pp
-
-    pp(traits, compact=True)
+    # from pprint import pp
+    # pp(traits, compact=True)
 
     return traits

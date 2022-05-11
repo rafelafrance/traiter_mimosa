@@ -1,7 +1,6 @@
 """Create a trait pipeline."""
 import spacy
 from traiter.patterns import matcher_patterns
-from traiter.pipes import debug_pipes
 from traiter.pipes.add_traits_pipe import ADD_TRAITS
 from traiter.pipes.delete_traits_pipe import DELETE_TRAITS
 from traiter.pipes.link_traits_pipe import LINK_TRAITS
@@ -12,6 +11,7 @@ from traiter.pipes.term_pipe import TERM_PIPE
 from . import tokenizer
 from .patterns import color_patterns
 from .patterns import count_patterns
+from .patterns import count_suffix_patterns
 from .patterns import delete_trait_utils
 from .patterns import location_linker_patterns
 from .patterns import margin_patterns
@@ -27,6 +27,8 @@ from .patterns import subpart_patterns
 from .patterns import taxon_linker_patterns
 from .patterns import taxon_patterns
 from .patterns import term_patterns
+
+# from traiter.pipes import debug_pipes
 
 
 def pipeline():
@@ -91,6 +93,7 @@ def pipeline():
                     count_patterns.COUNT,
                     count_patterns.COUNT_WORD,
                     count_patterns.NOT_A_COUNT,
+                    count_suffix_patterns.COUNT_SUFFIX,
                 ]
             )
         },
@@ -172,7 +175,7 @@ def pipeline():
         },
     )
 
-    debug_pipes.tokens(nlp)  # #####################################################
+    # debug_pipes.tokens(nlp)  # #####################################################
 
     nlp.add_pipe(
         DELETE_TRAITS,

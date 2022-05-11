@@ -16,8 +16,13 @@ class TestSurface(unittest.TestCase):
                     "trait": "surface",
                     "start": 0,
                     "end": 8,
-                    "part": "flower",
+                    "flower_part": "flower",
                 },
-                {"part": "flower", "trait": "part", "start": 9, "end": 16},
+                {
+                    "flower_part": "flower",
+                    "trait": "flower_part",
+                    "start": 9,
+                    "end": 16,
+                },
             ],
         )

@@ -3,12 +3,10 @@ from spacy import registry
 
 from . import term_patterns
 
-DELETE_WHEN = "mimosa.delete_when.v1"
-
 # Forget traits were supposed to be parts of a larger trait
 PARTIAL_TRAITS = """ about cross color_mod dim dimension imperial_length imperial_mass
     margin_leader metric_length metric_mass not_a_range per_count
-    quest shape_leader shape_suffix units
+    quest shape_leader shape_suffix units joined
     range.low range.min.low range.low.high range.low.max range.min.low.high
     range.min.low.max range.low.high.max range.min.low.high.max range
     level month
@@ -30,6 +28,9 @@ def always(_):
     """Always forget this trait after it's been linked."""
     return True
 
+
+# ####################################################################################
+DELETE_WHEN = "mimosa.delete_when.v1"
 
 WHEN_MISSING = {
     "count": part_and_subpart,

@@ -1,4 +1,3 @@
-"""Common count snippets."""
 from spacy import registry
 from traiter import actions
 from traiter import const as t_const
@@ -39,7 +38,7 @@ COUNT = MatcherPatterns(
 
 
 @registry.misc(COUNT.on_match)
-def count(ent):
+def on_count_match(ent):
     ent._.new_label = "count"
 
     range_ = [t for t in ent if t.ent_type_ == "range"][0]

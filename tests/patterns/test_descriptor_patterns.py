@@ -16,20 +16,8 @@ class TestDescriptor(unittest.TestCase):
                 or plants dioecious"""
             ),
             [
-                {
-                    "sex": "bisexual",
-                    "trait": "sex",
-                    "start": 0,
-                    "end": 8,
-                    "part": "plant",
-                },
-                {
-                    "sex": "unisexual",
-                    "trait": "sex",
-                    "start": 10,
-                    "end": 19,
-                    "part": "plant",
-                },
+                {"sex": "bisexual", "trait": "sex", "start": 0, "end": 8},
+                {"sex": "unisexual", "trait": "sex", "start": 10, "end": 19},
                 {
                     "part": "plant",
                     "trait": "part",

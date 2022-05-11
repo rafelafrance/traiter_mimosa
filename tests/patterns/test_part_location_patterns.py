@@ -12,7 +12,7 @@ class TestPartLocation(unittest.TestCase):
         self.assertEqual(
             test("stipules 3-8 mm, semiamplexicaul, adnate to petiole for 1-2 mm"),
             [
-                {"part": "stipule", "trait": "part", "start": 0, "end": 8},
+                {"leaf_part": "stipule", "trait": "leaf_part", "start": 0, "end": 8},
                 {
                     "length_low": 3.0,
                     "length_high": 8.0,
@@ -20,16 +20,24 @@ class TestPartLocation(unittest.TestCase):
                     "trait": "size",
                     "start": 9,
                     "end": 15,
-                    "part": "stipule",
+                    "leaf_part": "stipule",
                 },
                 {
+                    "shape": "semiamplexicaul",
+                    "trait": "shape",
+                    "start": 17,
+                    "end": 32,
+                    "leaf_part": "stipule",
+                },
+                {
+                    "joined": "adnate",
                     "length_low": 1.0,
                     "length_high": 2.0,
                     "length_units": "mm",
                     "trait": "part_as_loc",
-                    "start": 41,
+                    "start": 34,
                     "end": 62,
-                    "part": "stipule",
+                    "leaf_part": "stipule",
                 },
             ],
         )
@@ -38,20 +46,13 @@ class TestPartLocation(unittest.TestCase):
         self.assertEqual(
             test("leaves completely embracing stem but not connate"),
             [
-                {"part": "leaf", "trait": "part", "start": 0, "end": 6},
+                {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 6},
                 {
                     "part_as_loc": "embracing stem",
                     "trait": "part_as_loc",
                     "start": 18,
                     "end": 32,
-                    "part": "leaf",
-                },
-                {
-                    "shape": "not connate",
-                    "trait": "shape",
-                    "start": 37,
-                    "end": 48,
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                 },
             ],
         )
@@ -60,20 +61,20 @@ class TestPartLocation(unittest.TestCase):
         self.assertEqual(
             test("stipules shortly ciliate at margin"),
             [
-                {"part": "stipule", "trait": "part", "start": 0, "end": 8},
+                {"leaf_part": "stipule", "trait": "leaf_part", "start": 0, "end": 8},
                 {
-                    "margin_shape": "ciliate",
-                    "trait": "margin_shape",
+                    "leaf_margin": "ciliate",
+                    "trait": "leaf_margin",
                     "start": 17,
                     "end": 24,
-                    "part": "stipule",
+                    "leaf_part": "stipule",
                 },
                 {
                     "subpart_as_loc": "at margin",
                     "trait": "subpart_as_loc",
                     "start": 25,
                     "end": 34,
-                    "part": "stipule",
+                    "leaf_part": "stipule",
                 },
             ],
         )

@@ -27,12 +27,12 @@ class TestPart(unittest.TestCase):
         self.assertEqual(
             test("leaflets mostly 1 or 3"),
             [
-                {"part": "leaflet", "trait": "part", "start": 0, "end": 8},
+                {"leaf_part": "leaflet", "trait": "leaf_part", "start": 0, "end": 8},
                 {
                     "low": 1,
                     "high": 3,
                     "trait": "count",
-                    "part": "leaflet",
+                    "leaf_part": "leaflet",
                     "start": 16,
                     "end": 22,
                 },
@@ -40,33 +40,38 @@ class TestPart(unittest.TestCase):
         )
 
     def test_part_03(self):
-        self.assertEqual(test("Receptacle discoid."), [])
+        self.assertEqual(
+            test("Receptacle discoid."),
+            [
+                {
+                    "flower_part": "receptacle",
+                    "trait": "flower_part",
+                    "start": 0,
+                    "end": 10,
+                },
+                {
+                    "shape": "disk",
+                    "trait": "shape",
+                    "start": 11,
+                    "end": 18,
+                    "flower_part": "receptacle",
+                },
+            ],
+        )
 
     def test_part_04(self):
         self.assertEqual(
             test("Flowers: sepals (pistillate)"),
             [
+                {"flower_part": "flower", "trait": "flower_part", "start": 0, "end": 7},
                 {
-                    "part": "flower",
-                    "sex": "pistillate",
-                    "trait": "part",
-                    "start": 0,
-                    "end": 7,
-                },
-                {
-                    "part": "sepal",
-                    "trait": "part",
+                    "flower_part": "sepal",
+                    "trait": "flower_part",
                     "start": 9,
                     "end": 15,
                     "sex": "pistillate",
                 },
-                {
-                    "sex": "pistillate",
-                    "trait": "sex",
-                    "start": 16,
-                    "end": 28,
-                    "part": "sepal",
-                },
+                {"sex": "pistillate", "trait": "sex", "start": 16, "end": 28},
             ],
         )
 
@@ -75,18 +80,16 @@ class TestPart(unittest.TestCase):
             test("Flowers: staminate:"),
             [
                 {
-                    "part": "flower",
-                    "trait": "part",
+                    "flower_part": "flower",
+                    "trait": "flower_part",
                     "start": 0,
                     "end": 7,
-                    "sex": "staminate",
                 },
                 {
                     "sex": "staminate",
                     "trait": "sex",
                     "start": 9,
                     "end": 18,
-                    "part": "flower",
                 },
             ],
         )
@@ -95,21 +98,19 @@ class TestPart(unittest.TestCase):
         self.assertEqual(
             test("Heads more than 2-flowered"),
             [
-                {"part": "head", "trait": "part", "start": 0, "end": 5},
+                {
+                    "inflorescence": "head",
+                    "trait": "inflorescence",
+                    "start": 0,
+                    "end": 5,
+                },
                 {
                     "low": 2,
                     "trait": "count",
                     "start": 16,
-                    "end": 17,
-                    "part": "head",
-                    "subpart": "flowered",
-                },
-                {
-                    "subpart": "flowered",
-                    "trait": "subpart",
-                    "start": 17,
                     "end": 26,
-                    "part": "head",
+                    "flower_part": "flowered",
+                    "inflorescence": "head",
                 },
             ],
         )
@@ -118,13 +119,13 @@ class TestPart(unittest.TestCase):
         self.assertEqual(
             test("Phyllodes glaucous"),
             [
-                {"part": "phyllode", "trait": "part", "start": 0, "end": 9},
+                {"leaf_part": "phyllode", "trait": "leaf_part", "start": 0, "end": 9},
                 {
                     "color": "glaucous",
                     "trait": "color",
                     "start": 10,
                     "end": 18,
-                    "part": "phyllode",
+                    "leaf_part": "phyllode",
                 },
             ],
         )

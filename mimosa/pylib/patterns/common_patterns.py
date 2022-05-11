@@ -28,5 +28,6 @@ COMMON_PATTERNS = {
     "99.9": {"TEXT": {"REGEX": t_const.FLOAT_TOKEN_RE}},
     "99-99": {"ENT_TYPE": "range"},
     "99.9-99.9": {"ENT_TYPE": "range"},
-    "word": {"LOWER": {"REGEX": r"""^(\w+\.\w*|\w*\.\w+|[\w()\[\],\-]+)$"""}},
+    "phrase": {"LOWER": {"REGEX": r"^([^.;:]+)$"}},
+    "clause": {"LOWER": {"REGEX": r"^([^.;:,]+)$"}},
 }

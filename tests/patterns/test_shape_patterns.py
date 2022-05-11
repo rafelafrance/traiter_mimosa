@@ -12,11 +12,11 @@ class TestShape(unittest.TestCase):
         self.assertEqual(
             test("leaf suborbiculate"),
             [
-                {"part": "leaf", "trait": "part", "start": 0, "end": 4},
+                {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 4},
                 {
                     "shape": "orbicular",
                     "trait": "shape",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "start": 5,
                     "end": 18,
                 },
@@ -27,11 +27,11 @@ class TestShape(unittest.TestCase):
         self.assertEqual(
             test("leaf ovate-suborbicular"),
             [
-                {"part": "leaf", "trait": "part", "start": 0, "end": 4},
+                {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 4},
                 {
                     "shape": "ovate-orbicular",
                     "trait": "shape",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "start": 5,
                     "end": 23,
                 },
@@ -42,11 +42,11 @@ class TestShape(unittest.TestCase):
         self.assertEqual(
             test("petiolule narrowly oblanceolate,"),
             [
-                {"part": "petiolule", "trait": "part", "start": 0, "end": 9},
+                {"leaf_part": "petiolule", "trait": "leaf_part", "start": 0, "end": 9},
                 {
                     "shape": "oblanceolate",
                     "trait": "shape",
-                    "part": "petiolule",
+                    "leaf_part": "petiolule",
                     "start": 10,
                     "end": 31,
                 },
@@ -57,33 +57,33 @@ class TestShape(unittest.TestCase):
         self.assertEqual(
             test("Leaves ; blade ovate or orbiculate to suborbiculate or reniform,"),
             [
-                {"part": "leaf", "trait": "part", "start": 0, "end": 6},
-                {"part": "leaf", "trait": "part", "start": 9, "end": 14},
+                {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 6},
+                {"leaf_part": "leaf", "trait": "leaf_part", "start": 9, "end": 14},
                 {
                     "shape": "ovate",
                     "trait": "shape",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "start": 15,
                     "end": 20,
                 },
                 {
                     "shape": "orbicular",
                     "trait": "shape",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "start": 24,
                     "end": 34,
                 },
                 {
                     "shape": "orbicular",
                     "trait": "shape",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "start": 38,
                     "end": 51,
                 },
                 {
                     "shape": "reniform",
                     "trait": "shape",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "start": 55,
                     "end": 63,
                 },
@@ -98,33 +98,33 @@ class TestShape(unittest.TestCase):
                 lanceolate-ovate or ovate-triangular,"""
             ),
             [
-                {"part": "leaf", "trait": "part", "start": 0, "end": 6},
-                {"part": "leaf", "trait": "part", "start": 8, "end": 13},
+                {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 6},
+                {"leaf_part": "leaf", "trait": "leaf_part", "start": 8, "end": 13},
                 {
                     "shape": "ovate",
                     "trait": "shape",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "start": 14,
                     "end": 19,
                 },
                 {
                     "shape": "elongate-ovate",
                     "trait": "shape",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "start": 23,
                     "end": 37,
                 },
                 {
                     "shape": "lanceolate-ovate",
                     "trait": "shape",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "start": 41,
                     "end": 57,
                 },
                 {
                     "shape": "ovate-triangular",
                     "trait": "shape",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "start": 61,
                     "end": 77,
                 },
@@ -135,12 +135,12 @@ class TestShape(unittest.TestCase):
         self.assertEqual(
             test("Leaves: blade broadly to shallowly triangular"),
             [
-                {"part": "leaf", "trait": "part", "start": 0, "end": 6},
-                {"part": "leaf", "trait": "part", "start": 8, "end": 13},
+                {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 6},
+                {"leaf_part": "leaf", "trait": "leaf_part", "start": 8, "end": 13},
                 {
                     "shape": "triangular",
                     "trait": "shape",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "start": 14,
                     "end": 45,
                 },
@@ -155,32 +155,32 @@ class TestShape(unittest.TestCase):
                 broadly ovate, depressed-ovate, or reniform,"""
             ),
             [
-                {"part": "leaf", "trait": "part", "start": 2, "end": 7},
+                {"leaf_part": "leaf", "trait": "leaf_part", "start": 2, "end": 7},
                 {
                     "shape": "orbicular",
                     "trait": "shape",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "start": 19,
                     "end": 32,
                 },
                 {
                     "shape": "ovate",
                     "trait": "shape",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "start": 36,
                     "end": 49,
                 },
                 {
                     "shape": "ovate",
                     "trait": "shape",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "start": 51,
                     "end": 66,
                 },
                 {
                     "shape": "reniform",
                     "trait": "shape",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "start": 71,
                     "end": 79,
                 },
@@ -195,25 +195,25 @@ class TestShape(unittest.TestCase):
                 reniform, shallowly to deeply palmately"""
             ),
             [
-                {"part": "leaf", "trait": "part", "start": 0, "end": 5},
+                {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 5},
                 {
                     "shape": "ovate-cordate",
                     "trait": "shape",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "start": 6,
                     "end": 27,
                 },
                 {
                     "shape": "triangular-cordate",
                     "trait": "shape",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "start": 31,
                     "end": 49,
                 },
                 {
                     "shape": "reniform",
                     "trait": "shape",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "start": 53,
                     "end": 61,
                 },
@@ -224,27 +224,27 @@ class TestShape(unittest.TestCase):
         self.assertEqual(
             test("Leaf blades lobe apex rounded"),
             [
-                {"part": "leaf", "trait": "part", "start": 0, "end": 11},
+                {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 11},
                 {
                     "subpart": "lobe",
                     "trait": "subpart",
                     "start": 12,
                     "end": 16,
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                 },
                 {
                     "subpart": "apex",
                     "trait": "subpart",
                     "start": 17,
                     "end": 21,
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                 },
                 {
                     "shape": "orbicular",
                     "trait": "shape",
                     "start": 22,
                     "end": 29,
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "subpart": "apex",
                 },
             ],
@@ -254,13 +254,13 @@ class TestShape(unittest.TestCase):
         self.assertEqual(
             test("Leaf blades mostly orbiculate, deeply to shallowly lobed,"),
             [
-                {"part": "leaf", "trait": "part", "start": 0, "end": 11},
+                {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 11},
                 {
                     "shape": "orbicular",
                     "trait": "shape",
                     "start": 12,
                     "end": 29,
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "subpart": "lobe",
                 },
                 {
@@ -268,7 +268,7 @@ class TestShape(unittest.TestCase):
                     "trait": "subpart",
                     "start": 51,
                     "end": 56,
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                 },
             ],
         )
@@ -281,26 +281,26 @@ class TestShape(unittest.TestCase):
                 reniform-angulate or shallowly 5-angulate."""
             ),
             [
-                {"part": "leaf", "trait": "part", "start": 0, "end": 6},
-                {"part": "petiole", "trait": "part", "start": 8, "end": 21},
+                {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 6},
+                {"leaf_part": "petiole", "trait": "leaf_part", "start": 8, "end": 21},
                 {
                     "shape": "polygonal",
                     "trait": "shape",
-                    "part": "petiole",
+                    "leaf_part": "petiole",
                     "start": 22,
                     "end": 41,
                 },
                 {
                     "shape": "reniform-polygonal",
                     "trait": "shape",
-                    "part": "petiole",
+                    "leaf_part": "petiole",
                     "start": 45,
                     "end": 62,
                 },
                 {
                     "shape": "polygonal",
                     "trait": "shape",
-                    "part": "petiole",
+                    "leaf_part": "petiole",
                     "start": 66,
                     "end": 86,
                 },
@@ -315,25 +315,25 @@ class TestShape(unittest.TestCase):
                 or elliptic-lanceolate,"""
             ),
             [
-                {"part": "leaf", "trait": "part", "start": 0, "end": 5},
+                {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 5},
                 {
                     "shape": "lanceolate",
                     "trait": "shape",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "start": 6,
                     "end": 16,
                 },
                 {
                     "shape": "lanceolate",
                     "trait": "shape",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "start": 32,
                     "end": 50,
                 },
                 {
                     "shape": "elliptic-lanceolate",
                     "trait": "shape",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "start": 54,
                     "end": 73,
                 },
@@ -344,32 +344,32 @@ class TestShape(unittest.TestCase):
         self.assertEqual(
             test("blade broadly ovate to rounded-cordate, subreniform, or deltate"),
             [
-                {"part": "leaf", "trait": "part", "start": 0, "end": 5},
+                {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 5},
                 {
                     "shape": "ovate",
                     "trait": "shape",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "start": 6,
                     "end": 19,
                 },
                 {
                     "shape": "orbicular-cordate",
                     "trait": "shape",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "start": 23,
                     "end": 38,
                 },
                 {
                     "shape": "reniform",
                     "trait": "shape",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "start": 40,
                     "end": 51,
                 },
                 {
                     "shape": "deltoid",
                     "trait": "shape",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "start": 56,
                     "end": 63,
                 },
@@ -378,64 +378,49 @@ class TestShape(unittest.TestCase):
 
     def test_shape_14(self):
         self.assertEqual(
-            test("blade orbic-ulate to pentagonal,"),
+            test("blade orbiculate to pentagonal,"),
             [
-                {"part": "leaf", "trait": "part", "start": 0, "end": 5},
+                {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 5},
                 {
                     "shape": "orbicular",
                     "trait": "shape",
                     "start": 6,
-                    "end": 17,
-                    "part": "leaf",
+                    "end": 16,
+                    "leaf_part": "leaf",
                 },
                 {
                     "shape": "polygonal",
                     "trait": "shape",
-                    "start": 21,
-                    "end": 31,
-                    "part": "leaf",
+                    "start": 20,
+                    "end": 30,
+                    "leaf_part": "leaf",
                 },
             ],
         )
 
     def test_shape_15(self):
         self.assertEqual(
-            test("blade pen-tagonal"),
+            test("Petals standard rhombic-elliptic to obovate,"),
             [
-                {"part": "leaf", "trait": "part", "start": 0, "end": 5},
+                {"flower_part": "petal", "trait": "flower_part", "start": 0, "end": 6},
                 {
-                    "shape": "polygonal",
+                    "shape": "rhomboic-elliptic",
                     "trait": "shape",
-                    "part": "leaf",
-                    "start": 6,
-                    "end": 17,
+                    "flower_part": "petal",
+                    "start": 16,
+                    "end": 32,
+                },
+                {
+                    "shape": "obovate",
+                    "trait": "shape",
+                    "flower_part": "petal",
+                    "start": 36,
+                    "end": 43,
                 },
             ],
         )
 
     def test_shape_16(self):
-        self.assertEqual(
-            test("Petals standard rhombic-ellip­tic to obovate,"),
-            [
-                {"part": "petal", "trait": "part", "start": 0, "end": 6},
-                {
-                    "shape": "rhomboic-elliptic",
-                    "trait": "shape",
-                    "part": "petal",
-                    "start": 16,
-                    "end": 33,
-                },
-                {
-                    "shape": "obovate",
-                    "trait": "shape",
-                    "part": "petal",
-                    "start": 37,
-                    "end": 44,
-                },
-            ],
-        )
-
-    def test_shape_17(self):
         self.assertEqual(
             test("<base truncate to cordate>"),
             [
@@ -457,45 +442,45 @@ class TestShape(unittest.TestCase):
             ],
         )
 
-    def test_shape_18(self):
+    def test_shape_17(self):
         self.assertEqual(
             test("Seeds globose-angular"),
             [
-                {"part": "seed", "trait": "part", "start": 0, "end": 5},
+                {"fruit_part": "seed", "trait": "fruit_part", "start": 0, "end": 5},
                 {
                     "shape": "spheric-angular",
                     "trait": "shape",
-                    "part": "seed",
+                    "fruit_part": "seed",
                     "start": 6,
                     "end": 21,
                 },
             ],
         )
 
-    def test_shape_19(self):
+    def test_shape_18(self):
         self.assertEqual(
             test("bractlets narrowly to broadly ovate-triangular"),
             [
-                {"part": "bract", "trait": "part", "start": 0, "end": 9},
+                {"leaf_part": "bract", "trait": "leaf_part", "start": 0, "end": 9},
                 {
                     "shape": "ovate-triangular",
                     "trait": "shape",
-                    "part": "bract",
+                    "leaf_part": "bract",
                     "start": 10,
                     "end": 46,
                 },
             ],
         )
 
-    def test_shape_20(self):
+    def test_shape_19(self):
         self.assertEqual(
             test("Petals purple; bilobate;"),
             [
-                {"part": "petal", "trait": "part", "start": 0, "end": 6},
+                {"flower_part": "petal", "trait": "flower_part", "start": 0, "end": 6},
                 {
                     "color": "purple",
                     "trait": "color",
-                    "part": "petal",
+                    "flower_part": "petal",
                     "start": 7,
                     "end": 13,
                 },
@@ -504,51 +489,44 @@ class TestShape(unittest.TestCase):
                     "end": 23,
                     "trait": "shape",
                     "shape": "bilobate",
-                    "part": "petal",
+                    "flower_part": "petal",
                 },
             ],
         )
 
-    def test_shape_21(self):
+    def test_shape_20(self):
         self.assertEqual(
             test("blade broadly ovate-angulate to reniform-angulate"),
             [
-                {"part": "leaf", "trait": "part", "start": 0, "end": 5},
+                {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 5},
                 {
-                    "shape": "ovate-angulate",
+                    "shape": "ovate-polygonal",
                     "trait": "shape",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "start": 6,
                     "end": 28,
                 },
                 {
                     "shape": "reniform-polygonal",
                     "trait": "shape",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "start": 32,
                     "end": 49,
                 },
             ],
         )
 
-    def test_shape_22(self):
+    def test_shape_21(self):
         self.assertEqual(
-            test("leaf subflabellate, sub-flabellate"),
+            test("leaf subflabellate"),
             [
-                {"part": "leaf", "trait": "part", "start": 0, "end": 4},
+                {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 4},
                 {
                     "shape": "subflabellate",
                     "trait": "shape",
-                    "part": "leaf",
+                    "leaf_part": "leaf",
                     "start": 5,
                     "end": 18,
-                },
-                {
-                    "shape": "subflabellate",
-                    "trait": "shape",
-                    "part": "leaf",
-                    "start": 20,
-                    "end": 34,
                 },
             ],
         )

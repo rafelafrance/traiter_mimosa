@@ -390,7 +390,6 @@ class TestColor(unittest.TestCase):
                 {
                     "plant_habit": "acaulescent",
                     "trait": "plant_habit",
-                    "leaf_part": "leaf",
                     "start": 7,
                     "end": 18,
                 },
@@ -436,7 +435,7 @@ class TestColor(unittest.TestCase):
 
     def test_color_15(self):
         self.assertEqual(
-            test("Petals purplish in life, whitish yel-lowish when dry;"),
+            test("Petals purplish in life, whitish yellowish when dry;"),
             [
                 {"flower_part": "petal", "trait": "flower_part", "start": 0, "end": 6},
                 {
@@ -451,7 +450,7 @@ class TestColor(unittest.TestCase):
                     "trait": "color",
                     "flower_part": "petal",
                     "start": 25,
-                    "end": 43,
+                    "end": 42,
                 },
             ],
         )

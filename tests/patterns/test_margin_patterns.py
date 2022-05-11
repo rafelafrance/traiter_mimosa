@@ -8,6 +8,9 @@ from tests.setup import test
 class TestMargin(unittest.TestCase):
     """Test the plant margin shape trait parser."""
 
+    def test_margin_00(self):
+        test("""margins coarsely toothed or remotely sinuate-dentate to serrate,""")
+
     def test_margin_01(self):
         self.assertEqual(
             test("margin shallowly undulate-crenate"),
@@ -38,8 +41,8 @@ class TestMargin(unittest.TestCase):
                 },
                 {"subpart": "apex", "trait": "subpart", "start": 17, "end": 21},
                 {
-                    "leaf_shape": "acute",
-                    "trait": "leaf_shape",
+                    "shape": "acute",
+                    "trait": "shape",
                     "subpart": "apex",
                     "start": 22,
                     "end": 27,
@@ -58,7 +61,7 @@ class TestMargin(unittest.TestCase):
         self.assertEqual(
             test("reniform, undulate-margined"),
             [
-                {"leaf_shape": "reniform", "trait": "leaf_shape", "start": 0, "end": 8},
+                {"shape": "reniform", "trait": "shape", "start": 0, "end": 8},
                 {
                     "leaf_margin": "undulate",
                     "trait": "leaf_margin",
@@ -85,11 +88,7 @@ class TestMargin(unittest.TestCase):
 
     def test_margin_05(self):
         self.assertEqual(
-            test(
-                """
-                margins coarsely toothed or remotely sinuate-dentate
-                to serrate,"""
-            ),
+            test("margins coarsely toothed or remotely sinuate-dentate to serrate,"),
             [
                 {"subpart": "margin", "trait": "subpart", "start": 0, "end": 7},
                 {

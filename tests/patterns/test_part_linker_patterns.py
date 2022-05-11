@@ -9,15 +9,22 @@ class TestPartLinker(unittest.TestCase):
         self.assertEqual(
             test("""pinnules up to 31 pairs on pinna-rachis,"""),
             [
-                {"part": "pinnule", "trait": "part", "start": 0, "end": 8},
+                {"leaf_part": "pinnule", "trait": "leaf_part", "start": 0, "end": 8},
                 {
                     "low": 31,
                     "trait": "count",
                     "start": 15,
                     "end": 23,
                     "count_group": "pairs",
-                    "part": "pinnule",
+                    "leaf_part": "pinnule",
+                    "subpart": "pinna-rachis",
                 },
-                {"part": "pinna-rachis", "trait": "part", "start": 27, "end": 39},
+                {
+                    "subpart": "pinna-rachis",
+                    "trait": "subpart",
+                    "start": 27,
+                    "end": 39,
+                    "leaf_part": "pinnule",
+                },
             ],
         )

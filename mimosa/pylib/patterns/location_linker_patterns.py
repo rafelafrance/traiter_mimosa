@@ -4,7 +4,7 @@ from . import common_patterns
 from . import term_patterns
 
 LOCATION_PARENTS = ["location"]
-LOCATION_CHILDREN = term_patterns.remove_traits("location shape sex taxon")
+LOCATION_CHILDREN = term_patterns.remove_traits("location shape sex taxon".split())
 
 LOCATION_LINKER = matcher_patterns.MatcherPatterns(
     "location_linker",
@@ -14,7 +14,7 @@ LOCATION_LINKER = matcher_patterns.MatcherPatterns(
         "trait": {"ENT_TYPE": {"IN": LOCATION_CHILDREN}},
     },
     patterns=[
-        "trait    word* location",
-        "location word* trait",
+        "trait    clause* location",
+        "location clause* trait",
     ],
 )
