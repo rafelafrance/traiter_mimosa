@@ -24,16 +24,14 @@ def main():
 
 def pdf_to_text(args):
     """Convert the PDF to text."""
-    text_file = args.text_dir / args.in_pdf.name
-    text_file = text_file.with_suffix(".txt")
-    os.system(f"pdftotext {args.in_pdf} {text_file}")
+    os.system(f"pdftotext -bbox -nodiag {args.in_pdf} {args.out_xhtml}")
 
 
 def parse_args():
     """Process command-line arguments."""
-    description = """Sometimes you can convert a PDF directly to text with great
-        results, and sometimes not. Look at the output of this conversion to see if
-        the output is acceptable."""
+    description = """Convert a PDF to XHTML. The XHTML is not a web page, it has
+        as special format that contains the bounding box of every word on every
+        page."""
     arg_parser = argparse.ArgumentParser(
         description=textwrap.dedent(description), fromfile_prefix_chars="@"
     )
@@ -42,16 +40,16 @@ def parse_args():
         "--in-pdf",
         type=Path,
         required=True,
-        metavar="PDF",
-        help="""Which pdf file to convert to text.""",
+        metavar="PATH",
+        help="""Which pdf file to convert to HTML.""",
     )
 
     arg_parser.add_argument(
-        "--text-dir",
+        "--out-xhtml",
         type=Path,
         required=True,
-        metavar="DIR",
-        help="""Where to place the text file.""",
+        metavar="PATH",
+        help="""Output the XHTML to this file.""",
     )
 
     args = arg_parser.parse_args()

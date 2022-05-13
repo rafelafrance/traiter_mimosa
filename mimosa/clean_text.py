@@ -5,10 +5,9 @@ import logging
 import textwrap
 from pathlib import Path
 
+import ftfy
+import regex as re
 from traiter import log
-from traiter import util as t_util
-
-from .pylib import sentence_pipeline
 
 MOJIBAKE = {
     "{": "(",
@@ -19,34 +18,44 @@ MOJIBAKE = {
 def main():
     """Clean the text."""
     args = parse_args()
-
     log.started()
-
-    clean_text(args)
-
+    clean(args)
     log.finished()
 
 
-def clean_text(args):
+def clean(args):
     """Clean text to prepare it for trait extraction."""
     with open(args.in_text) as raw_file:
         text = raw_file.read()
 
-    # The bulk of the text cleaning happens in this external function
+    # The bulk of the text cleaning happens in this function
     logging.info("Cleaning text")
     trans = str.maketrans(MOJIBAKE)
-    text = t_util.clean_text(text, trans=trans)
+    text = clean_text(text, trans=trans)
 
-    # Break into sentences
-    logging.info("Breaking text into sentences")
-    nlp = sentence_pipeline.pipeline()
-    nlp.max_length = args.nlp_max_length
-    doc = nlp(text)
-
-    # Write output
-    lines = [s.text + "\n" for s in doc.sents if s and s.text]
     with open(args.out_text, "w") as clean_file:
-        clean_file.writelines(lines)
+        clean_file.write(text)
+
+
+def clean_text(
+    text: str,
+    trans: dict[int, str] = None,
+) -> str:
+    text = text if text else ""
+
+    # Handle uncommon mojibake
+    text = text.translate(trans)
+
+    text = " ".join(text.split())  # Space normalize
+
+    # Join hyphenated words when they are at the end of a line
+    text = re.sub(r"([a-z])-\s+([a-z])", r"\1\2", text, flags=re.IGNORECASE)
+
+    text = ftfy.fix_text(text)  # Handle common mojibake
+
+    text = re.sub(r"\p{Cc}+", " ", text)  # Remove control characters
+
+    return text
 
 
 def parse_args():
