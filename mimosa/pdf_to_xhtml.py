@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Convert a PDF into text directly."""
 import argparse
 import os
 import textwrap
@@ -9,7 +8,6 @@ import rich
 
 
 def main():
-    """Convert the file."""
     args = parse_args()
 
     pdf_to_text(args)
@@ -23,12 +21,10 @@ def main():
 
 
 def pdf_to_text(args):
-    """Convert the PDF to text."""
     os.system(f"pdftotext -bbox -nodiag {args.in_pdf} {args.out_xhtml}")
 
 
 def parse_args():
-    """Process command-line arguments."""
     description = """Convert a PDF to XHTML. The XHTML is not a web page, it has
         as special format that contains the bounding box of every word on every
         page."""

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Clean text to prepare it for trait extraction."""
 import argparse
 import logging
 import textwrap
@@ -7,6 +6,7 @@ from pathlib import Path
 
 import ftfy
 import regex as re
+from pylib import sentence_pipeline
 from traiter import log
 
 MOJIBAKE = {
@@ -24,7 +24,6 @@ def main():
 
 
 def clean(args):
-    """Clean text to prepare it for trait extraction."""
     with open(args.in_text) as raw_file:
         text = raw_file.read()
 
@@ -33,8 +32,16 @@ def clean(args):
     trans = str.maketrans(MOJIBAKE)
     text = clean_text(text, trans=trans)
 
+    # Break into sentences
+    logging.info("Breaking text into sentences")
+    nlp = sentence_pipeline.pipeline()
+    nlp.max_length = args.nlp_max_length
+    doc = nlp(text)
+
+    # Write output
+    lines = [s.text + "\n" for s in doc.sents if s and s.text]
     with open(args.out_text, "w") as clean_file:
-        clean_file.write(text)
+        clean_file.writelines(lines)
 
 
 def clean_text(
@@ -59,7 +66,6 @@ def clean_text(
 
 
 def parse_args():
-    """Process command-line arguments."""
     description = """Clean text to prepare it for trait extraction."""
     arg_parser = argparse.ArgumentParser(
         description=textwrap.dedent(description), fromfile_prefix_chars="@"

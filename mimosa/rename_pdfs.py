@@ -9,13 +9,11 @@ import regex as re
 
 
 def main():
-    """Convert the file."""
     args = parse_args()
     rename_files(args)
 
 
 def rename_files(args):
-    """Rename the PDFs."""
     for old_path in args.pdf_dir.glob("*.pdf"):
         print(f"Old name: {old_path}")
 
@@ -36,7 +34,6 @@ def rename_files(args):
 
 
 def parse_args():
-    """Process command-line arguments."""
     description = """It's easier, not required but much easier, to work with sane
         file names. Remove characters that cause command line utilities problems.
         Remove spaces, commas, parentheses, etc. and replace them with underscores _.

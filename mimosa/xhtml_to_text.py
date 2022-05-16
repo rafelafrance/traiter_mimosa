@@ -171,8 +171,7 @@ def read_html(in_html, min_y, max_y):
 
 
 def parse_args():
-    """Process command-line arguments."""
-    description = """Convert an HTML file with word bounding boxes to text."""
+    description = """Convert an XHTML file with word bounding boxes to text."""
     arg_parser = argparse.ArgumentParser(
         description=textwrap.dedent(description), fromfile_prefix_chars="@"
     )
