@@ -18,7 +18,7 @@ TRAIT_SKIPS = TITLE_SKIPS + ["part", "subpart", "trait"]
 
 Formatted = collections.namedtuple("Formatted", "text traits debug")
 Trait = collections.namedtuple("Trait", "label data")
-SortableTrait = collections.namedtuple("SortableTrait", "label start trait")
+SortableTrait = collections.namedtuple("SortableTrait", "label start trait title")
 
 
 def write(args, data):
@@ -35,13 +35,10 @@ def write(args, data):
     formatted = []
     for datum in tqdm(data):
         traits_used = {t["trait"] for t in datum.traits}
-        formatted.append(
-            Formatted(
-                format_text(datum, classes),
-                format_traits(datum, classes),
-                "debug" if len(traits_used) < 2 else "real",
-            )
-        )
+        text = format_text(datum, classes)
+        traits = format_traits(datum, classes)
+        cls = "debug" if len(traits_used) < 2 else "real"
+        formatted.append(Formatted(text, traits, cls))
 
     template = env.get_template("html_template.html").render(
         now=datetime.strftime(datetime.now(), "%Y-%m-%d %H:%M"),
@@ -81,7 +78,8 @@ def format_text(datum, classes) -> str:
     if len(datum.text) > prev:
         frags.append(html.escape(datum.text[prev:]))
 
-    return "".join(frags)
+    text = "".join(frags)
+    return text
 
 
 def format_traits(datum, classes) -> list[collections.namedtuple]:
@@ -91,7 +89,8 @@ def format_traits(datum, classes) -> list[collections.namedtuple]:
     sortable = []
     for trait in datum.traits:
         label = get_label(trait)
-        sortable.append(SortableTrait(label, trait["start"], trait))
+        title = datum.text[trait["start"] : trait["end"]]
+        sortable.append(SortableTrait(label, trait["start"], trait, title))
 
     sortable = sorted(sortable)
 
@@ -102,7 +101,7 @@ def format_traits(datum, classes) -> list[collections.namedtuple]:
         for trait in grouped:
             trait_list.append(
                 ", ".join(
-                    f"{k}:&nbsp;{v}"
+                    f'<span title="{trait.title}">{k}:&nbsp;{v}</span>'
                     for k, v in trait.trait.items()
                     if k not in TRAIT_SKIPS
                 )

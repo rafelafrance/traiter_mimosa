@@ -12,6 +12,7 @@ DECODER = common_patterns.COMMON_PATTERNS | {
     "cm": {"ENT_TYPE": "metric_length"},
     "joined": {"ENT_TYPE": "joined"},
     "leader": {"LOWER": {"IN": """to at embracing""".split()}},
+    "location": {"ENT_TYPE": "location"},
     "not_loc": {"ENT_TYPE": {"IN": ["sex"] + term_patterns.LOCATIONS}},
     "of": {"LOWER": "of"},
     "part": {"ENT_TYPE": {"IN": term_patterns.PARTS}},
@@ -36,7 +37,8 @@ PART_AS_LOCATION = MatcherPatterns(
     on_match=ON_AS_LOCATION_MATCH,
     decoder=DECODER,
     patterns=[
-        "joined? leader part",
+        "joined?  leader part",
+        "location leader part",
     ],
 )
 
@@ -45,8 +47,10 @@ SUBPART_AS_LOCATION = MatcherPatterns(
     on_match=ON_AS_LOCATION_MATCH,
     decoder=DECODER,
     patterns=[
-        "joined? leader subpart",
-        "joined? leader subpart of adj? subpart",
+        "joined?  leader subpart",
+        "joined?  leader subpart of adj? subpart",
+        "location leader subpart",
+        "location leader subpart of adj? subpart",
     ],
 )
 
@@ -63,7 +67,8 @@ PART_AS_DISTANCE = MatcherPatterns(
     on_match="mimosa.part_as_distance.v1",
     decoder=DECODER,
     patterns=[
-        "joined? leader part prep? 99-99 cm",
+        "joined?  leader part prep? 99-99 cm",
+        "location leader part prep? 99-99 cm",
     ],
 )
 

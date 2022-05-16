@@ -13,6 +13,7 @@ DECODER = common_patterns.COMMON_PATTERNS | {
     "conj": {"POS": {"IN": ["CCONJ"]}},
     "month": {"ENT_TYPE": "month"},
     "nope": {"TEXT": {"REGEX": "^[&/]+$"}},
+    "page": {"LOWER": {"IN": ["pg", "pg.", "page", "pi", "pi."]}},
 }
 
 RANGE_LOW = MatcherPatterns(
@@ -119,6 +120,8 @@ NOT_A_RANGE = MatcherPatterns(
         "nope 9",
         "9 month",
         "month 9",
+        "9 page",
+        "page 9",
     ],
 )
 

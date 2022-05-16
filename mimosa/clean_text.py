@@ -14,6 +14,14 @@ MOJIBAKE = {
     "}": ")",
 }
 
+MOJIBAKE_WORDS = {
+    # find, replace
+    "Ivd": "lvd",
+    "If-": "lf-",
+}
+
+MOJIBAKE_REPLACE = {}
+
 
 def main():
     """Clean the text."""
@@ -50,8 +58,9 @@ def clean_text(
 ) -> str:
     text = text if text else ""
 
-    # Handle uncommon mojibake
-    text = text.translate(trans)
+    text = text.translate(trans)  # Handle uncommon mojibake
+
+    text = replace_patterns(text)  # Replace messed up words
 
     text = " ".join(text.split())  # Space normalize
 
@@ -62,6 +71,18 @@ def clean_text(
 
     text = re.sub(r"\p{Cc}+", " ", text)  # Remove control characters
 
+    return text
+
+
+def replace_patterns(text: str) -> str:
+    replaces = []
+    for i, (pattern, repl) in enumerate(MOJIBAKE_WORDS.items()):
+        name = f"M{i:04d}"
+        MOJIBAKE_REPLACE[name] = repl
+        replaces.append(f"(?P<{name}>{pattern})")
+    regexp = "|".join(replaces)
+
+    text = re.sub(regexp, lambda m: MOJIBAKE_REPLACE[m.lastgroup], text)
     return text
 
 

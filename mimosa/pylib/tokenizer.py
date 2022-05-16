@@ -1,5 +1,6 @@
 import string
 
+import regex as re
 from spacy.util import registry
 from traiter import tokenizer_util
 
@@ -40,6 +41,9 @@ TOKENIZER = "mimosa.custom_tokenizer.v1"
 
 
 def setup_tokenizer(nlp):
+    not_letter = re.compile(r"[^a-zA-Z.']")
+    removes = [{"pattern": s} for s in nlp.tokenizer.rules if not_letter.search(s)]
+    tokenizer_util.remove_special_case(nlp, removes)
     tokenizer_util.append_tokenizer_regexes(nlp)
     tokenizer_util.append_abbrevs(nlp, ABBREVS)
 

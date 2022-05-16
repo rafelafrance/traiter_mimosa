@@ -12,7 +12,6 @@ COMMON_PATTERNS = {
     "(": {"TEXT": {"IN": t_const.OPEN}},
     ")": {"TEXT": {"IN": t_const.CLOSE}},
     "-": {"TEXT": {"IN": t_const.DASH}, "OP": "+"},
-    "-*": {"TEXT": {"IN": t_const.DASH}, "OP": "*"},
     "[+]": {"TEXT": {"IN": t_const.PLUS}},
     "/": {"TEXT": {"IN": t_const.SLASH}},
     ",": {"TEXT": {"IN": t_const.COMMA}},

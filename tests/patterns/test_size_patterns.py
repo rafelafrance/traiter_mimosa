@@ -816,3 +816,19 @@ class TestSize(unittest.TestCase):
                 },
             ],
         )
+
+    def test_size_36(self):
+        self.assertEqual(
+            test("articles ±4.5 mm long;"),
+            [
+                {"subpart": "article", "trait": "subpart", "start": 0, "end": 8},
+                {
+                    "length_low": 4.5,
+                    "length_units": "mm",
+                    "trait": "size",
+                    "start": 10,
+                    "end": 21,
+                    "subpart": "article",
+                },
+            ],
+        )

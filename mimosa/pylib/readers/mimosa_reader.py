@@ -28,7 +28,7 @@ def read(args):
                 trait = ent._.data
                 trait["start"] += sent.start_char
                 trait["end"] += sent.start_char
-                traits += [e._.data for e in doc.ents]
+                traits.append(trait)
             data.append(Datum(text=sent.text, traits=traits))
 
     return data

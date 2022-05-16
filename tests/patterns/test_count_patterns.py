@@ -483,3 +483,20 @@ class TestCount(unittest.TestCase):
             test("Seeds 1000"),
             [{"end": 5, "fruit_part": "seed", "start": 0, "trait": "fruit_part"}],
         )
+
+    def test_count_26(self):
+        self.assertEqual(
+            test("""5-7(-8) free-falling article"""),
+            [
+                {
+                    "low": 5,
+                    "high": 7,
+                    "max": 8,
+                    "trait": "count",
+                    "start": 0,
+                    "end": 7,
+                    "subpart": "article",
+                },
+                {"subpart": "article", "trait": "subpart", "start": 21, "end": 28},
+            ],
+        )

@@ -17,7 +17,7 @@
 {% for datum in data %}
     <p class="{{datum.debug}}">{{ datum.text | safe }}</p>
     {% if datum.traits %}
-        <table>
+        <table class="{{datum.debug}}">
             <thead>
                 <tr>
                     <th>
