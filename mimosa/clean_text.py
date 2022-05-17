@@ -18,6 +18,8 @@ MOJIBAKE_WORDS = {
     # find, replace
     "Ivd": "lvd",
     "If-": "lf-",
+    "(?<=[a-z])U": "ll",
+    "U(?=[a-z])": "ll",
 }
 
 MOJIBAKE_REPLACE = {}
@@ -67,6 +69,9 @@ def clean_text(
     # Join hyphenated words when they are at the end of a line
     text = re.sub(r"([a-z])-\s+([a-z])", r"\1\2", text, flags=re.IGNORECASE)
 
+    # Handle spaces between digits
+    text = re.sub(r"(\d) (\d)", r"\1\2", text)
+
     text = ftfy.fix_text(text)  # Handle common mojibake
 
     text = re.sub(r"\p{Cc}+", " ", text)  # Remove control characters
@@ -77,7 +82,7 @@ def clean_text(
 def replace_patterns(text: str) -> str:
     replaces = []
     for i, (pattern, repl) in enumerate(MOJIBAKE_WORDS.items()):
-        name = f"M{i:04d}"
+        name = f"X{i:04d}"
         MOJIBAKE_REPLACE[name] = repl
         replaces.append(f"(?P<{name}>{pattern})")
     regexp = "|".join(replaces)

@@ -500,3 +500,27 @@ class TestCount(unittest.TestCase):
                 {"subpart": "article", "trait": "subpart", "start": 21, "end": 28},
             ],
         )
+
+    def test_count_27(self):
+        self.assertEqual(
+            test("leaf of ii-iii/17-19"),
+            [{"end": 4, "leaf_part": "leaf", "start": 0, "trait": "leaf_part"}],
+        )
+
+    def test_count_28(self):
+        self.assertEqual(
+            test("blades consequently imbricate 203b."),
+            [{"end": 6, "leaf_part": "leaf", "start": 0, "trait": "leaf_part"}],
+        )
+
+    def test_count_29(self):
+        self.assertEqual(
+            test("bracts 1984; 30,"),
+            [{"leaf_part": "bract", "trait": "leaf_part", "start": 0, "end": 6}],
+        )
+
+    def test_count_30(self):
+        self.assertEqual(
+            test("stem thereon is ticketed 490d"),
+            [{"part": "stem", "trait": "part", "start": 0, "end": 4}],
+        )

@@ -1,6 +1,7 @@
 """Create a trait pipeline."""
 import spacy
 from traiter.patterns import matcher_patterns
+from traiter.pipes import debug_pipes
 from traiter.pipes.add_traits_pipe import ADD_TRAITS
 from traiter.pipes.delete_traits_pipe import DELETE_TRAITS
 from traiter.pipes.link_traits_pipe import LINK_TRAITS
@@ -27,8 +28,6 @@ from .patterns import subpart_patterns
 from .patterns import taxon_linker_patterns
 from .patterns import taxon_patterns
 from .patterns import term_patterns
-
-# from traiter.pipes import debug_pipes
 
 
 def pipeline():
@@ -94,6 +93,7 @@ def pipeline():
                     count_patterns.COUNT_WORD,
                     count_patterns.NOT_A_COUNT,
                     count_suffix_patterns.COUNT_SUFFIX,
+                    taxon_patterns.TAXON,
                 ]
             )
         },
@@ -111,7 +111,6 @@ def pipeline():
                     shape_patterns.SHAPE,
                     part_location_patterns.PART_AS_LOCATION,
                     part_location_patterns.SUBPART_AS_LOCATION,
-                    taxon_patterns.TAXON,
                 ]
             )
         },
@@ -175,12 +174,15 @@ def pipeline():
         },
     )
 
-    # debug_pipes.tokens(nlp)  # #####################################################
+    debug_pipes.tokens(nlp)  # #####################################################
 
     nlp.add_pipe(
         DELETE_TRAITS,
         name="forget_unlinked",
-        config={"delete_when": delete_trait_utils.DELETE_WHEN},
+        config={
+            "delete": delete_trait_utils.DELETE_UNLINKED,
+            "delete_when": delete_trait_utils.DELETE_WHEN,
+        },
     )
 
     return nlp

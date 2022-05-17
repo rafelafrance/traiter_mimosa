@@ -25,15 +25,16 @@ TAXON = MatcherPatterns(
         "level": {"ENT_TYPE": "level"},
         "word": {"LOWER": {"REGEX": r"^[a-z-]+$"}},
         "M.": {"TEXT": {"REGEX": M_DOT}},
+        "9": {"ENT_TYPE": "range"},
     },
     patterns=[
-        "M.? taxon+ (? auth* )?",
-        "M.? taxon+ (? auth+ maybe auth+ )?",
-        "M.? taxon+ (? auth* )?             level .? word",
-        "M.? taxon+ (? auth+ maybe auth+ )? level .? word",
-        "level .? taxon+",
-        "taxon+",
-        "M.? taxon level .? word",
+        "M.? taxon+ (? auth* )?                           9?",
+        "M.? taxon+ (? auth+ maybe auth+ )?               9?",
+        "M.? taxon+ (? auth* )?             level .? word 9?",
+        "M.? taxon+ (? auth+ maybe auth+ )? level .? word 9?",
+        "level .? taxon+         9?",
+        "taxon+                  9?",
+        "M.? taxon level .? word 9?",
     ],
 )
 

@@ -16,32 +16,21 @@ PARTIAL_TRAITS = """ about cross color_mod dim dimension imperial_length imperia
 # ####################################################################################
 # Forget traits based upon special rules
 
+DELETE_MISSING_PARTS = "mimosa.missing_parts.v1"
 
-def part_and_subpart(ent):
+
+@registry.misc(DELETE_MISSING_PARTS)
+def delete_missing_parts(ent):
     """Remove trait if it is missing both the part and subpart."""
     data = ent._.data
     has_part = set(data.keys()) & term_patterns.PARTS_SET
     return not has_part and not data.get("subpart")
 
 
-def always(_):
-    """Always forget this trait after it's been linked."""
-    return True
-
-
 # ####################################################################################
-DELETE_WHEN = "mimosa.delete_when.v1"
+DELETE_UNLINKED = """surface_leader location""".split()
 
-WHEN_MISSING = {
-    "count": part_and_subpart,
-    "count_group": part_and_subpart,
-    "surface_leader": always,
-    "location": always,
+DELETE_WHEN = {
+    "count": DELETE_MISSING_PARTS,
+    "count_group": DELETE_MISSING_PARTS,
 }
-
-
-@registry.misc(DELETE_WHEN)
-def delete_when(ent):
-    """Remove entities without enough information."""
-    func = WHEN_MISSING.get(ent.label_, lambda _: False)
-    return func(ent)

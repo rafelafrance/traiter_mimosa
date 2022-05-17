@@ -62,3 +62,18 @@ class TestTaxon(unittest.TestCase):
                 }
             ],
         )
+
+    def test_taxon_05(self):
+        self.assertEqual(
+            test("""pachyphloia Bamehy 184."""),
+            [
+                {
+                    "authority": "Bamehy",
+                    "level": "species",
+                    "taxon": "pachyphloia",
+                    "trait": "taxon",
+                    "start": 0,
+                    "end": 22,
+                }
+            ],
+        )
