@@ -88,5 +88,6 @@ NOT_A_COUNT = MatcherPatterns(
         "99-99 not_count_word 99-99? not_count_ent?",
         "9 / 9",
         "x =? 99-99",
+        "99-99 ; 99-99",
     ],
 )

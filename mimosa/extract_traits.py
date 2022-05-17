@@ -3,7 +3,7 @@ import argparse
 import textwrap
 from pathlib import Path
 
-from pylib.readers import mimosa_reader
+from pylib import mimosa_reader
 from pylib.writers import html_writer
 
 

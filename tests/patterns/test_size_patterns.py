@@ -832,3 +832,21 @@ class TestSize(unittest.TestCase):
                 },
             ],
         )
+
+    def test_size_37(self):
+        self.assertEqual(
+            test("seeds ± 4 x 3 mm."),
+            [
+                {"fruit_part": "seed", "trait": "fruit_part", "start": 0, "end": 5},
+                {
+                    "length_low": 4.0,
+                    "length_units": "mm",
+                    "width_low": 3.0,
+                    "width_units": "mm",
+                    "trait": "size",
+                    "start": 8,
+                    "end": 17,
+                    "fruit_part": "seed",
+                },
+            ],
+        )

@@ -8,15 +8,16 @@ from . import common_patterns
 
 ON_RANGE_MATCH = "mimosa.range.v1"
 
-PAGE = """ p. pg pg. page pi pi. fig fig. sheet sheets bis bis. """.split()
+SKIP = """ p. pg pg. page pi pi. fig fig. sheet sheets bis bis.
+    sp. spp. no. no """.split()
 
 DECODER = common_patterns.COMMON_PATTERNS | {
     "ambiguous": {"LOWER": {"IN": ["few", "many"]}},
     "conj": {"POS": {"IN": ["CCONJ"]}},
     "month": {"ENT_TYPE": "month"},
-    "nope": {"TEXT": {"REGEX": "^[&/;:]+$"}},
-    "page": {"LOWER": {"IN": PAGE}},
-    "a.": {"LOWER": {"REGEX": r"^[a-ln-z]\.?$"}},
+    "nope": {"TEXT": {"REGEX": r"^[&/:°'\"]+$"}},
+    "skip": {"LOWER": {"IN": SKIP}},
+    "a.": {"LOWER": {"REGEX": r"^[a-ln-wyz]\.?$"}},  # Keep meters and a cross
 }
 
 RANGE_LOW = MatcherPatterns(
@@ -125,8 +126,8 @@ NOT_A_RANGE = MatcherPatterns(
         "  nope 9 - 9",
         "9 month",
         "  month 9",
-        "9 page",
-        "  page 9",
+        "9 skip",
+        "  skip 9",
         "9 a.",
     ],
 )

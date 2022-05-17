@@ -515,7 +515,7 @@ class TestCount(unittest.TestCase):
 
     def test_count_29(self):
         self.assertEqual(
-            test("bracts 1984; 30,"),
+            test("bracts 84; 30,"),
             [{"leaf_part": "bract", "trait": "leaf_part", "start": 0, "end": 6}],
         )
 
@@ -523,4 +523,45 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("stem thereon is ticketed 490d"),
             [{"part": "stem", "trait": "part", "start": 0, "end": 4}],
+        )
+
+    def test_count_31(self):
+        self.assertEqual(
+            test("septa 0;"),
+            [
+                {
+                    "female_flower_part": "septum",
+                    "trait": "female_flower_part",
+                    "start": 0,
+                    "end": 5,
+                },
+                {
+                    "low": 0,
+                    "trait": "count",
+                    "start": 6,
+                    "end": 7,
+                    "female_flower_part": "septum",
+                },
+            ],
+        )
+
+    def test_count_32(self):
+        self.assertEqual(
+            test("lf-stk; Chihuahuan Desert 59."),
+            [{"leaf_part": "leaf-stalk", "trait": "leaf_part", "start": 0, "end": 6}],
+        )
+
+    def test_count_33(self):
+        self.assertEqual(
+            test("""Bahia to S. Paulo 2."""),
+            [
+                {
+                    "plant_taxon": "Bahia",
+                    "trait": "taxon",
+                    "start": 0,
+                    "end": 5,
+                    "level": "genus",
+                    "taxon": "Bahia",
+                }
+            ],
         )

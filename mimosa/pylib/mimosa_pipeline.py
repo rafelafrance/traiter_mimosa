@@ -12,7 +12,7 @@ from . import tokenizer
 from .patterns import color_patterns
 from .patterns import count_patterns
 from .patterns import count_suffix_patterns
-from .patterns import delete_trait_utils
+from .patterns import delete_patterns
 from .patterns import location_linker_patterns
 from .patterns import margin_patterns
 from .patterns import part_linker_patterns
@@ -117,7 +117,7 @@ def pipeline():
         },
     )
 
-    nlp.add_pipe(DELETE_TRAITS, config={"delete": delete_trait_utils.PARTIAL_TRAITS})
+    nlp.add_pipe(DELETE_TRAITS, config={"delete": delete_patterns.PARTIAL_TRAITS})
 
     nlp.add_pipe(MERGE_TRAITS)
 
@@ -181,8 +181,8 @@ def pipeline():
         DELETE_TRAITS,
         name="forget_unlinked",
         config={
-            "delete": delete_trait_utils.DELETE_UNLINKED,
-            "delete_when": delete_trait_utils.DELETE_WHEN,
+            "delete": delete_patterns.DELETE_UNLINKED,
+            "delete_when": delete_patterns.DELETE_WHEN,
         },
     )
 

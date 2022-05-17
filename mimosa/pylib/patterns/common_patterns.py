@@ -18,6 +18,7 @@ COMMON_PATTERNS = {
     ".": {"TEXT": {"IN": t_const.DOT}},
     "x": {"TEXT": {"IN": t_const.CROSS}},
     ":": {"TEXT": {"IN": t_const.COLON}},
+    ";": {"TEXT": {"IN": t_const.SEMICOLON}},
     "to": {"LOWER": {"IN": TO}},
     "-/or": {"LOWER": {"IN": t_const.DASH + TO + CONJ}, "OP": "+"},
     "-/to": {"LOWER": {"IN": t_const.DASH + TO}, "OP": "+"},

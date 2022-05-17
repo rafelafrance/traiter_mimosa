@@ -18,8 +18,12 @@ MOJIBAKE_WORDS = {
     # find, replace
     "Ivd": "lvd",
     "If-": "lf-",
+    "If.": "lf.",
     "(?<=[a-z])U": "ll",
-    "U(?=[a-z])": "ll",
+    "(?<=[a-z])U(?=[a-z])": "ll",
+    "-l": "-1",
+    "l-": "1-",
+    "l 1": "11",
 }
 
 MOJIBAKE_REPLACE = {}
