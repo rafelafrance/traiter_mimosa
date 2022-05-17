@@ -16,7 +16,7 @@ DECODER = common_patterns.COMMON_PATTERNS | {
     "month": {"ENT_TYPE": "month"},
     "nope": {"TEXT": {"REGEX": "^[&/;:]+$"}},
     "page": {"LOWER": {"IN": PAGE}},
-    "a.": {"LOWER": {"REGEX": r"^[a-z]\.?$"}},
+    "a.": {"LOWER": {"REGEX": r"^[a-ln-z]\.?$"}},
 }
 
 RANGE_LOW = MatcherPatterns(
