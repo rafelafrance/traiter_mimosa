@@ -2,8 +2,8 @@
 from spacy import registry
 
 from . import term_patterns
+from ..consts import TITLE_SHAPES
 
-# Delete traits that are supposed to be a part of a larger trait
 PARTIAL_TRAITS = """ about cross color_mod dim dimension imperial_length imperial_mass
     margin_leader metric_length metric_mass not_a_range per_count
     quest shape_leader shape_suffix units joined range
@@ -29,8 +29,6 @@ def delete_missing_parts(ent):
 # Delete count traits based on special rules
 
 DELETE_PAGE_NO = "mimosa.page_no.v1"
-
-TITLE_SHAPES = """ Xxxxx Xxxx Xxx Xx X. Xx. X """.split()
 
 
 @registry.misc(DELETE_PAGE_NO)

@@ -553,15 +553,14 @@ class TestCount(unittest.TestCase):
 
     def test_count_33(self):
         self.assertEqual(
-            test("""Bahia to S. Paulo 2."""),
+            test("""Mimosa to S. Paulo 2."""),
             [
                 {
-                    "plant_taxon": "Bahia",
+                    "taxon": "Mimosa",
                     "trait": "taxon",
                     "start": 0,
-                    "end": 5,
+                    "end": 6,
                     "level": "genus",
-                    "taxon": "Bahia",
                 }
             ],
         )

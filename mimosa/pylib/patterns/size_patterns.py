@@ -16,6 +16,7 @@ NOT_A_SIZE = """ for """.split()
 SIZE_FIELDS = """ min low high max """.split()
 
 DECODER = common_patterns.COMMON_PATTERNS | {
+    "99.9": {"ENT_TYPE": "range"},
     "[?]": {"ENT_TYPE": "quest"},
     "about": {"ENT_TYPE": "about"},
     "and": {"LOWER": "and"},

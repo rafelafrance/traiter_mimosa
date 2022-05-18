@@ -2,11 +2,13 @@
 import re
 
 from spacy import registry
+from traiter import actions
 from traiter import const as t_const
 from traiter.patterns import matcher_patterns
 
 from . import common_patterns
 from . import term_patterns
+from .. import consts
 
 MULTIPLE_DASHES = ["\\" + c for c in t_const.DASH_CHAR]
 MULTIPLE_DASHES = rf'\s*[{"".join(MULTIPLE_DASHES)}]{{2,}}\s*'
@@ -40,7 +42,13 @@ def color(ent):
             continue
         if token.pos_ in ["AUX"]:
             continue
+        if token.shape_ in consts.TITLE_SHAPES:
+            continue
         parts.append(replace)
+
+    if not parts:
+        ent._.delete = True
+        raise actions.RejectMatch()
 
     value = "-".join(parts)
     value = re.sub(MULTIPLE_DASHES, r"-", value)

@@ -24,6 +24,7 @@ MOJIBAKE_WORDS = {
     "-l": "-1",
     "l-": "1-",
     "l 1": "11",
+    r"\bm m\b": "mm",
 }
 
 MOJIBAKE_REPLACE = {}

@@ -49,7 +49,7 @@ class TestColor(unittest.TestCase):
                     "trait": "color",
                     "start": 65,
                     "end": 86,
-                    "location": "distally",
+                    "location": "distal",
                     "flower_part": "hypanthium",
                 },
             ],
@@ -497,4 +497,10 @@ class TestColor(unittest.TestCase):
                     "end": 43,
                 },
             ],
+        )
+
+    def test_color_18(self):
+        self.assertEqual(
+            test("ex Britton & Rose, N. Amer. R ."),
+            [],
         )

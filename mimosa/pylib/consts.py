@@ -8,3 +8,5 @@ ROOT_DIR = Path("../.." if IS_SUBDIR else ".")
 
 DATA_DIR = ROOT_DIR / "data"
 MOCK_DIR = ROOT_DIR / "tests" / "mock_data"
+
+TITLE_SHAPES = set(""" Xxxxx Xxxx Xxx Xx X. Xx. X """.split())

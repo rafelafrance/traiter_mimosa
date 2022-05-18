@@ -28,10 +28,14 @@ TAXON = MatcherPatterns(
         "9": {"ENT_TYPE": "range"},
     },
     patterns=[
-        "M.? taxon+ (? auth* )?                           9?",
-        "M.? taxon+ (? auth+ maybe auth+ )?               9?",
-        "M.? taxon+ (? auth* )?             level .? word 9?",
-        "M.? taxon+ (? auth+ maybe auth+ )? level .? word 9?",
+        "M.? taxon+ (? auth*                       )?               9?",
+        "M.? taxon+ (? auth+ maybe auth+           )?               9?",
+        "M.? taxon+ (? auth*                       )? level .? word 9?",
+        "M.? taxon+ (? auth+ maybe auth+           )? level .? word 9?",
+        "M.? taxon+ (? auth*             and auth+ )?               9?",
+        "M.? taxon+ (? auth+ maybe auth+ and auth+ )?               9?",
+        "M.? taxon+ (? auth*             and auth+ )? level .? word 9?",
+        "M.? taxon+ (? auth+ maybe auth+ and auth+ )? level .? word 9?",
         "level .? taxon+         9?",
         "taxon+                  9?",
         "M.? taxon level .? word 9?",
@@ -78,10 +82,13 @@ def on_taxon_match(ent):
             else:
                 taxa.append(token.text)
 
-        elif token.pos_ in ["PROPN", "NOUN"]:
+        elif token.pos_ in ["PROPN", "NOUN"] or token.lower_ in common_patterns.AND:
             auth.append(token.text)
 
     if auth:
         ent._.data["authority"] = " ".join(auth)
+
+    if ent._.data.get("plant_taxon"):
+        del ent._.data["plant_taxon"]
 
     ent._.data["taxon"] = " ".join(taxa)

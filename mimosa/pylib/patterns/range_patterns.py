@@ -2,6 +2,7 @@
 import regex as re
 from spacy import registry
 from traiter import actions
+from traiter import const as t_const
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
 from . import common_patterns
@@ -12,6 +13,7 @@ SKIP = """ p. pg pg. page pi pi. fig fig. sheet sheets bis bis.
     sp. spp. no. no """.split()
 
 DECODER = common_patterns.COMMON_PATTERNS | {
+    "99.9": {"TEXT": {"REGEX": t_const.FLOAT_TOKEN_RE}},
     "ambiguous": {"LOWER": {"IN": ["few", "many"]}},
     "conj": {"POS": {"IN": ["CCONJ"]}},
     "month": {"ENT_TYPE": "month"},

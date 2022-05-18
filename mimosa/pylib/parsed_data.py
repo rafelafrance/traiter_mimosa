@@ -8,3 +8,4 @@ class Datum:
 
     text: str = ""
     traits: list[dict] = dataclasses.field(default_factory=list)
+    reject: bool = False

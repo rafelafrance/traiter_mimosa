@@ -8,6 +8,7 @@ from traiter.pipes.merge_traits import MERGE_TRAITS
 from traiter.pipes.simple_traits_pipe import SIMPLE_TRAITS
 from traiter.pipes.term_pipe import TERM_PIPE
 
+from . import doc_analysis
 from . import tokenizer
 from .patterns import color_patterns
 from .patterns import count_patterns
@@ -185,5 +186,7 @@ def pipeline():
             "delete_when": delete_patterns.DELETE_WHEN,
         },
     )
+
+    nlp.add_pipe(doc_analysis.DOC_ANALYSIS)
 
     return nlp

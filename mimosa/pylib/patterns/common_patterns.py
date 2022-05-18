@@ -1,7 +1,8 @@
 """Terms common to many pipelines."""
 from traiter import const as t_const
 
-CONJ = ["or", "and"]
+AND = ["&", "and"]
+CONJ = ["or", "&", "and"]
 TO = ["to"]
 MISSING = """
     without missing lack lacking except excepting not rarely obsolete
@@ -22,10 +23,10 @@ COMMON_PATTERNS = {
     "to": {"LOWER": {"IN": TO}},
     "-/or": {"LOWER": {"IN": t_const.DASH + TO + CONJ}, "OP": "+"},
     "-/to": {"LOWER": {"IN": t_const.DASH + TO}, "OP": "+"},
+    "and": {"LOWER": {"IN": AND}},
     "and/or": {"LOWER": {"IN": CONJ}},
     "missing": {"LOWER": {"IN": MISSING}},
     "9": {"IS_DIGIT": True},
-    "99.9": {"TEXT": {"REGEX": t_const.FLOAT_TOKEN_RE}},
     "99-99": {"ENT_TYPE": "range"},
     "99.9-99.9": {"ENT_TYPE": "range"},
     "phrase": {"LOWER": {"REGEX": r"^([^.;:]+)$"}},

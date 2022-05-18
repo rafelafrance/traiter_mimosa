@@ -34,10 +34,9 @@ def write(args, data):
     classes = {}
     formatted = []
     for datum in tqdm(data):
-        traits_used = {t["trait"] for t in datum.traits}
         text = format_text(datum, classes)
         traits = format_traits(datum, classes)
-        cls = "debug" if len(traits_used) < 2 else "real"
+        cls = "debug" if datum.reject else "real"
         formatted.append(Formatted(text, traits, cls))
 
     template = env.get_template("html_template.html").render(
