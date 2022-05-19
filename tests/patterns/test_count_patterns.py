@@ -564,3 +564,17 @@ class TestCount(unittest.TestCase):
                 }
             ],
         )
+
+    def test_count_34(self):
+        self.assertEqual(
+            test("""Mimosa lat. 13°40-14°10'S"""),
+            [
+                {
+                    "level": "genus",
+                    "taxon": "Mimosa",
+                    "trait": "taxon",
+                    "start": 0,
+                    "end": 14,
+                }
+            ],
+        )

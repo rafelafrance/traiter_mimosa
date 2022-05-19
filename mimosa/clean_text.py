@@ -15,16 +15,28 @@ MOJIBAKE = {
 }
 
 MOJIBAKE_WORDS = {
-    # find, replace
-    "Ivd": "lvd",
-    "If-": "lf-",
-    "If.": "lf.",
-    "(?<=[a-z])U": "ll",
-    "(?<=[a-z])U(?=[a-z])": "ll",
-    "-l": "-1",
-    "l-": "1-",
-    "l 1": "11",
-    r"\bm m\b": "mm",
+    # "find", "replace"
+    r"Ivd": "lvd",
+    r"1vd": "lvd",
+    r"If-": "lf-",
+    r"1f-": "lf-",
+    r"If\.": "lf.",
+    r"1f\.": "lf.",
+    r"(?<=[a-z])U": "ll",
+    r"-\s?l\b": "-1",
+    r"\bl\s?-": "1-",
+    r"-\s?l\s?l\b": "-11",
+    r"\bl\s?l\s?-": "11-",
+    r"\bl\s?1\b": "11",
+    r"\bm\sm\b": "mm",
+    r"1obe": "lobe",
+    r"1eave": "leave",
+    r"1eaf": "leaf",
+    r"I\.(?=\d)": "1.",
+    r"l\.(?=\d)": "1.",
+    r"1(?=[a-z][a-z])": "l",
+    r"(?<=[a-z][a-z])1": "l",
+    r"Unear": "Linear",
 }
 
 MOJIBAKE_REPLACE = {}

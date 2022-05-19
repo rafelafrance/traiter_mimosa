@@ -10,7 +10,7 @@ from . import common_patterns
 ON_RANGE_MATCH = "mimosa.range.v1"
 
 SKIP = """ p. pg pg. page pi pi. fig fig. sheet sheets bis bis.
-    sp. spp. no. no """.split()
+    sp. spp. no. no map """.split()
 
 DECODER = common_patterns.COMMON_PATTERNS | {
     "99.9": {"TEXT": {"REGEX": t_const.FLOAT_TOKEN_RE}},
@@ -20,6 +20,8 @@ DECODER = common_patterns.COMMON_PATTERNS | {
     "nope": {"TEXT": {"REGEX": r"^[&/:°'\"]+$"}},
     "skip": {"LOWER": {"IN": SKIP}},
     "a.": {"LOWER": {"REGEX": r"^[a-ln-wyz]\.?$"}},  # Keep meters and a cross
+    "bad-leader": {"LOWER": {"REGEX": r"^[.=,]$"}},
+    "bad-follower": {"LOWER": {"REGEX": r"^[=:]$"}},
 }
 
 RANGE_LOW = MatcherPatterns(
@@ -130,7 +132,10 @@ NOT_A_RANGE = MatcherPatterns(
         "  month 9",
         "9 skip",
         "  skip 9",
+        "  skip 9 , 9",
         "9 a.",
+        "bad-leader 9",
+        "9 bad-follower",
     ],
 )
 

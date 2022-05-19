@@ -12,7 +12,7 @@ from . import common_patterns
 from . import term_patterns
 
 FOLLOW = """ dim sex """.split()
-NOT_A_SIZE = """ for """.split()
+NOT_A_SIZE = """ for below above """.split()
 SIZE_FIELDS = """ min low high max """.split()
 
 DECODER = common_patterns.COMMON_PATTERNS | {

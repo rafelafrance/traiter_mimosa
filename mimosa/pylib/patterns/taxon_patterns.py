@@ -5,6 +5,7 @@ from traiter.patterns.matcher_patterns import MatcherPatterns
 
 from . import common_patterns
 from . import term_patterns
+from .. import consts
 
 LEVEL_LOWER = """ species subspecies variety subvariety form subform """.split()
 
@@ -83,7 +84,10 @@ def on_taxon_match(ent):
                 taxa.append(token.text)
 
         elif token.pos_ in ["PROPN", "NOUN"] or token.lower_ in common_patterns.AND:
-            auth.append(token.text)
+            if token.shape_ in consts.TITLE_SHAPES:
+                auth.append(token.text)
+            elif token.lower_ in common_patterns.AND:
+                auth.append(token.text)
 
     if auth:
         ent._.data["authority"] = " ".join(auth)
