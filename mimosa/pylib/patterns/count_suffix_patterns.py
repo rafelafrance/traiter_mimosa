@@ -21,8 +21,8 @@ COUNT_SUFFIX = MatcherPatterns(
 @registry.misc(COUNT_SUFFIX.on_match)
 def on_count_suffix_match(ent):
     ent._.new_label = "count"
-    range_ = [t for t in ent if t.ent_type_ == "range"][0]
-    suffix = [t for t in ent if t.ent_type_ == "count_suffix"][0]
+    range_ = next(t for t in ent if t.ent_type_ == "range")
+    suffix = next(t for t in ent if t.ent_type_ == "count_suffix")
 
     ent._.data = range_._.data
 

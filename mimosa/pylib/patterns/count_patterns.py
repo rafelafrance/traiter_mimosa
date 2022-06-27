@@ -41,7 +41,7 @@ COUNT = MatcherPatterns(
 def on_count_match(ent):
     ent._.new_label = "count"
 
-    range_ = [t for t in ent if t.ent_type_ == "range"][0]
+    range_ = next(t for t in ent if t.ent_type_ == "range")
     ent._.data = range_._.data
 
     for key in ["min", "low", "high", "max"]:
@@ -72,7 +72,7 @@ COUNT_WORD = MatcherPatterns(
 @registry.misc(COUNT_WORD.on_match)
 def count_word(ent):
     ent._.new_label = "count"
-    word = [e for e in ent.ents if e.label_ == "count_word"][0]
+    word = next(e for e in ent.ents if e.label_ == "count_word")
     word._.data = {
         "low": t_util.to_positive_int(term_patterns.REPLACE[word.text.lower()])
     }
