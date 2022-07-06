@@ -573,7 +573,21 @@ class TestCount(unittest.TestCase):
                     "taxon": "Mimosa",
                     "trait": "taxon",
                     "start": 0,
-                    "end": 14,
+                    "end": 11,
+                }
+            ],
+        )
+
+    def test_count_35(self):
+        self.assertEqual(
+            test("""Mimosa 18-30"""),
+            [
+                {
+                    "trait": "taxon",
+                    "start": 0,
+                    "end": 6,
+                    "level": "genus",
+                    "taxon": "Mimosa",
                 }
             ],
         )

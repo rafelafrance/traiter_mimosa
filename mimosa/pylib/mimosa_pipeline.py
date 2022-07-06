@@ -14,6 +14,7 @@ from .patterns import color_patterns
 from .patterns import count_patterns
 from .patterns import count_suffix_patterns
 from .patterns import delete_patterns
+from .patterns import habit_patterns
 from .patterns import location_linker_patterns
 from .patterns import margin_patterns
 from .patterns import part_linker_patterns
@@ -124,6 +125,7 @@ def pipeline():
                     shape_patterns.SHAPE,
                     part_location_patterns.PART_AS_LOCATION,
                     part_location_patterns.SUBPART_AS_LOCATION,
+                    habit_patterns.HABIT,
                 ]
             )
         },

@@ -10,3 +10,5 @@ DATA_DIR = ROOT_DIR / "data"
 MOCK_DIR = ROOT_DIR / "tests" / "mock_data"
 
 TITLE_SHAPES = set(""" Xxxxx Xxxx Xxx Xx X. Xx. X """.split())
+
+LOWER_TAXON_LEVEL = """ species subspecies variety subvariety form subform """.split()

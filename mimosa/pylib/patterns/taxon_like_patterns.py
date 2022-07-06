@@ -4,7 +4,7 @@ from traiter.patterns.matcher_patterns import MatcherPatterns
 ON_TAXON_LIKE_MATCH = "mimosa.taxon_like.v1"
 
 
-SIMILAR = """ like similar as than exactly sympatric """.split()
+SIMILAR = """ like similar exactly sympatric affini resembling resembles """.split()
 
 
 TAXON_LIKE = MatcherPatterns(
@@ -16,7 +16,7 @@ TAXON_LIKE = MatcherPatterns(
         "taxon": {"ENT_TYPE": "taxon"},
     },
     patterns=[
-        "similar prep? taxon+",
+        "similar+ prep? taxon+",
     ],
 )
 

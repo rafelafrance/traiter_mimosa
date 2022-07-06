@@ -70,8 +70,8 @@ class TestDescriptor(unittest.TestCase):
             [
                 {"part": "stem", "trait": "part", "start": 0, "end": 5},
                 {
-                    "plant_habit": "cespitose",
-                    "trait": "plant_habit",
+                    "habit": "cespitose",
+                    "trait": "habit",
                     "start": 12,
                     "end": 22,
                 },
@@ -97,16 +97,29 @@ class TestDescriptor(unittest.TestCase):
                 },
                 {"part": "shrub", "trait": "part", "start": 19, "end": 28},
                 {
-                    "plant_habit": "epiphytic",
-                    "trait": "plant_habit",
+                    "habit": "epiphytic",
+                    "trait": "habit",
                     "start": 30,
                     "end": 39,
                 },
                 {
-                    "plant_habit": "epilithic",
-                    "trait": "plant_habit",
+                    "habit": "epilithic",
+                    "trait": "habit",
                     "start": 43,
                     "end": 52,
+                },
+            ],
+        )
+
+    def test_descriptor_05(self):
+        self.assertEqual(
+            test("rosette-trees"),
+            [
+                {
+                    "habit": "rosette-trees",
+                    "trait": "habit",
+                    "start": 0,
+                    "end": 13,
                 },
             ],
         )

@@ -33,3 +33,18 @@ class TestTaxonLike(unittest.TestCase):
                 }
             ],
         )
+
+    def test_taxon_like_03(self):
+        self.assertEqual(
+            test("""It resembles M. sensitiva in amplitude"""),
+            [
+                {
+                    "level": "species",
+                    "taxon": "M. sensitiva",
+                    "trait": "taxon_like",
+                    "start": 3,
+                    "end": 25,
+                    "relation": "resembles",
+                }
+            ],
+        )

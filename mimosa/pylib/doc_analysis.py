@@ -1,3 +1,5 @@
+from copy import copy
+
 from spacy.language import Language
 from spacy.tokens import Doc
 
@@ -18,7 +20,7 @@ class DocAnalysis:
         self.nlp = nlp
         self.name = name
 
-        self.reject_set = term_patterns.PARTS_SET
+        self.reject_set = copy(term_patterns.PARTS_SET)
         self.reject_set.add("taxon")
 
     def __call__(self, doc: Doc) -> Doc:

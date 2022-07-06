@@ -2,7 +2,7 @@
 from spacy import registry
 
 from . import term_patterns
-from ..consts import TITLE_SHAPES
+from .. import consts
 
 PARTIAL_TRAITS = """ about cross color_mod dim dimension imperial_length imperial_mass
     margin_leader metric_length metric_mass not_a_range per_count
@@ -12,7 +12,6 @@ PARTIAL_TRAITS = """ about cross color_mod dim dimension imperial_length imperia
 
 
 # ####################################################################################
-# Delete traits based upon special rules
 
 DELETE_MISSING_PARTS = "mimosa.missing_parts.v1"
 
@@ -26,7 +25,6 @@ def delete_missing_parts(ent):
 
 
 # ####################################################################################
-# Delete count traits based on special rules
 
 DELETE_PAGE_NO = "mimosa.page_no.v1"
 
@@ -45,8 +43,8 @@ def delete_page_no(ent):
     # Are the previous 2 tokens title case?
     if (
         ent.start > 1
-        and ent.doc[ent.start - 2].shape_ in TITLE_SHAPES
-        and ent.doc[ent.start - 1].shape_ in TITLE_SHAPES
+        and ent.doc[ent.start - 2].shape_ in consts.TITLE_SHAPES
+        and ent.doc[ent.start - 1].shape_ in consts.TITLE_SHAPES
     ):
         return True
 
@@ -60,9 +58,22 @@ def delete_page_no(ent):
 
 
 # ####################################################################################
+DELETE_KM = "mimosa.kilometers.v1"
+
+
+@registry.misc(DELETE_KM)
+def delete_kilometers(ent):
+    """Remove size if it's in kilometers."""
+    data = ent._.data
+    in_km = any(v == "km" for k, v in data.items() if k.endswith("_units"))
+    return in_km
+
+
+# ####################################################################################
 DELETE_UNLINKED = """surface_leader location""".split()
 
 DELETE_WHEN = {
     "count": [DELETE_MISSING_PARTS, DELETE_PAGE_NO],
     "count_group": DELETE_MISSING_PARTS,
+    "size": DELETE_KM,
 }

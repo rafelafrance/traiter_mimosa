@@ -385,8 +385,8 @@ class TestColor(unittest.TestCase):
             [
                 {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 6},
                 {
-                    "plant_habit": "acaulescent",
-                    "trait": "plant_habit",
+                    "habit": "acaulescent",
+                    "trait": "habit",
                     "start": 7,
                     "end": 18,
                 },

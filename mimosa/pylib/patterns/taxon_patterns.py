@@ -1,6 +1,7 @@
 """Get mimosa taxon notations."""
 import regex as re
 from spacy import registry
+from traiter import actions
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
 from . import common_patterns
@@ -8,8 +9,6 @@ from . import term_patterns
 from .. import consts
 
 ON_TAXON_MATCH = "mimosa.taxon.v1"
-
-LEVEL_LOWER = """ species subspecies variety subvariety form subform """.split()
 
 M_DOT = r"^[A-Z]\.?$"
 M_DOT_RE = re.compile(M_DOT)
@@ -26,20 +25,19 @@ TAXON = MatcherPatterns(
         "level": {"ENT_TYPE": "level"},
         "word": {"LOWER": {"REGEX": r"^[a-z-]+$"}},
         "M.": {"TEXT": {"REGEX": M_DOT}},
-        "9": {"ENT_TYPE": "range"},
     },
     patterns=[
-        "M.? taxon+ (? auth*                       )?               9?",
-        "M.? taxon+ (? auth+ maybe auth+           )?               9?",
-        "M.? taxon+ (? auth*                       )? level .? word 9?",
-        "M.? taxon+ (? auth+ maybe auth+           )? level .? word 9?",
-        "M.? taxon+ (? auth*             and auth+ )?               9?",
-        "M.? taxon+ (? auth+ maybe auth+ and auth+ )?               9?",
-        "M.? taxon+ (? auth*             and auth+ )? level .? word 9?",
-        "M.? taxon+ (? auth+ maybe auth+ and auth+ )? level .? word 9?",
-        "level .? taxon+         9?",
-        "taxon+                  9?",
-        "M.? taxon level .? word 9?",
+        "M.? taxon+ (? auth*                       )?",
+        "M.? taxon+ (? auth+ maybe auth+           )?",
+        "M.? taxon+ (? auth*                       )? level .? word",
+        "M.? taxon+ (? auth+ maybe auth+           )? level .? word",
+        "M.? taxon+ (? auth*             and auth+ )?",
+        "M.? taxon+ (? auth+ maybe auth+ and auth+ )?",
+        "M.? taxon+ (? auth*             and auth+ )? level .? word",
+        "M.? taxon+ (? auth+ maybe auth+ and auth+ )? level .? word",
+        "level .? taxon+",
+        "taxon+",
+        "M.? taxon level .? word",
     ],
 )
 
@@ -57,7 +55,7 @@ def on_taxon_match(ent):
             is_level = token.lower_
             ent._.data["level"] = term_patterns.REPLACE.get(token.lower_, token.lower_)
         elif is_level:
-            if ent._.data["level"] in LEVEL_LOWER:
+            if ent._.data["level"] in consts.LOWER_TAXON_LEVEL:
                 taxa.append(token.lower_)
             else:
                 taxa.append(token.text.title())
@@ -75,7 +73,7 @@ def on_taxon_match(ent):
                 if level not in used_levels:
                     used_levels.append(level)
                     ent._.data["level"] = level
-                    if level in LEVEL_LOWER:
+                    if level in consts.LOWER_TAXON_LEVEL:
                         taxa.append(token.lower_)
                     else:
                         taxa.append(token.text.title())
@@ -96,3 +94,10 @@ def on_taxon_match(ent):
         del ent._.data["plant_taxon"]
 
     ent._.data["taxon"] = " ".join(taxa)
+
+    # There is latin in the text, I need to guard against that
+    is_lower = ent._.data["level"] in consts.LOWER_TAXON_LEVEL
+    alone = len(ent._.data["taxon"].split()) == 1
+    if is_lower and alone:
+        ent._.delete = True
+        raise actions.RejectMatch()
