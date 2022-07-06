@@ -25,6 +25,7 @@ from .patterns import shape_patterns
 from .patterns import size_patterns
 from .patterns import subpart_linker_patterns
 from .patterns import subpart_patterns
+from .patterns import taxon_like_patterns
 from .patterns import taxon_linker_patterns
 from .patterns import taxon_patterns
 from .patterns import term_patterns
@@ -98,6 +99,16 @@ def pipeline():
                     taxon_patterns.TAXON,
                 ]
             )
+        },
+    )
+
+    # debug_pipes.tokens(nlp)  # #####################################################
+
+    nlp.add_pipe(
+        ADD_TRAITS,
+        name="relative_traits",
+        config={
+            "patterns": matcher_patterns.as_dicts([taxon_like_patterns.TAXON_LIKE])
         },
     )
 

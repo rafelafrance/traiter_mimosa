@@ -37,6 +37,9 @@ MOJIBAKE_WORDS = {
     r"1(?=[a-z][a-z])": "l",
     r"(?<=[a-z][a-z])1": "l",
     r"Unear": "Linear",
+    r"1-A": "1-4",
+    r"2-A": "2-4",
+    r"3-A": "3-4",
 }
 
 MOJIBAKE_REPLACE = {}
@@ -57,7 +60,8 @@ def clean(args):
     # The bulk of the text cleaning happens in this function
     logging.info("Cleaning text")
     trans = str.maketrans(MOJIBAKE)
-    text = clean_text(text, trans=trans)
+    regexp = build_replace_patterns()
+    text = clean_text(text, trans=trans, regexp=regexp)
 
     # Break into sentences
     logging.info("Breaking text into sentences")
@@ -74,12 +78,13 @@ def clean(args):
 def clean_text(
     text: str,
     trans: dict[int, str] = None,
+    regexp: re.regex = None,
 ) -> str:
     text = text if text else ""
 
     text = text.translate(trans)  # Handle uncommon mojibake
 
-    text = replace_patterns(text)  # Replace messed up words
+    text = replace_patterns(regexp, text)  # Replace messed up words
 
     text = " ".join(text.split())  # Space normalize
 
@@ -96,15 +101,18 @@ def clean_text(
     return text
 
 
-def replace_patterns(text: str) -> str:
+def build_replace_patterns() -> re.regex:
     replaces = []
     for i, (pattern, repl) in enumerate(MOJIBAKE_WORDS.items()):
-        name = f"X{i:04d}"
-        MOJIBAKE_REPLACE[name] = repl
-        replaces.append(f"(?P<{name}>{pattern})")
-    regexp = "|".join(replaces)
+        re_group_name = f"X{i:04d}"
+        MOJIBAKE_REPLACE[re_group_name] = repl
+        replaces.append(f"(?P<{re_group_name}>{pattern})")
+    regexp: re.regex = re.compile("|".join(replaces))
+    return regexp
 
-    text = re.sub(regexp, lambda m: MOJIBAKE_REPLACE[m.lastgroup], text)
+
+def replace_patterns(regexp: re.regex, text: str) -> str:
+    text = regexp.sub(lambda m: MOJIBAKE_REPLACE[m.lastgroup], text)
     return text
 
 

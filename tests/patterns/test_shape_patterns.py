@@ -1,13 +1,9 @@
-"""Test the plant shape matcher."""
-# pylint: disable=missing-function-docstring, too-many-public-methods
 import unittest
 
 from tests.setup import test
 
 
 class TestShape(unittest.TestCase):
-    """Test the plant shape trait parser."""
-
     def test_shape_01(self):
         self.assertEqual(
             test("leaf suborbiculate"),

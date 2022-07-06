@@ -1,12 +1,9 @@
-"""Test the plant color matcher."""
 import unittest
 
 from tests.setup import test
 
 
 class TestColor(unittest.TestCase):
-    """Test the plant color trait parser."""
-
     def test_color_01(self):
         self.assertEqual(
             test(

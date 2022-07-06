@@ -1,4 +1,3 @@
-"""Test the sentence splitter."""
 import unittest
 
 from traiter.util import shorten
@@ -7,8 +6,6 @@ from tests.setup import NLP
 
 
 class TestSentence(unittest.TestCase):
-    """ "Test the sentence splitter."""
-
     def test_sentencizer_01(self):
         text = shorten("""It was common “along a tiny stream.” Argia apicalis.""")
         doc = NLP(text)

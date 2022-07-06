@@ -1,4 +1,3 @@
-"""Test the part linker matcher."""
 import unittest
 
 from tests.setup import test

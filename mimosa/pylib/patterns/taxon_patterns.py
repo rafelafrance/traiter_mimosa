@@ -7,9 +7,9 @@ from . import common_patterns
 from . import term_patterns
 from .. import consts
 
-LEVEL_LOWER = """ species subspecies variety subvariety form subform """.split()
-
 ON_TAXON_MATCH = "mimosa.taxon.v1"
+
+LEVEL_LOWER = """ species subspecies variety subvariety form subform """.split()
 
 M_DOT = r"^[A-Z]\.?$"
 M_DOT_RE = re.compile(M_DOT)

@@ -1,12 +1,9 @@
-"""Test the plant surface patterns."""
 import unittest
 
 from tests.setup import test
 
 
 class TestSurface(unittest.TestCase):
-    """Test the plant surface patterns."""
-
     def test_surface_01(self):
         self.assertEqual(
             test("""glabrous flowers"""),

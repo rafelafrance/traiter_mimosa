@@ -1,13 +1,9 @@
-"""Test the plant descriptor matcher."""
-# pylint: disable=missing-function-docstring
 import unittest
 
 from tests.setup import test
 
 
 class TestDescriptor(unittest.TestCase):
-    """Test the plant descriptor trait parser."""
-
     def test_descriptor_01(self):
         self.assertEqual(
             test(

@@ -1,13 +1,9 @@
-"""Test the plant margin shape matcher."""
-# pylint: disable=missing-function-docstring
 import unittest
 
 from tests.setup import test
 
 
 class TestMargin(unittest.TestCase):
-    """Test the plant margin shape trait parser."""
-
     def test_margin_00(self):
         test("""margins coarsely toothed or remotely sinuate-dentate to serrate,""")
 

@@ -1,4 +1,3 @@
-"""Test plant count trait matcher."""
 import unittest
 
 from tests.setup import test

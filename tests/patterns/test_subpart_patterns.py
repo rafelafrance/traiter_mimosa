@@ -1,13 +1,9 @@
-"""Test matching literal phrases."""
-# pylint: disable=missing-function-docstring
 import unittest
 
 from tests.setup import test
 
 
 class TestSubpart(unittest.TestCase):
-    """Test the plant subpart parser."""
-
     def test_subpart_01(self):
         self.assertEqual(
             test("terminal lobe ovate-trullate,"),

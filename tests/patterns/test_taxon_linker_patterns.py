@@ -1,12 +1,9 @@
-"""Test the taxon linker matcher."""
 import unittest
 
 from tests.setup import test
 
 
 class TestTaxonLinker(unittest.TestCase):
-    """Test the taxon trait linker."""
-
     def test_taxon_linker_01(self):
         self.assertEqual(
             test(

@@ -1,12 +1,9 @@
-"""Test the taxon matcher."""
 import unittest
 
 from tests.setup import test
 
 
 class TestTaxon(unittest.TestCase):
-    """Test the plant taxon trait parser."""
-
     def test_taxon_01(self):
         self.assertEqual(
             test("""M. sensitiva"""),
