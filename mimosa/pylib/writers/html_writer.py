@@ -119,10 +119,11 @@ def get_label(trait):
     keys = set(trait.keys())
     part_key = list(keys & term_patterns.PARTS_SET)
     part = trait[part_key[0]] if part_key else ""
-    part = "_".join(part) if isinstance(part, list) else part
+    part = " ".join(part) if isinstance(part, list) else part
     subpart = trait["subpart"] if trait.get("subpart") else ""
     trait = trait["trait"] if trait["trait"] not in ALL_PARTS else ""
-    label = "_".join([p for p in [part, subpart, trait] if p])
+    label = " ".join([p for p in [part, subpart, trait] if p])
+    label = label.replace(" ", "_")
     return label
 
 

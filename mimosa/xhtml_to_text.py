@@ -5,7 +5,6 @@ from dataclasses import dataclass
 from dataclasses import field
 from pathlib import Path
 
-import rich
 from bs4 import BeautifulSoup
 
 
@@ -43,9 +42,6 @@ class Page:
 def main():
     args = parse_args()
     xhtml_to_text(args)
-
-    msg = " ".join("""You may need to edit the output file manually.""".split())
-    rich.print(f"\n[bold yellow]{msg}[/bold yellow]\n")
 
 
 def xhtml_to_text(args):
@@ -195,7 +191,7 @@ def parse_args():
     arg_parser.add_argument(
         "--gap-radius",
         type=int,
-        default=10,
+        default=20,
         help="""Consider a gap to be in the center if it is within this distance of
             the true center of the page. (default: %(default)s)""",
     )
@@ -203,7 +199,7 @@ def parse_args():
     arg_parser.add_argument(
         "--gap-min",
         type=int,
-        default=12,
+        default=8,
         help="""Break a line into 2 columns if the gap between words is near the
             center and the gap is at least this big. Set this to zero if there are
             never 2 columns of text. (default: %(default)s)""",
