@@ -24,7 +24,7 @@ Trait = collections.namedtuple("Trait", "label data")
 SortableTrait = collections.namedtuple("SortableTrait", "label start trait title")
 
 
-def write(args, data):
+def write(args, sentences):
     """Output the parsed data."""
 
     env = jinja2.Environment(
@@ -36,10 +36,10 @@ def write(args, data):
 
     classes = {}
     formatted = []
-    for datum in tqdm(data):
-        text = format_text(datum, classes)
-        traits = format_traits(datum, classes)
-        cls = "debug" if datum.reject else "real"
+    for sentence_data in tqdm(sentences):
+        text = format_text(sentence_data, classes)
+        traits = format_traits(sentence_data, classes)
+        cls = "debug" if sentence_data.reject else "real"
         formatted.append(Formatted(text, traits, cls))
 
     template = env.get_template("html_template.html").render(
@@ -53,17 +53,17 @@ def write(args, data):
         html_file.close()
 
 
-def format_text(datum, classes) -> str:
+def format_text(sentence_data, classes) -> str:
     """Wrap traits in the text with spans that can be formatted with CSS."""
     frags = []
     prev = 0
 
-    for trait in datum.traits:
+    for trait in sentence_data.traits:
         start = trait["start"]
         end = trait["end"]
 
         if prev < start:
-            frags.append(html.escape(datum.text[prev:start]))
+            frags.append(html.escape(sentence_data.text[prev:start]))
 
         label = get_label(trait)
         cls = get_class(label, classes)
@@ -73,25 +73,25 @@ def format_text(datum, classes) -> str:
         )
 
         frags.append(f'<span class="{cls}" title="{title}">')
-        frags.append(html.escape(datum.text[start:end]))
+        frags.append(html.escape(sentence_data.text[start:end]))
         frags.append("</span>")
         prev = end
 
-    if len(datum.text) > prev:
-        frags.append(html.escape(datum.text[prev:]))
+    if len(sentence_data.text) > prev:
+        frags.append(html.escape(sentence_data.text[prev:]))
 
     text = "".join(frags)
     return text
 
 
-def format_traits(datum, classes) -> list[collections.namedtuple]:
+def format_traits(sentence_data, classes) -> list[collections.namedtuple]:
     """Format the traits for output."""
     traits = []
 
     sortable = []
-    for trait in datum.traits:
+    for trait in sentence_data.traits:
         label = get_label(trait)
-        title = datum.text[trait["start"] : trait["end"]]
+        title = sentence_data.text[trait["start"] : trait["end"]]
         sortable.append(SortableTrait(label, trait["start"], trait, title))
 
     sortable = sorted(sortable)
@@ -119,10 +119,11 @@ def get_label(trait):
     keys = set(trait.keys())
     part_key = list(keys & term_patterns.PARTS_SET)
     part = trait[part_key[0]] if part_key else ""
-    part = " ".join(part) if isinstance(part, list) else part
+    part = "_".join(part) if isinstance(part, list) else part
     subpart = trait["subpart"] if trait.get("subpart") else ""
     trait = trait["trait"] if trait["trait"] not in ALL_PARTS else ""
-    return " ".join([p for p in [part, subpart, trait] if p])
+    label = "_".join([p for p in [part, subpart, trait] if p])
+    return label
 
 
 def get_class(label, classes):

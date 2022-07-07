@@ -40,6 +40,7 @@ MOJIBAKE_WORDS = {
     r"1-A": "1-4",
     r"2-A": "2-4",
     r"3-A": "3-4",
+    r"tmnk": "trunk",
 }
 
 MOJIBAKE_REPLACE = {}

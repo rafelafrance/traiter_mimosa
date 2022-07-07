@@ -8,6 +8,7 @@ from traiter.pipes.merge_traits import MERGE_TRAITS
 from traiter.pipes.simple_traits_pipe import SIMPLE_TRAITS
 from traiter.pipes.term_pipe import TERM_PIPE
 
+from . import consts
 from . import doc_analysis
 from . import tokenizer
 from .patterns import color_patterns
@@ -107,6 +108,7 @@ def pipeline():
     )
 
     # debug_pipes.tokens(nlp)  # #####################################################
+    # debug_pipes.ents(nlp)  # #####################################################
 
     nlp.add_pipe(
         ADD_TRAITS,
@@ -123,7 +125,7 @@ def pipeline():
             "patterns": matcher_patterns.as_dicts(
                 [
                     color_patterns.COLOR,
-                    margin_patterns.LEAF_MARGIN,
+                    margin_patterns.MARGIN,
                     shape_patterns.N_SHAPE,
                     shape_patterns.SHAPE,
                     part_location_patterns.PART_AS_LOCATION,
@@ -145,6 +147,7 @@ def pipeline():
             "parents": part_linker_patterns.PART_PARENTS,
             "children": part_linker_patterns.PART_CHILDREN,
             "patterns": matcher_patterns.as_dicts([part_linker_patterns.PART_LINKER]),
+            "weights": consts.TOKEN_WEIGHTS,
         },
     )
 

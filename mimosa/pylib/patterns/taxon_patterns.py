@@ -47,21 +47,26 @@ def on_taxon_match(ent):
     auth = []
     used_levels = []
     taxa = []
+    original = []
     is_level = ""
 
     for token in ent:
         if token._.cached_label == "level":
             taxa.append(token.lower_)
+            original.append(token.text)
             is_level = token.lower_
             ent._.data["level"] = term_patterns.REPLACE.get(token.lower_, token.lower_)
         elif is_level:
             if ent._.data["level"] in consts.LOWER_TAXON_LEVEL:
+                original.append(token.text)
                 taxa.append(token.lower_)
             else:
+                original.append(token.text)
                 taxa.append(token.text.title())
             is_level = ""
 
         elif M_DOT_RE.match(token.text):
+            original.append(token.text)
             taxa.append(token.text)
             used_levels.append("genus")
 
@@ -74,11 +79,14 @@ def on_taxon_match(ent):
                     used_levels.append(level)
                     ent._.data["level"] = level
                     if level in consts.LOWER_TAXON_LEVEL:
+                        original.append(token.text)
                         taxa.append(token.lower_)
                     else:
+                        original.append(token.text)
                         taxa.append(token.text.title())
                     break
             else:
+                original.append(token.text)
                 taxa.append(token.text)
 
         elif token.pos_ in ["PROPN", "NOUN"] or token.lower_ in common_patterns.AND:
@@ -98,6 +106,6 @@ def on_taxon_match(ent):
     # There is latin in the text, I need to guard against that
     is_lower = ent._.data["level"] in consts.LOWER_TAXON_LEVEL
     alone = len(ent._.data["taxon"].split()) == 1
-    if is_lower and alone:
+    if alone and (is_lower or original[0][0].islower()):
         ent._.delete = True
         raise actions.RejectMatch()

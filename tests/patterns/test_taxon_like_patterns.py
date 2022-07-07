@@ -48,3 +48,19 @@ class TestTaxonLike(unittest.TestCase):
                 }
             ],
         )
+
+    def test_taxon_like_04(self):
+        self.assertEqual(
+            test("""sympatric pair of M. sensitiva Harms ex Glaziou"""),
+            [
+                {
+                    "level": "species",
+                    "authority": "Harms Glaziou",
+                    "taxon": "M. sensitiva",
+                    "trait": "taxon_like",
+                    "start": 0,
+                    "end": 47,
+                    "relation": "sympatric",
+                }
+            ],
+        )

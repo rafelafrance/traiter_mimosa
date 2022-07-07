@@ -59,8 +59,8 @@ class TestPartLocation(unittest.TestCase):
             [
                 {"leaf_part": "stipule", "trait": "leaf_part", "start": 0, "end": 8},
                 {
-                    "leaf_margin": "ciliate",
-                    "trait": "leaf_margin",
+                    "margin": "ciliate",
+                    "trait": "margin",
                     "start": 17,
                     "end": 24,
                     "leaf_part": "stipule",

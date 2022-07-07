@@ -142,8 +142,8 @@ class TestSize(unittest.TestCase):
                     "leaf_part": "petiolule",
                 },
                 {
-                    "leaf_margin": "serrate",
-                    "trait": "leaf_margin",
+                    "margin": "serrate",
+                    "trait": "margin",
                     "start": 19,
                     "end": 35,
                     "leaf_part": "petiole",

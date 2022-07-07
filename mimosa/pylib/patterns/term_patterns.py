@@ -53,7 +53,7 @@ TRAITS = (
     habitat
     leaf_duration
     leaf_folding
-    leaf_margin
+    margin
     reproduction
     sex
     subpart

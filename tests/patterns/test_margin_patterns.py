@@ -13,8 +13,8 @@ class TestMargin(unittest.TestCase):
             [
                 {"subpart": "margin", "trait": "subpart", "start": 0, "end": 6},
                 {
-                    "leaf_margin": "undulate-crenate",
-                    "trait": "leaf_margin",
+                    "margin": "undulate-crenate",
+                    "trait": "margin",
                     "subpart": "margin",
                     "start": 7,
                     "end": 33,
@@ -29,8 +29,8 @@ class TestMargin(unittest.TestCase):
             [
                 {"subpart": "margin", "trait": "subpart", "start": 0, "end": 7},
                 {
-                    "leaf_margin": "ciliate",
-                    "trait": "leaf_margin",
+                    "margin": "ciliate",
+                    "trait": "margin",
                     "subpart": "margin",
                     "start": 8,
                     "end": 15,
@@ -59,8 +59,8 @@ class TestMargin(unittest.TestCase):
             [
                 {"shape": "reniform", "trait": "shape", "start": 0, "end": 8},
                 {
-                    "leaf_margin": "undulate",
-                    "trait": "leaf_margin",
+                    "margin": "undulate",
+                    "trait": "margin",
                     "start": 10,
                     "end": 27,
                 },
@@ -73,8 +73,8 @@ class TestMargin(unittest.TestCase):
             [
                 {"subpart": "margin", "trait": "subpart", "start": 0, "end": 7},
                 {
-                    "leaf_margin": "corrugated",
-                    "trait": "leaf_margin",
+                    "margin": "corrugated",
+                    "trait": "margin",
                     "subpart": "margin",
                     "start": 8,
                     "end": 28,
@@ -88,22 +88,22 @@ class TestMargin(unittest.TestCase):
             [
                 {"subpart": "margin", "trait": "subpart", "start": 0, "end": 7},
                 {
-                    "leaf_margin": "toothed",
-                    "trait": "leaf_margin",
+                    "margin": "toothed",
+                    "trait": "margin",
                     "subpart": "margin",
                     "start": 8,
                     "end": 24,
                 },
                 {
-                    "leaf_margin": "sinuate-dentate",
-                    "trait": "leaf_margin",
+                    "margin": "sinuate-dentate",
+                    "trait": "margin",
                     "subpart": "margin",
                     "start": 28,
                     "end": 52,
                 },
                 {
-                    "leaf_margin": "serrate",
-                    "trait": "leaf_margin",
+                    "margin": "serrate",
+                    "trait": "margin",
                     "subpart": "margin",
                     "start": 56,
                     "end": 63,
