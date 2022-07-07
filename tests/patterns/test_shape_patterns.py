@@ -526,3 +526,25 @@ class TestShape(unittest.TestCase):
                 },
             ],
         )
+
+    def test_shape_22(self):
+        self.assertEqual(
+            test("partly confluent or branched blade"),
+            [
+                {
+                    "shape": "confluent",
+                    "trait": "shape",
+                    "start": 0,
+                    "end": 16,
+                    "leaf_part": "leaf",
+                },
+                {
+                    "shape": "branched",
+                    "trait": "shape",
+                    "start": 20,
+                    "end": 28,
+                    "leaf_part": "leaf",
+                },
+                {"leaf_part": "leaf", "trait": "leaf_part", "start": 29, "end": 34},
+            ],
+        )

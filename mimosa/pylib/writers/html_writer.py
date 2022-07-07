@@ -8,6 +8,7 @@ import jinja2
 from tqdm import tqdm
 
 from .. import consts
+from ..patterns import term_patterns
 
 COLOR_COUNT = 14
 BACKGROUNDS = itertools.cycle([f"cc{i}" for i in range(COLOR_COUNT)])
@@ -15,6 +16,8 @@ BORDERS = itertools.cycle([f"bb{i}" for i in range(COLOR_COUNT)])
 
 TITLE_SKIPS = ["start", "end"]
 TRAIT_SKIPS = TITLE_SKIPS + ["part", "subpart", "trait"]
+
+ALL_PARTS = term_patterns.PARTS_SET.copy() | {"subpart"}
 
 Formatted = collections.namedtuple("Formatted", "text traits debug")
 Trait = collections.namedtuple("Trait", "label data")
@@ -113,9 +116,12 @@ def format_traits(datum, classes) -> list[collections.namedtuple]:
 
 def get_label(trait):
     """Format the trait's label."""
-    part = trait["part"] if trait.get("part") else ""
+    keys = set(trait.keys())
+    part_key = list(keys & term_patterns.PARTS_SET)
+    part = trait[part_key[0]] if part_key else ""
+    part = " ".join(part) if isinstance(part, list) else part
     subpart = trait["subpart"] if trait.get("subpart") else ""
-    trait = trait["trait"] if trait["trait"] not in ("part", "subpart") else ""
+    trait = trait["trait"] if trait["trait"] not in ALL_PARTS else ""
     return " ".join([p for p in [part, subpart, trait] if p])
 
 

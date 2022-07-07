@@ -31,6 +31,7 @@ RANGE_LOW = MatcherPatterns(
     patterns=[
         "99.9",
         "( 99.9 -/or ) ambiguous ( -/to ambiguous )",
+        "99.9 ( -/to [?] )",
     ],
 )
 

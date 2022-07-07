@@ -3,9 +3,9 @@ import re
 from collections import deque
 
 from spacy import registry
+from traiter import actions
 from traiter import const as t_const
 from traiter import util as t_util
-from traiter.actions import REJECT_MATCH
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
 from . import common_patterns
@@ -16,7 +16,7 @@ NOT_A_SIZE = """ for below above """.split()
 SIZE_FIELDS = """ min low high max """.split()
 
 DECODER = common_patterns.COMMON_PATTERNS | {
-    "99.9": {"ENT_TYPE": "range"},
+    "99.9": {"TEXT": {"REGEX": t_const.FLOAT_TOKEN_RE}},
     "[?]": {"ENT_TYPE": "quest"},
     "about": {"ENT_TYPE": "about"},
     "and": {"LOWER": "and"},
@@ -64,7 +64,7 @@ SIZE_DOUBLE_DIM = MatcherPatterns(
 
 NOT_A_SIZE = MatcherPatterns(
     "not_a_size",
-    on_match=REJECT_MATCH,
+    on_match=actions.REJECT_MATCH,
     decoder=DECODER,
     patterns=[
         "not_size about? 99.9-99.9 cm",
@@ -122,10 +122,12 @@ def _size(ent, high_only=False):
 def scan_tokens(ent, high_only):
     dims = [{}]
 
+    has_range = False
     for token in ent:
         label = token.ent_type_
 
         if label == "range":
+            has_range = True
             for field in SIZE_FIELDS:
                 if field in token._.data:
                     dims[-1][field] = t_util.to_positive_float(token._.data[field])
@@ -149,6 +151,8 @@ def scan_tokens(ent, high_only):
         elif token.lower_ in t_const.CROSS:
             dims.append({})
 
+    if not has_range:
+        raise actions.RejectMatch()
     return dims
 
 
@@ -181,16 +185,16 @@ def fill_data(dims, ent):
         dimension = dim["dimension"]
 
         for field in SIZE_FIELDS:
-            if datum := dim.get(field):
+            if value := dim.get(field):
                 key = f"{dimension}_{field}"
-                ent._.data[key] = round(datum, 3)
+                ent._.data[key] = round(value, 3)
 
-        if datum := dim.get("units"):
+        if units := dim.get("units"):
             key = f"{dimension}_units"
-            ent._.data[key] = datum.lower()
+            ent._.data[key] = units.lower()
 
-        if datum := dim.get("sex"):
-            ent._.data["sex"] = datum
+        if sex := dim.get("sex"):
+            ent._.data["sex"] = sex
 
         if dim.get("uncertain"):
             ent._.data["uncertain"] = "true"

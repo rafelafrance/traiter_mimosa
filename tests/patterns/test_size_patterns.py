@@ -855,3 +855,19 @@ class TestSize(unittest.TestCase):
             test("coastal plain to 1500 m,"),
             [{"shape": "plain", "trait": "shape", "start": 8, "end": 13}],
         )
+
+    def test_size_39(self):
+        self.assertEqual(
+            test("trunk to 8(-?) cm diam."),
+            [
+                {"part": "trunk", "trait": "part", "start": 0, "end": 5},
+                {
+                    "diameter_low": 8.0,
+                    "diameter_units": "cm",
+                    "trait": "size",
+                    "start": 9,
+                    "end": 23,
+                    "part": "trunk",
+                },
+            ],
+        )

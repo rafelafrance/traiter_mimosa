@@ -80,7 +80,10 @@ def pipeline():
         },
     )
 
-    nlp.add_pipe(SIMPLE_TRAITS, config={"replace": term_patterns.REPLACE})
+    nlp.add_pipe(
+        SIMPLE_TRAITS,
+        config={"replace": term_patterns.REPLACE, "exclude": ["multiple_parts"]},
+    )
 
     nlp.add_pipe(
         ADD_TRAITS,

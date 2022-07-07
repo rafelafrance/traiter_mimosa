@@ -30,6 +30,7 @@ PARTS = """
     inflorescence
     leaf_part
     male_flower_part
+    multiple_parts
     part
     """.split()
 PARTS_SET = set(PARTS)
@@ -45,6 +46,7 @@ TRAITS = (
     color
     color_mod
     count
+    duration
     joined
     shape
     size

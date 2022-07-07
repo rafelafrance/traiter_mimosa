@@ -125,3 +125,23 @@ class TestPart(unittest.TestCase):
                 },
             ],
         )
+
+    def test_part_08(self):
+        self.assertEqual(
+            test("""stems and lf-axes hispid"""),
+            [
+                {
+                    "trait": "multiple_parts",
+                    "start": 0,
+                    "end": 17,
+                    "multiple_parts": ["stem", "leaf-axis"],
+                },
+                {
+                    "surface": "hispid",
+                    "trait": "surface",
+                    "start": 18,
+                    "end": 24,
+                    "multiple_parts": ["stem", "leaf-axis"],
+                },
+            ],
+        )
