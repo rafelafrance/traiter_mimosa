@@ -237,3 +237,20 @@ class TestCountSuffix(unittest.TestCase):
                 },
             ],
         )
+
+    def test_count_suffix_13(self):
+        self.assertEqual(
+            test("""pinnae 16-29-jug."""),
+            [
+                {"part": "pinnae", "trait": "part", "start": 0, "end": 6},
+                {
+                    "low": 16,
+                    "high": 29,
+                    "trait": "count",
+                    "start": 7,
+                    "end": 17,
+                    "count_group": "pairs",
+                    "part": "pinnae",
+                },
+            ],
+        )

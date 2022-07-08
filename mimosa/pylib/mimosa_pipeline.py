@@ -146,8 +146,8 @@ def pipeline():
         config={
             "parents": part_linker_patterns.PART_PARENTS,
             "children": part_linker_patterns.PART_CHILDREN,
-            "patterns": matcher_patterns.as_dicts([part_linker_patterns.PART_LINKER]),
             "weights": consts.TOKEN_WEIGHTS,
+            "patterns": matcher_patterns.as_dicts([part_linker_patterns.PART_LINKER]),
         },
     )
 
@@ -157,6 +157,7 @@ def pipeline():
         config={
             "parents": subpart_linker_patterns.SUBPART_PARENTS,
             "children": subpart_linker_patterns.SUBPART_CHILDREN,
+            "weights": consts.TOKEN_WEIGHTS,
             "patterns": matcher_patterns.as_dicts(
                 [subpart_linker_patterns.SUBPART_LINKER]
             ),
@@ -169,6 +170,7 @@ def pipeline():
         config={
             "parents": taxon_linker_patterns.TAXON_PARENTS,
             "children": taxon_linker_patterns.TAXON_CHILDREN,
+            "weights": consts.TOKEN_WEIGHTS,
             "patterns": matcher_patterns.as_dicts([taxon_linker_patterns.TAXON_LINKER]),
         },
     )
@@ -179,6 +181,7 @@ def pipeline():
         config={
             "parents": sex_linker_patterns.SEX_PARENTS,
             "children": sex_linker_patterns.SEX_CHILDREN,
+            "weights": consts.TOKEN_WEIGHTS,
             "patterns": matcher_patterns.as_dicts([sex_linker_patterns.SEX_LINKER]),
         },
     )
@@ -189,6 +192,7 @@ def pipeline():
         config={
             "parents": location_linker_patterns.LOCATION_PARENTS,
             "children": location_linker_patterns.LOCATION_CHILDREN,
+            "weights": consts.TOKEN_WEIGHTS,
             "patterns": matcher_patterns.as_dicts(
                 [location_linker_patterns.LOCATION_LINKER],
             ),
