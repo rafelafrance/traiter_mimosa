@@ -91,10 +91,17 @@ class TestSize(unittest.TestCase):
         self.assertEqual(
             test("leaf sinuses 1/5–1/4 to base"),
             [
-                {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 4},
+                {
+                    "leaf_part": "leaf",
+                    "trait": "leaf_part",
+                    "subpart_as_loc": "to base",
+                    "start": 0,
+                    "end": 4,
+                },
                 {
                     "subpart": "sinus",
                     "trait": "subpart",
+                    "subpart_as_loc": "to base",
                     "start": 5,
                     "end": 12,
                     "leaf_part": "leaf",
@@ -104,8 +111,6 @@ class TestSize(unittest.TestCase):
                     "trait": "subpart_as_loc",
                     "start": 21,
                     "end": 28,
-                    "leaf_part": "leaf",
-                    "subpart": "sinus",
                 },
             ],
         )
@@ -610,7 +615,7 @@ class TestSize(unittest.TestCase):
             test("Racemes 3-4 cm,"),
             [
                 {
-                    "inflorescence": "racemes",
+                    "inflorescence": "raceme",
                     "trait": "inflorescence",
                     "start": 0,
                     "end": 7,
@@ -622,7 +627,7 @@ class TestSize(unittest.TestCase):
                     "trait": "size",
                     "start": 8,
                     "end": 14,
-                    "inflorescence": "racemes",
+                    "inflorescence": "raceme",
                 },
             ],
         )

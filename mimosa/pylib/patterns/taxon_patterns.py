@@ -13,12 +13,15 @@ ON_TAXON_MATCH = "mimosa.taxon.v1"
 M_DOT = r"^[A-Z]\.?$"
 M_DOT_RE = re.compile(M_DOT)
 
+NAME_SHAPES = list(consts.TITLE_SHAPES | consts.UPPER_SHAPES)
+
 
 TAXON = MatcherPatterns(
     "taxon",
     on_match=ON_TAXON_MATCH,
     decoder=common_patterns.COMMON_PATTERNS
     | {
+        # "auth": {"SHAPE": {"IN": NAME_SHAPES}},
         "auth": {"POS": "PROPN"},
         "maybe": {"POS": "NOUN"},
         "taxon": {"ENT_TYPE": "plant_taxon"},

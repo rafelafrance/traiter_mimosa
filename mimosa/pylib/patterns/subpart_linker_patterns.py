@@ -12,7 +12,8 @@ from . import term_patterns
 
 SUBPART_PARENTS = ["subpart"]
 SUBPART_CHILDREN = term_patterns.remove_traits(
-    " subpart location sex reproduction plant_habit ".split()
+    " subpart sex reproduction plant_habit ".split()
+    + term_patterns.LOCATIONS
     + term_patterns.PARTS
     + term_patterns.PLANT_TRAITS
 )

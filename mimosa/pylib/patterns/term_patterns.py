@@ -35,7 +35,7 @@ PARTS = """
     """.split()
 PARTS_SET = set(PARTS)
 
-LOCATIONS = """ flower_location location """.split()
+LOCATIONS = """ location flower_location part_as_loc subpart_as_loc """.split()
 MORPHOLOGIES = """ flower_morphology plant_morphology """.split()
 PLANT_TRAITS = """ plant_duration plant_habit """.split()
 
@@ -60,8 +60,6 @@ TRAITS = (
     surface
     venation
     woodiness
-    part_as_loc
-    subpart_as_loc
     """.split()
 )
 

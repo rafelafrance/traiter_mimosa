@@ -11,9 +11,8 @@ DECODER = common_patterns.COMMON_PATTERNS | {
     "adj": {"POS": "ADJ"},
     "cm": {"ENT_TYPE": "metric_length"},
     "joined": {"ENT_TYPE": "joined"},
-    "leader": {"LOWER": {"IN": """to at embracing""".split()}},
-    "location": {"ENT_TYPE": "location"},
-    "not_loc": {"ENT_TYPE": {"IN": ["sex"] + term_patterns.LOCATIONS}},
+    "leader": {"LOWER": {"IN": """to at embracing immersed""".split()}},
+    "location": {"ENT_TYPE": {"IN": term_patterns.LOCATIONS}},
     "of": {"LOWER": "of"},
     "part": {"ENT_TYPE": {"IN": term_patterns.PARTS}},
     "prep": {"POS": "ADP"},
@@ -23,7 +22,6 @@ DECODER = common_patterns.COMMON_PATTERNS | {
 
 
 def add_joined(ent):
-    """Add joined field."""
     if joined := [e for e in ent.ents if e.label_ == "joined"]:
         text = joined[0].text.lower()
         ent._.data["joined"] = term_patterns.REPLACE.get(text, text)
@@ -39,6 +37,7 @@ PART_AS_LOCATION = MatcherPatterns(
     patterns=[
         "joined?  leader part",
         "location leader part",
+        "leader prep part",
     ],
 )
 

@@ -52,7 +52,7 @@ class TestCountSuffix(unittest.TestCase):
             test("Racemes compact, 1- or 2- or 5-7-flowered"),
             [
                 {
-                    "inflorescence": "racemes",
+                    "inflorescence": "raceme",
                     "trait": "inflorescence",
                     "start": 0,
                     "end": 7,
@@ -65,7 +65,7 @@ class TestCountSuffix(unittest.TestCase):
                     "trait": "count",
                     "start": 17,
                     "end": 41,
-                    "inflorescence": "racemes",
+                    "inflorescence": "raceme",
                     "flower_part": "flowered",
                 },
             ],

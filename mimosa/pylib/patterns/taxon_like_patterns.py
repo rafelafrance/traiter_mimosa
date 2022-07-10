@@ -1,6 +1,8 @@
 from spacy import registry
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
+from . import common_patterns
+
 ON_TAXON_LIKE_MATCH = "mimosa.taxon_like.v1"
 
 
@@ -11,7 +13,8 @@ SIMILAR = """ like similar exactly sympatric affini resembling resembles
 TAXON_LIKE = MatcherPatterns(
     "taxon_like",
     on_match=ON_TAXON_LIKE_MATCH,
-    decoder={
+    decoder=common_patterns.COMMON_PATTERNS
+    | {
         "any": {},
         "prep": {"DEP": "prep"},
         "similar": {"LOWER": {"IN": SIMILAR}},
@@ -20,6 +23,7 @@ TAXON_LIKE = MatcherPatterns(
     patterns=[
         "similar+ taxon+",
         "similar+ any? prep taxon+",
+        "similar+ taxon+ and taxon+",
     ],
 )
 

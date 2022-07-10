@@ -107,9 +107,6 @@ def pipeline():
         },
     )
 
-    # debug_pipes.tokens(nlp)  # #####################################################
-    # debug_pipes.ents(nlp)  # #####################################################
-
     nlp.add_pipe(
         ADD_TRAITS,
         name="relative_traits",
@@ -185,6 +182,9 @@ def pipeline():
             "patterns": matcher_patterns.as_dicts([sex_linker_patterns.SEX_LINKER]),
         },
     )
+
+    # debug_pipes.tokens(nlp)  # #####################################################
+    # debug_pipes.ents(nlp)  # #######################################################
 
     nlp.add_pipe(
         LINK_TRAITS,
