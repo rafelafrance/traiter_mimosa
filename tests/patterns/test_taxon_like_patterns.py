@@ -67,14 +67,14 @@ class TestTaxonLike(unittest.TestCase):
 
     def test_taxon_05(self):
         self.assertEqual(
-            test("""vicinis M. oedoclada et M. manidea"""),
+            test("""vicinis M. sensitiva et M. pachyphloia"""),
             [
                 {
                     "level": "species",
-                    "taxon_like": ["M. oedoclada", "M. manidea"],
+                    "taxon_like": ["M. sensitiva", "M. pachyphloia"],
                     "trait": "taxon_like",
                     "start": 0,
-                    "end": 34,
+                    "end": 38,
                     "relation": "vicinis",
                 }
             ],
