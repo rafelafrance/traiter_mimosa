@@ -8,59 +8,35 @@ from . import common_patterns
 from . import term_patterns
 from .. import consts
 
-ON_TAXON_MATCH = "mimosa.taxon.v1"
-
 M_DOT = r"^[A-Z]\.?$"
 M_DOT_RE = re.compile(M_DOT)
 
-NAME_SHAPES = list(consts.TITLE_SHAPES | consts.UPPER_SHAPES)
+DECODER = common_patterns.COMMON_PATTERNS | {
+    "auth": {"POS": "PROPN"},
+    "maybe": {"POS": "NOUN"},
+    "taxon": {"ENT_TYPE": "plant_taxon"},
+    "level": {"ENT_TYPE": "level"},
+    "word": {"LOWER": {"REGEX": r"^[a-z-]+$"}},
+    "M.": {"TEXT": {"REGEX": M_DOT}},
+}
 
 
-TAXON = MatcherPatterns(
-    "taxon",
-    on_match=ON_TAXON_MATCH,
-    decoder=common_patterns.COMMON_PATTERNS
-    | {
-        # "auth": {"SHAPE": {"IN": NAME_SHAPES}},
-        "auth": {"POS": "PROPN"},
-        "maybe": {"POS": "NOUN"},
-        "taxon": {"ENT_TYPE": "plant_taxon"},
-        "level": {"ENT_TYPE": "level"},
-        "word": {"LOWER": {"REGEX": r"^[a-z-]+$"}},
-        "M.": {"TEXT": {"REGEX": M_DOT}},
-    },
-    patterns=[
-        "M.? taxon+ (? auth*                       )?",
-        "M.? taxon+ (? auth+ maybe auth+           )?",
-        "M.? taxon+ (? auth*                       )? level .? word",
-        "M.? taxon+ (? auth+ maybe auth+           )? level .? word",
-        "M.? taxon+ (? auth*             and auth+ )?",
-        "M.? taxon+ (? auth+ maybe auth+ and auth+ )?",
-        "M.? taxon+ (? auth*             and auth+ )? level .? word",
-        "M.? taxon+ (? auth+ maybe auth+ and auth+ )? level .? word",
-        "level .? taxon+",
-        "taxon+",
-        "M.? taxon level .? word",
-    ],
-)
-
-
-@registry.misc(ON_TAXON_MATCH)
-def on_taxon_match(ent):
+def build_taxon(span):
     auth = []
     used_levels = []
     taxa = []
     original = []
     is_level = ""
+    data = {}
 
-    for token in ent:
+    for token in span:
         if token._.cached_label == "level":
             taxa.append(token.lower_)
             original.append(token.text)
             is_level = token.lower_
-            ent._.data["level"] = term_patterns.REPLACE.get(token.lower_, token.lower_)
+            data["level"] = term_patterns.REPLACE.get(token.lower_, token.lower_)
         elif is_level:
-            if ent._.data["level"] in consts.LOWER_TAXON_LEVEL:
+            if data["level"] in consts.LOWER_TAXON_LEVEL:
                 original.append(token.text)
                 taxa.append(token.lower_)
             else:
@@ -80,7 +56,7 @@ def on_taxon_match(ent):
             for level in levels:
                 if level not in used_levels:
                     used_levels.append(level)
-                    ent._.data["level"] = level
+                    data["level"] = level
                     if level in consts.LOWER_TAXON_LEVEL:
                         original.append(token.text)
                         taxa.append(token.lower_)
@@ -99,12 +75,16 @@ def on_taxon_match(ent):
                 auth.append(token.text)
 
     if auth:
-        ent._.data["authority"] = " ".join(auth)
+        data["authority"] = " ".join(auth)
 
+    data["taxon"] = " ".join(taxa)
+
+    return data, original
+
+
+def cleanup_ent(ent, original):
     if ent._.data.get("plant_taxon"):
         del ent._.data["plant_taxon"]
-
-    ent._.data["taxon"] = " ".join(taxa)
 
     # There is latin in the text, I need to guard against that
     is_lower = ent._.data["level"] in consts.LOWER_TAXON_LEVEL
@@ -112,3 +92,57 @@ def on_taxon_match(ent):
     if alone and (is_lower or original[0][0].islower()):
         ent._.delete = True
         raise actions.RejectMatch()
+
+
+# ###################################################################################
+ON_MULTI_TAXON_MATCH = "mimosa.multi_taxon.v1"
+
+MULTI_TAXON = MatcherPatterns(
+    "multi_taxon",
+    on_match=ON_MULTI_TAXON_MATCH,
+    decoder=DECODER,
+    patterns=[
+        "M.? taxon+ and M.? taxon+",
+    ],
+)
+
+
+@registry.misc(ON_MULTI_TAXON_MATCH)
+def on_multi_taxon_match(ent):
+    conj_idx = next(i for i, t in enumerate(ent) if t.lower_ in common_patterns.AND)
+    first, original = build_taxon(ent[:conj_idx])
+    ent._.data = {
+        "level": first["level"],
+        "taxon": [first["taxon"]],
+    }
+    second, original = build_taxon(ent[conj_idx + 1 :])
+    ent._.data["taxon"].append(second["taxon"])
+
+
+# ###################################################################################
+ON_TAXON_MATCH = "mimosa.taxon.v1"
+
+TAXON = MatcherPatterns(
+    "taxon",
+    on_match=ON_TAXON_MATCH,
+    decoder=DECODER,
+    patterns=[
+        "M.? taxon+ (? auth*                       )?",
+        "M.? taxon+ (? auth+ maybe auth+           )?",
+        "M.? taxon+ (? auth*                       )? level .? word",
+        "M.? taxon+ (? auth+ maybe auth+           )? level .? word",
+        "M.? taxon+ (? auth*             and auth+ )?",
+        "M.? taxon+ (? auth+ maybe auth+ and auth+ )?",
+        "M.? taxon+ (? auth*             and auth+ )? level .? word",
+        "M.? taxon+ (? auth+ maybe auth+ and auth+ )? level .? word",
+        "level .? taxon+",
+        "taxon+",
+        "M.? taxon level .? word",
+    ],
+)
+
+
+@registry.misc(ON_TAXON_MATCH)
+def on_taxon_match(ent):
+    ent._.data, original = build_taxon(ent)
+    cleanup_ent(ent, original)

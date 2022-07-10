@@ -27,6 +27,7 @@ from .patterns import shape_patterns
 from .patterns import size_patterns
 from .patterns import subpart_linker_patterns
 from .patterns import subpart_patterns
+from .patterns import taxon_like_linker_patterns
 from .patterns import taxon_like_patterns
 from .patterns import taxon_linker_patterns
 from .patterns import taxon_patterns
@@ -102,6 +103,7 @@ def pipeline():
                     count_patterns.NOT_A_COUNT,
                     count_suffix_patterns.COUNT_SUFFIX,
                     taxon_patterns.TAXON,
+                    taxon_patterns.MULTI_TAXON,
                 ]
             )
         },
@@ -183,9 +185,6 @@ def pipeline():
         },
     )
 
-    # debug_pipes.tokens(nlp)  # #####################################################
-    # debug_pipes.ents(nlp)  # #######################################################
-
     nlp.add_pipe(
         LINK_TRAITS,
         name="link_location",
@@ -195,6 +194,22 @@ def pipeline():
             "weights": consts.TOKEN_WEIGHTS,
             "patterns": matcher_patterns.as_dicts(
                 [location_linker_patterns.LOCATION_LINKER],
+            ),
+        },
+    )
+
+    # debug_pipes.tokens(nlp)  # #####################################################
+    # debug_pipes.ents(nlp)  # #######################################################
+
+    nlp.add_pipe(
+        LINK_TRAITS,
+        name="link_taxa_like",
+        config={
+            "parents": taxon_like_linker_patterns.TAXON_LIKE_PARENTS,
+            "children": taxon_like_linker_patterns.TAXON_LIKE_CHILDREN,
+            "weights": consts.TOKEN_WEIGHTS,
+            "patterns": matcher_patterns.as_dicts(
+                [taxon_like_linker_patterns.TAXON_LIKE_LINKER]
             ),
         },
     )

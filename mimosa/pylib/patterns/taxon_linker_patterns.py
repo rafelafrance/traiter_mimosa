@@ -1,4 +1,3 @@
-"""Link traits to taxa."""
 from traiter.patterns import matcher_patterns
 
 from . import common_patterns

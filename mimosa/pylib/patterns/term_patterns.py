@@ -38,6 +38,7 @@ PARTS_SET = set(PARTS)
 LOCATIONS = """ location flower_location part_as_loc subpart_as_loc """.split()
 MORPHOLOGIES = """ flower_morphology plant_morphology """.split()
 PLANT_TRAITS = """ plant_duration plant_habit """.split()
+TAXA = ["taxon", "multi_taxon"]
 
 TRAITS = (
     PARTS

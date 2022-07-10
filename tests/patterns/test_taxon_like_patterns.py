@@ -10,7 +10,7 @@ class TestTaxonLike(unittest.TestCase):
             [
                 {
                     "level": "species",
-                    "taxon": "M. sensitiva",
+                    "taxon_like": "M. sensitiva",
                     "trait": "taxon_like",
                     "start": 30,
                     "end": 52,
@@ -25,7 +25,7 @@ class TestTaxonLike(unittest.TestCase):
             [
                 {
                     "level": "species",
-                    "taxon": "M. sensitiva",
+                    "taxon_like": "M. sensitiva",
                     "trait": "taxon_like",
                     "start": 6,
                     "end": 29,
@@ -40,7 +40,7 @@ class TestTaxonLike(unittest.TestCase):
             [
                 {
                     "level": "species",
-                    "taxon": "M. sensitiva",
+                    "taxon_like": "M. sensitiva",
                     "trait": "taxon_like",
                     "start": 3,
                     "end": 25,
@@ -56,11 +56,26 @@ class TestTaxonLike(unittest.TestCase):
                 {
                     "level": "species",
                     "authority": "Harms Glaziou",
-                    "taxon": "M. sensitiva",
+                    "taxon_like": "M. sensitiva",
                     "trait": "taxon_like",
                     "start": 0,
                     "end": 47,
                     "relation": "sympatric",
+                }
+            ],
+        )
+
+    def test_taxon_05(self):
+        self.assertEqual(
+            test("""vicinis M. oedoclada et M. manidea"""),
+            [
+                {
+                    "level": "species",
+                    "taxon_like": ["M. oedoclada", "M. manidea"],
+                    "trait": "taxon_like",
+                    "start": 0,
+                    "end": 34,
+                    "relation": "vicinis",
                 }
             ],
         )
