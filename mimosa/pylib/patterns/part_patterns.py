@@ -4,17 +4,18 @@ from traiter.patterns.matcher_patterns import MatcherPatterns
 from . import common_patterns
 from . import term_patterns
 
+DECODER = common_patterns.COMMON_PATTERNS | {
+    "part": {"ENT_TYPE": {"IN": term_patterns.PARTS}},
+}
+
+# ####################################################################################
 PART = MatcherPatterns(
     "part",
     on_match="mimosa.part.v1",
-    decoder=common_patterns.COMMON_PATTERNS
-    | {
-        "part": {"ENT_TYPE": {"IN": term_patterns.PARTS}},
-    },
+    decoder=DECODER,
     patterns=[
-        "missing  part",
-        "missing? part - part",
-        "missing? part and part",
+        "part - part",
+        "part and part",
     ],
 )
 
@@ -28,5 +29,15 @@ def on_part_match(ent):
             for t in ent
             if t.ent_type_ in term_patterns.PARTS_SET
         ]
-    if any(t for t in ent if t.lower_ in common_patterns.MISSING):
-        ent._.data["missing"] = True
+
+
+# ####################################################################################
+MISSING_PART = MatcherPatterns(
+    "missing_part",
+    decoder=DECODER,
+    patterns=[
+        "missing part",
+        "missing part - part",
+        "missing part and part",
+    ],
+)

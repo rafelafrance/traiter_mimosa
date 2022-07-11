@@ -79,6 +79,7 @@ def pipeline():
             "patterns": matcher_patterns.as_dicts(
                 [
                     part_patterns.PART,
+                    part_patterns.MISSING_PART,
                     subpart_patterns.SUBPART,
                     subpart_patterns.SUBPART_SUFFIX,
                 ]
