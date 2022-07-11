@@ -145,3 +145,17 @@ class TestPart(unittest.TestCase):
                 },
             ],
         )
+
+    def test_part_09(self):
+        self.assertEqual(
+            test("""no paraphyllidia"""),
+            [
+                {
+                    "end": 16,
+                    "missing": True,
+                    "part": "no paraphyllidia",
+                    "start": 0,
+                    "trait": "part",
+                },
+            ],
+        )

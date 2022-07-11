@@ -12,8 +12,9 @@ PART = MatcherPatterns(
         "part": {"ENT_TYPE": {"IN": term_patterns.PARTS}},
     },
     patterns=[
-        "part - part",
-        "part and part",
+        "missing part",
+        "missing? part - part",
+        "missing? part and part",
     ],
 )
 
@@ -27,3 +28,5 @@ def part(ent):
             for t in ent
             if t.ent_type_ in term_patterns.PARTS_SET
         ]
+    if any(t for t in ent if t.lower_ in common_patterns.MISSING):
+        ent._.data["missing"] = True

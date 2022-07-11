@@ -5,7 +5,7 @@ AND = ["&", "and", "et"]
 CONJ = ["or", "&", "and"]
 TO = ["to"]
 MISSING = """
-    without missing lack lacking except excepting not rarely obsolete
+    no without missing lack lacking except excepting not rarely obsolete
     """.split()
 
 COMMON_PATTERNS = {
