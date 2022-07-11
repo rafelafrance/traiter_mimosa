@@ -16,6 +16,7 @@ BORDERS = itertools.cycle([f"bb{i}" for i in range(COLOR_COUNT)])
 
 TITLE_SKIPS = ["start", "end"]
 TRAIT_SKIPS = TITLE_SKIPS + ["trait"] + term_patterns.PARTS + term_patterns.SUBPARTS
+DO_NOT_SHOW = term_patterns.PARTS + term_patterns.SUBPARTS + term_patterns.LOCATIONS
 
 ALL_PARTS = term_patterns.PARTS_SET.copy() | term_patterns.SUBPART_SET.copy()
 
@@ -92,8 +93,8 @@ def format_traits(sentence_data, classes) -> list[collections.namedtuple]:
     for trait in sentence_data.traits:
         label = get_label(trait)
         title = sentence_data.text[trait["start"] : trait["end"]]
-        if trait["trait"] not in TRAIT_SKIPS:
-            sortable.append(SortableTrait(label, trait["start"], trait, title))
+        # if trait["trait"] not in DO_NOT_SHOW:
+        sortable.append(SortableTrait(label, trait["start"], trait, title))
 
     sortable = sorted(sortable)
 

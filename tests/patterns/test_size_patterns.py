@@ -243,7 +243,6 @@ class TestSize(unittest.TestCase):
                     "trait": "size",
                     "start": 32,
                     "end": 47,
-                    "subpart": "lobe",
                     "leaf_part": "leaf",
                 },
             ],

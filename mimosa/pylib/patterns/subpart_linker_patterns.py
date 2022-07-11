@@ -27,8 +27,8 @@ SUBPART_LINKER = matcher_patterns.MatcherPatterns(
         "trait": {"ENT_TYPE": {"IN": SUBPART_CHILDREN}},
     },
     patterns=[
-        "trait   phrase* subpart",
-        "subpart phrase* trait",
+        "trait   clause* subpart",
+        "subpart clause* trait",
     ],
 )
 
