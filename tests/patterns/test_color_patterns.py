@@ -9,7 +9,7 @@ class TestColor(unittest.TestCase):
             test(
                 """hypanthium green or greenish yellow,
                 usually not purple-spotted, rarely purple-spotted distally.
-            """
+                """
             ),
             [
                 {

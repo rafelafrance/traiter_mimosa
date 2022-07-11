@@ -21,10 +21,11 @@ DECODER = common_patterns.COMMON_PATTERNS | {
 }
 
 
-def add_joined(ent):
+def get_joined(ent):
     if joined := [e for e in ent.ents if e.label_ == "joined"]:
         text = joined[0].text.lower()
-        ent._.data["joined"] = term_patterns.REPLACE.get(text, text)
+        return term_patterns.REPLACE.get(text, text)
+    return ""
 
 
 # ####################################################################################
@@ -56,7 +57,8 @@ SUBPART_AS_LOCATION = MatcherPatterns(
 
 @registry.misc(ON_AS_LOCATION_MATCH)
 def on_as_location_match(ent):
-    add_joined(ent)
+    if joined := get_joined(ent):
+        ent._.data["joined"] = joined
     actions.text_action(ent)
 
 
@@ -74,6 +76,7 @@ PART_AS_DISTANCE = MatcherPatterns(
 
 @registry.misc(PART_AS_DISTANCE.on_match)
 def on_part_as_distance_match(ent):
-    add_joined(ent)
+    if joined := get_joined(ent):
+        ent._.data["joined"] = joined
     size_patterns.on_size_match(ent)
     ent._.new_label = "part_as_loc"

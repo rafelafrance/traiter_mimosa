@@ -15,9 +15,9 @@ BACKGROUNDS = itertools.cycle([f"cc{i}" for i in range(COLOR_COUNT)])
 BORDERS = itertools.cycle([f"bb{i}" for i in range(COLOR_COUNT)])
 
 TITLE_SKIPS = ["start", "end"]
-TRAIT_SKIPS = TITLE_SKIPS + ["part", "subpart", "trait"]
+TRAIT_SKIPS = TITLE_SKIPS + ["trait"] + term_patterns.PARTS + term_patterns.SUBPARTS
 
-ALL_PARTS = term_patterns.PARTS_SET.copy() | {"subpart"}
+ALL_PARTS = term_patterns.PARTS_SET.copy() | term_patterns.SUBPART_SET.copy()
 
 Formatted = collections.namedtuple("Formatted", "text traits debug")
 Trait = collections.namedtuple("Trait", "label data")
@@ -92,7 +92,8 @@ def format_traits(sentence_data, classes) -> list[collections.namedtuple]:
     for trait in sentence_data.traits:
         label = get_label(trait)
         title = sentence_data.text[trait["start"] : trait["end"]]
-        sortable.append(SortableTrait(label, trait["start"], trait, title))
+        if trait["trait"] not in TRAIT_SKIPS:
+            sortable.append(SortableTrait(label, trait["start"], trait, title))
 
     sortable = sorted(sortable)
 
@@ -117,10 +118,14 @@ def format_traits(sentence_data, classes) -> list[collections.namedtuple]:
 def get_label(trait):
     """Format the trait's label."""
     keys = set(trait.keys())
+
     part_key = list(keys & term_patterns.PARTS_SET)
     part = trait[part_key[0]] if part_key else ""
     part = " ".join(part) if isinstance(part, list) else part
-    subpart = trait["subpart"] if trait.get("subpart") else ""
+
+    subpart_key = list(keys & term_patterns.SUBPART_SET)
+    subpart = trait[subpart_key[0]] if subpart_key else ""
+
     trait = trait["trait"] if trait["trait"] not in ALL_PARTS else ""
     label = " ".join([p for p in [part, subpart, trait] if p])
     label = label.replace(" ", "_")
