@@ -11,11 +11,11 @@ from . import term_patterns
 
 
 PART_PARENTS = term_patterns.PARTS
-PART_CHILDREN = term_patterns.remove_traits(
-    term_patterns.PARTS
+PART_CHILDREN = term_patterns.all_traits_except(
+    ["leaf_duration", "sex", "taxon"]
+    + term_patterns.PARTS
     + term_patterns.LOCATIONS
     + term_patterns.PLANT_TRAITS
-    + ["leaf_duration", "sex", "taxon"]
 )
 
 PART_LINKER = matcher_patterns.MatcherPatterns(

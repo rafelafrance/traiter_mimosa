@@ -73,7 +73,7 @@ PART_AS_DISTANCE = MatcherPatterns(
 
 
 @registry.misc(PART_AS_DISTANCE.on_match)
-def part_as_distance(ent):
+def on_part_as_distance_match(ent):
     add_joined(ent)
-    size_patterns.size(ent)
+    size_patterns.on_size_match(ent)
     ent._.new_label = "part_as_loc"

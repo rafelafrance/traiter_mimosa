@@ -12,7 +12,7 @@ PART = MatcherPatterns(
         "part": {"ENT_TYPE": {"IN": term_patterns.PARTS}},
     },
     patterns=[
-        "missing part",
+        "missing  part",
         "missing? part - part",
         "missing? part and part",
     ],
@@ -20,7 +20,7 @@ PART = MatcherPatterns(
 
 
 @registry.misc(PART.on_match)
-def part(ent):
+def on_part_match(ent):
     if any(t.lower_ in common_patterns.AND for t in ent):
         ent._.new_label = "multiple_parts"
         ent._.data["multiple_parts"] = [

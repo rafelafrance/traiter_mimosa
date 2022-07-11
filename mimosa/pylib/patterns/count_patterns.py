@@ -70,7 +70,7 @@ COUNT_WORD = MatcherPatterns(
 
 
 @registry.misc(COUNT_WORD.on_match)
-def count_word(ent):
+def on_count_word_match(ent):
     ent._.new_label = "count"
     word = next(e for e in ent.ents if e.label_ == "count_word")
     word._.data = {

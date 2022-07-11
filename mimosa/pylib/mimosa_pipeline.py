@@ -77,14 +77,21 @@ def pipeline():
         name="part_traits",
         config={
             "patterns": matcher_patterns.as_dicts(
-                [part_patterns.PART, subpart_patterns.SUBPART]
+                [
+                    part_patterns.PART,
+                    subpart_patterns.SUBPART,
+                    subpart_patterns.SUBPART_SUFFIX,
+                ]
             )
         },
     )
 
     nlp.add_pipe(
         SIMPLE_TRAITS,
-        config={"replace": term_patterns.REPLACE, "exclude": ["multiple_parts"]},
+        config={
+            "replace": term_patterns.REPLACE,
+            "exclude": ["multiple_parts", "subpart_suffix"],
+        },
     )
 
     nlp.add_pipe(
@@ -163,6 +170,22 @@ def pipeline():
         },
     )
 
+    # debug_pipes.tokens(nlp)  # #####################################################
+    # debug_pipes.ents(nlp)  # #######################################################
+
+    nlp.add_pipe(
+        LINK_TRAITS,
+        name="link_subparts_suffixes",
+        config={
+            "parents": subpart_linker_patterns.SUBPART_SUFFIX_PARENTS,
+            "children": subpart_linker_patterns.SUBPART_SUFFIX_CHILDREN,
+            "weights": consts.TOKEN_WEIGHTS,
+            "patterns": matcher_patterns.as_dicts(
+                [subpart_linker_patterns.SUBPART_SUFFIX_LINKER]
+            ),
+        },
+    )
+
     nlp.add_pipe(
         LINK_TRAITS,
         name="link_taxa",
@@ -197,9 +220,6 @@ def pipeline():
             ),
         },
     )
-
-    # debug_pipes.tokens(nlp)  # #####################################################
-    # debug_pipes.ents(nlp)  # #######################################################
 
     nlp.add_pipe(
         LINK_TRAITS,

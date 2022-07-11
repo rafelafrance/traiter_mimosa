@@ -4,7 +4,7 @@ from . import common_patterns
 from . import term_patterns
 
 TAXON_PARENTS = ["taxon"]
-TAXON_CHILDREN = term_patterns.remove_traits(["taxon"])
+TAXON_CHILDREN = term_patterns.all_traits_except(["taxon"])
 
 TAXON_LINKER = matcher_patterns.MatcherPatterns(
     "taxon_linker",

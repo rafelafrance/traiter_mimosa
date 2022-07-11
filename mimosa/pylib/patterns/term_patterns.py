@@ -38,11 +38,13 @@ PARTS_SET = set(PARTS)
 LOCATIONS = """ location flower_location part_as_loc subpart_as_loc """.split()
 MORPHOLOGIES = """ flower_morphology plant_morphology """.split()
 PLANT_TRAITS = """ plant_duration plant_habit """.split()
+SUBPARTS = ["subpart", "subpart_suffix"]
 TAXA = ["taxon", "multi_taxon"]
 
 TRAITS = (
     PARTS
     + LOCATIONS
+    + SUBPARTS
     + """
     color
     color_mod
@@ -57,7 +59,6 @@ TRAITS = (
     margin
     reproduction
     sex
-    subpart
     surface
     venation
     woodiness
@@ -65,5 +66,5 @@ TRAITS = (
 )
 
 
-def remove_traits(removes: list[str]) -> list:
+def all_traits_except(removes: list[str]) -> list:
     return [t for t in TRAITS if t not in removes]

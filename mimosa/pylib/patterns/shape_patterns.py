@@ -39,7 +39,7 @@ SHAPE = MatcherPatterns(
 
 
 @registry.misc(SHAPE.on_match)
-def shape(ent):
+def on_shape_match(ent):
     # Sets do not preserve order
     cached_labels = ["shape", "shape_suffix"]
     parts = {
@@ -70,7 +70,7 @@ N_SHAPE = MatcherPatterns(
 
 
 @registry.misc(N_SHAPE.on_match)
-def n_shape(ent):
+def on_n_shape_match(ent):
     """Handle 5-angular etc."""
     ent._.new_label = "shape"
     ent._.data = {"shape": "polygonal"}

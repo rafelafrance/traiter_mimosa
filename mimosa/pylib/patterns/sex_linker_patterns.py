@@ -12,7 +12,7 @@ from . import term_patterns
 
 
 SEX_PARENTS = ["sex"]
-SEX_CHILDREN = term_patterns.remove_traits(["sex"])
+SEX_CHILDREN = term_patterns.all_traits_except(["sex"])
 
 SEX_LINKER = matcher_patterns.MatcherPatterns(
     "sex_linker",

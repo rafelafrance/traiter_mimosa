@@ -32,7 +32,7 @@ COLOR = matcher_patterns.MatcherPatterns(
 
 
 @registry.misc(COLOR.on_match)
-def color(ent):
+def on_color_match(ent):
     parts = []
     for token in ent:
         replace = term_patterns.REPLACE.get(token.lower_, token.lower_)

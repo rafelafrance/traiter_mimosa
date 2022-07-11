@@ -34,7 +34,7 @@ MARGIN = MatcherPatterns(
 
 
 @registry.misc(MARGIN.on_match)
-def margin(ent):
+def on_margin_match(ent):
     multi_dashes = rf'[{"".join(TEMP)}]{{2,}}'
     value = {
         r: 1

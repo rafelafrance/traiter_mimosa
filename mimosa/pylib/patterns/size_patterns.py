@@ -74,17 +74,17 @@ NOT_A_SIZE = MatcherPatterns(
 
 
 @registry.misc(SIZE.on_match)
-def size(ent):
+def on_size_match(ent):
     _size(ent)
 
 
 @registry.misc(SIZE_HIGH_ONLY.on_match)
-def size_high_only(ent):
+def on_size_high_only_match(ent):
     _size(ent, True)
 
 
 @registry.misc(SIZE_DOUBLE_DIM.on_match)
-def size_double_dim(ent):
+def on_size_double_dim_match(ent):
     """Handle the case when the dimensions are doubled but values are not.
 
     Like: Legumes 2.8-4.5 mm high and wide

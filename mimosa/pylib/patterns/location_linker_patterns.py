@@ -4,7 +4,7 @@ from . import common_patterns
 from . import term_patterns
 
 LOCATION_PARENTS = term_patterns.LOCATIONS
-LOCATION_CHILDREN = term_patterns.remove_traits(
+LOCATION_CHILDREN = term_patterns.all_traits_except(
     term_patterns.LOCATIONS + " shape sex taxon ".split()
 )
 

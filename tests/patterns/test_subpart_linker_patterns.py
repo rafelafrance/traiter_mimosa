@@ -22,3 +22,33 @@ class TestSubpartLinker(unittest.TestCase):
                 },
             ],
         )
+
+    def test_subpart_linker_02(self):
+        self.assertEqual(
+            test("""blades oblong setose-ciliolate"""),
+            [
+                {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 6},
+                {
+                    "shape": "oblong",
+                    "trait": "shape",
+                    "start": 7,
+                    "end": 13,
+                    "leaf_part": "leaf",
+                },
+                {
+                    "surface": "setose",
+                    "subpart_suffix": "ciliolate",
+                    "trait": "surface",
+                    "start": 14,
+                    "end": 20,
+                    "leaf_part": "leaf",
+                },
+                {
+                    "subpart_suffix": "ciliolate",
+                    "leaf_part": "leaf",
+                    "trait": "subpart_suffix",
+                    "start": 20,
+                    "end": 30,
+                },
+            ],
+        )
