@@ -21,7 +21,7 @@ if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 # ##############################################################################
 # Install spacy and language libraries
 
-python -m pip install -U 'spacy[cuda113,transformers,lookups]'
+python -m pip install -U spacy
 python -m spacy download en_core_web_sm
 python -m spacy download en_core_web_lg
 
@@ -32,13 +32,6 @@ python -m spacy download en_core_web_lg
 # pip install git+https://github.com/rafelafrance/traiter.git@master#egg=traiter
 pip install -e ../traiter
 
-# ##############################################################################
-# Some useful directories
-
-mkdir -p data/images
-mkdir -p data/output
-mkdir -p data/pdfs
-mkdir -p data/text
 
 # ##############################################################################
 # Dev only installs (not required because they're personal preference)
