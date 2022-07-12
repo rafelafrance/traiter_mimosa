@@ -13,7 +13,7 @@ from . import term_patterns
 # ####################################################################################
 SUBPART_PARENTS = ["subpart"]
 SUBPART_CHILDREN = term_patterns.all_traits_except(
-    " subpart sex reproduction plant_habit ".split()
+    " subpart sex reproduction plant_habit habit ".split()
     + term_patterns.LOCATIONS
     + term_patterns.PARTS
     + term_patterns.PLANT_TRAITS

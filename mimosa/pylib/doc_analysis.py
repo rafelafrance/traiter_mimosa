@@ -24,9 +24,4 @@ class DocAnalysis:
         self.reject_set.add("taxon")
 
     def __call__(self, doc: Doc) -> Doc:
-        used = {e._.data["trait"] for e in doc.ents}
-
-        if len(used) == 1 or used <= self.reject_set:
-            doc._.reject = True
-
         return doc

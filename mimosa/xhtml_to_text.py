@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from dataclasses import field
 from pathlib import Path
 
+import rich
 from bs4 import BeautifulSoup
 
 
@@ -42,6 +43,13 @@ class Page:
 def main():
     args = parse_args()
     xhtml_to_text(args)
+
+    msg = " ".join(
+        """You may want to remove headers, footers,
+        figure captions (& text), map captions (& text), etc.
+        from this text file.""".split()
+    )
+    rich.print(f"\n[bold yellow]{msg}[/bold yellow]\n")
 
 
 def xhtml_to_text(args):

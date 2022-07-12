@@ -597,3 +597,16 @@ class TestCount(unittest.TestCase):
                 },
             ],
         )
+
+    def test_count_37(self):
+        self.assertEqual(
+            test("""2-several times as long as corolla"""),
+            [
+                {
+                    "trait": "flower_part",
+                    "flower_part": "corolla",
+                    "start": 27,
+                    "end": 34,
+                }
+            ],
+        )

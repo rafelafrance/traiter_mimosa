@@ -44,3 +44,26 @@ class TestTaxonLinker(unittest.TestCase):
                 },
             ],
         )
+
+    def test_taxon_linker_02(self):
+        self.assertEqual(
+            test(
+                """Mimosa sensitiva is one of a sympatric pair of arborescent mimosas"""
+            ),
+            [
+                {
+                    "level": "species",
+                    "taxon": "Mimosa sensitiva",
+                    "trait": "taxon",
+                    "start": 0,
+                    "end": 16,
+                },
+                {
+                    "trait": "habit",
+                    "start": 47,
+                    "end": 58,
+                    "habit": "arborescent",
+                    "taxon": "Mimosa sensitiva",
+                },
+            ],
+        )

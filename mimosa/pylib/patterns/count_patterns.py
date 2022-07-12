@@ -17,7 +17,9 @@ EVERY = """ every per each """.split()
 
 DECODER = common_patterns.COMMON_PATTERNS | {
     "adp": {"POS": {"IN": ["ADP"]}},
+    "as": {"LOWER": {"IN": ["as"]}},
     "count_word": {"ENT_TYPE": "count_word"},
+    "dim": {"ENT_TYPE": "dim"},
     "not_count_ent": {"ENT_TYPE": {"IN": NOT_COUNT_ENTS}},
     "not_count_word": {"LOWER": {"IN": NOT_COUNT_WORDS}},
     "per_count": {"ENT_TYPE": "per_count"},
@@ -98,5 +100,6 @@ NOT_A_COUNT = MatcherPatterns(
         "x =? 99-99",
         "99-99 ; 99-99",
         "99-99 :",
+        "99-99 any? any? any? as dim",
     ],
 )

@@ -87,7 +87,7 @@ def cleanup_ent(ent, original):
         del ent._.data["plant_taxon"]
 
     # There is latin in the text, I need to guard against that
-    is_lower = ent._.data["level"] in consts.LOWER_TAXON_LEVEL
+    is_lower = ent._.data.get("level") in consts.LOWER_TAXON_LEVEL
     alone = len(ent._.data["taxon"].split()) == 1
     if alone and (is_lower or original[0][0].islower()):
         ent._.delete = True

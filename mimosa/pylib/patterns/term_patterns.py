@@ -51,6 +51,7 @@ TRAITS = """
     joined
     shape
     size
+    habit
     habitat
     leaf_duration
     leaf_folding

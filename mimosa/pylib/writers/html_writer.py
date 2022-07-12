@@ -40,7 +40,7 @@ def write(args, sentences):
     for sentence_data in tqdm(sentences):
         text = format_text(sentence_data, classes)
         traits = format_traits(sentence_data, classes)
-        cls = "debug" if sentence_data.reject else "real"
+        cls = "real"
         formatted.append(Formatted(text, traits, cls))
 
     template = env.get_template("html_template.html").render(
