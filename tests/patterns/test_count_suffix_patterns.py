@@ -254,3 +254,19 @@ class TestCountSuffix(unittest.TestCase):
                 },
             ],
         )
+
+    def test_count_suffix_14(self):
+        self.assertEqual(
+            test("""4-6-seeded, the replum"""),
+            [
+                {
+                    "low": 4,
+                    "high": 6,
+                    "trait": "count",
+                    "start": 0,
+                    "end": 10,
+                    "fruit_part": "seed",
+                },
+                {"fruit_part": "replum", "trait": "fruit_part", "start": 16, "end": 22},
+            ],
+        )
