@@ -40,3 +40,42 @@ class TestPartLinker(unittest.TestCase):
                 {"part": "trunk", "trait": "part", "start": 80, "end": 85},
             ],
         )
+
+    def test_part_linker_03(self):
+        self.assertEqual(
+            test(
+                """Pods here are some words, and more words, we keep writing things
+                 until the desired part is far away from its size 25-35 X 12-18 mm,
+                 the replum 1.5-2 mm wide,"""
+            ),
+            [
+                {"fruit_part": "pod", "trait": "fruit_part", "start": 0, "end": 4},
+                {
+                    "length_low": 25.0,
+                    "length_high": 35.0,
+                    "length_units": "mm",
+                    "width_low": 12.0,
+                    "width_high": 18.0,
+                    "width_units": "mm",
+                    "trait": "size",
+                    "start": 114,
+                    "end": 130,
+                    "fruit_part": "pod",
+                },
+                {
+                    "fruit_part": "replum",
+                    "trait": "fruit_part",
+                    "start": 136,
+                    "end": 142,
+                },
+                {
+                    "width_low": 1.5,
+                    "width_high": 2.0,
+                    "width_units": "mm",
+                    "trait": "size",
+                    "start": 143,
+                    "end": 156,
+                    "fruit_part": "replum",
+                },
+            ],
+        )

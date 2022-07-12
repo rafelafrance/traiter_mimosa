@@ -13,13 +13,16 @@ NOT_COUNT_WORDS = (
 )
 NOT_COUNT_ENTS = """ imperial_length metric_mass imperial_mass """.split()
 
+EVERY = """ every per each """.split()
+
 DECODER = common_patterns.COMMON_PATTERNS | {
     "adp": {"POS": {"IN": ["ADP"]}},
     "count_word": {"ENT_TYPE": "count_word"},
     "not_count_ent": {"ENT_TYPE": {"IN": NOT_COUNT_ENTS}},
     "not_count_word": {"LOWER": {"IN": NOT_COUNT_WORDS}},
     "per_count": {"ENT_TYPE": "per_count"},
-    "subpart": {"ENT_TYPE": "subpart"},
+    "every": {"LOWER": {"IN": EVERY}},
+    "part": {"ENT_TYPE": {"IN": term_patterns.PARTS}},
     "x": {"LOWER": {"IN": ["x", "X"]}},
     "=": {"TEXT": {"IN": ["=", ":"]}},
 }
@@ -33,6 +36,9 @@ COUNT = MatcherPatterns(
         "99-99",
         "99-99 -* per_count",
         "( 99-99 ) per_count",
+        "99-99 -* every part",
+        "( 99-99 ) every part",
+        "per_count+ adp? 99-99",
     ],
 )
 
@@ -51,11 +57,13 @@ def on_count_match(ent):
     if ent._.data.get("range"):
         del ent._.data["range"]
 
-    if pc := [e for e in ent.ents if e.label_ == "per_count"]:
-        pc = pc[0]
-        pc_text = pc.text.lower()
-        pc._.new_label = "count_group"
-        ent._.data["count_group"] = term_patterns.REPLACE.get(pc_text, pc_text)
+    if pc := next((e for e in ent.ents if e.label_ == "per_count"), None):
+        text = pc.text.lower()
+        ent._.data["count_group"] = term_patterns.REPLACE.get(text, text)
+
+    if ep := next((e for e in ent.ents if e.label_ in term_patterns.PARTS), None):
+        text = ep.text.lower()
+        ent._.data["per_part"] = term_patterns.REPLACE.get(text, text)
 
 
 # ####################################################################################

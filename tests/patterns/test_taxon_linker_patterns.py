@@ -30,6 +30,7 @@ class TestTaxonLinker(unittest.TestCase):
                     "trait": "shape",
                     "start": 52,
                     "end": 57,
+                    "flower_part": "nectary",
                     "male_flower_part": "anther",
                     "taxon": "ser. Glanduliferae",
                 },

@@ -49,6 +49,7 @@ def pipeline():
             "replace": term_patterns.REPLACE,
         },
     )
+    nlp.add_pipe("merge_entities", name="merge_terms")
 
     nlp.add_pipe(
         ADD_TRAITS,
@@ -94,6 +95,9 @@ def pipeline():
             "exclude": ["multiple_parts", "subpart_suffix"],
         },
     )
+
+    # debug_pipes.tokens(nlp)  # #####################################################
+    # debug_pipes.ents(nlp)  # #######################################################
 
     nlp.add_pipe(
         ADD_TRAITS,
@@ -160,6 +164,21 @@ def pipeline():
 
     nlp.add_pipe(
         LINK_TRAITS,
+        name="link_parts_once",
+        config={
+            "parents": part_linker_patterns.LINK_PART_ONCE_PARENTS,
+            "children": part_linker_patterns.LINK_PART_ONCE_CHILDREN,
+            "weights": consts.TOKEN_WEIGHTS,
+            "max_links": 1,
+            "differ": ["sex"],
+            "patterns": matcher_patterns.as_dicts(
+                [part_linker_patterns.LINK_PART_ONCE]
+            ),
+        },
+    )
+
+    nlp.add_pipe(
+        LINK_TRAITS,
         name="link_subparts",
         config={
             "parents": subpart_linker_patterns.SUBPART_PARENTS,
@@ -170,9 +189,6 @@ def pipeline():
             ),
         },
     )
-
-    # debug_pipes.tokens(nlp)  # #####################################################
-    # debug_pipes.ents(nlp)  # #######################################################
 
     nlp.add_pipe(
         LINK_TRAITS,

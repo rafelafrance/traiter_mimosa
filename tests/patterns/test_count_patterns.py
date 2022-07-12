@@ -221,6 +221,7 @@ class TestCount(unittest.TestCase):
                     "trait": "count",
                     "start": 18,
                     "end": 26,
+                    "flower_part": "flower",
                     "male_flower_part": "stamen",
                     "sex": "male",
                 },
@@ -325,10 +326,10 @@ class TestCount(unittest.TestCase):
                     "high": 3,
                     "trait": "count",
                     "start": 6,
-                    "end": 18,
+                    "end": 29,
+                    "per_part": "legume",
                     "fruit_part": "seed",
                 },
-                {"fruit_part": "legume", "trait": "fruit_part", "start": 23, "end": 29},
             ],
         )
 
@@ -444,12 +445,7 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             test("""staminate catkins in 1 or more clusters of 3--6;"""),
             [
-                {
-                    "sex": "staminate",
-                    "trait": "sex",
-                    "start": 0,
-                    "end": 9,
-                },
+                {"sex": "staminate", "trait": "sex", "start": 0, "end": 9},
                 {
                     "inflorescence": "catkin",
                     "trait": "inflorescence",
@@ -458,19 +454,12 @@ class TestCount(unittest.TestCase):
                     "sex": "staminate",
                 },
                 {
-                    "low": 1,
-                    "trait": "count",
-                    "start": 21,
-                    "end": 22,
-                    "inflorescence": "catkin",
-                    "sex": "staminate",
-                },
-                {
                     "low": 3,
                     "high": 6,
                     "trait": "count",
-                    "start": 43,
+                    "start": 21,
                     "end": 47,
+                    "count_group": "cluster",
                     "inflorescence": "catkin",
                     "sex": "staminate",
                 },
@@ -589,5 +578,22 @@ class TestCount(unittest.TestCase):
                     "level": "genus",
                     "taxon": "Mimosa",
                 }
+            ],
+        )
+
+    def test_count_36(self):
+        self.assertEqual(
+            test("""Pods 1-2 per capitulum,"""),
+            [
+                {"fruit_part": "pod", "trait": "fruit_part", "start": 0, "end": 4},
+                {
+                    "low": 1,
+                    "high": 2,
+                    "trait": "count",
+                    "start": 5,
+                    "end": 22,
+                    "per_part": "capitulum",
+                    "fruit_part": "pod",
+                },
             ],
         )

@@ -22,13 +22,6 @@ class TestPhrase(unittest.TestCase):
                     "sex": "pistillate",
                 },
                 {
-                    "female_flower_part": "sessile",
-                    "trait": "female_flower_part",
-                    "start": 27,
-                    "end": 34,
-                    "sex": "pistillate",
-                },
-                {
                     "flower_location": "superior",
                     "trait": "flower_location",
                     "start": 36,

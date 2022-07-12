@@ -15,6 +15,8 @@ FOLLOW = """ dim sex """.split()
 NOT_A_SIZE = """ for below above """.split()
 SIZE_FIELDS = """ min low high max """.split()
 
+SWITCH_DIM = t_const.CROSS + t_const.COMMA
+
 DECODER = common_patterns.COMMON_PATTERNS | {
     "99.9": {"TEXT": {"REGEX": t_const.FLOAT_TOKEN_RE}},
     "[?]": {"ENT_TYPE": "quest"},
@@ -35,6 +37,7 @@ SIZE = MatcherPatterns(
     patterns=[
         "about? 99.9-99.9 cm  follow*",
         "about? 99.9-99.9 cm? follow* x to? about? 99.9-99.9 cm follow*",
+        "about? 99.9-99.9 cm? follow* , to? about? 99.9-99.9 cm follow*",
         (
             "      about? 99.9-99.9 cm? follow* "
             "x to? about? 99.9-99.9 cm? follow* "
@@ -148,7 +151,7 @@ def scan_tokens(ent, high_only):
         elif label == "quest":
             dims[-1]["uncertain"] = True
 
-        elif token.lower_ in t_const.CROSS:
+        elif token.lower_ in SWITCH_DIM:
             dims.append({})
 
     if not has_range:

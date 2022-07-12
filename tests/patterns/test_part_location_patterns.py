@@ -131,6 +131,7 @@ class TestPartLocation(unittest.TestCase):
                     "trait": "inflorescence",
                     "start": 19,
                     "end": 31,
+                    "part_as_loc": "immersed in foliage",
                     "location": "terminal",
                 },
                 {
@@ -152,6 +153,7 @@ class TestPartLocation(unittest.TestCase):
                     "trait": "inflorescence",
                     "start": 62,
                     "end": 70,
+                    "location": "terminal",
                     "part_as_loc": "immersed in foliage",
                 },
                 {

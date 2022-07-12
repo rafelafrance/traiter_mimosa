@@ -43,11 +43,7 @@ TAXA = ["taxon", "multi_taxon"]
 SUBPARTS = ["subpart", "subpart_suffix"]
 SUBPART_SET = set(SUBPARTS)
 
-TRAITS = (
-    PARTS
-    + LOCATIONS
-    + SUBPARTS
-    + """
+TRAITS = """
     color
     color_mod
     count
@@ -64,9 +60,12 @@ TRAITS = (
     surface
     venation
     woodiness
-    """.split()
-)
+""".split()
+TRAITS_SET = set(TRAITS)
+
+ALL_TRAITS = PARTS + LOCATIONS + SUBPARTS + TRAITS
+ALL_TRAITS_SET = set(ALL_TRAITS)
 
 
 def all_traits_except(removes: list[str]) -> list:
-    return [t for t in TRAITS if t not in removes]
+    return [t for t in ALL_TRAITS if t not in removes]
