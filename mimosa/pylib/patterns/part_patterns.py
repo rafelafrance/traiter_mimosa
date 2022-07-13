@@ -4,7 +4,10 @@ from traiter.patterns.matcher_patterns import MatcherPatterns
 from . import common_patterns
 from . import term_patterns
 
+PART_LEADER = """ primary secondary """.split()
+
 DECODER = common_patterns.COMMON_PATTERNS | {
+    "leader": {"LOWER": {"IN": PART_LEADER}},
     "part": {"ENT_TYPE": {"IN": term_patterns.PARTS}},
 }
 
@@ -14,8 +17,9 @@ PART = MatcherPatterns(
     on_match="mimosa.part.v1",
     decoder=DECODER,
     patterns=[
-        "part - part",
-        "part and part",
+        "leader  part",
+        "leader? part -   part",
+        "leader? part and part",
     ],
 )
 

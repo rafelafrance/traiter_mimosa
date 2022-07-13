@@ -3,8 +3,6 @@ from traiter.pipes.sentence_pipe import SENTENCE
 
 from . import tokenizer
 
-# from traiter.pipes import debug_pipes
-
 
 def pipeline():
     nlp = English()

@@ -8,6 +8,7 @@ class TestSubpart(unittest.TestCase):
         self.assertEqual(
             test("terminal lobe ovate-trullate,"),
             [
+                {"location": "terminal", "trait": "location", "start": 0, "end": 8},
                 {
                     "subpart": "lobe",
                     "trait": "subpart",

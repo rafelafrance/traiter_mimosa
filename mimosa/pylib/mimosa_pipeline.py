@@ -1,4 +1,3 @@
-"""Create a trait pipeline."""
 import spacy
 from traiter.patterns import matcher_patterns
 from traiter.pipes.add_traits_pipe import ADD_TRAITS
@@ -95,9 +94,6 @@ def pipeline():
             "exclude": ["multiple_parts", "subpart_suffix"],
         },
     )
-
-    # debug_pipes.tokens(nlp)  # #####################################################
-    # debug_pipes.ents(nlp)  # #######################################################
 
     nlp.add_pipe(
         ADD_TRAITS,
@@ -205,17 +201,6 @@ def pipeline():
 
     nlp.add_pipe(
         LINK_TRAITS,
-        name="link_taxa",
-        config={
-            "parents": taxon_linker_patterns.TAXON_PARENTS,
-            "children": taxon_linker_patterns.TAXON_CHILDREN,
-            "weights": consts.TOKEN_WEIGHTS,
-            "patterns": matcher_patterns.as_dicts([taxon_linker_patterns.TAXON_LINKER]),
-        },
-    )
-
-    nlp.add_pipe(
-        LINK_TRAITS,
         name="link_sex",
         config={
             "parents": sex_linker_patterns.SEX_PARENTS,
@@ -251,6 +236,7 @@ def pipeline():
         },
     )
 
+    # debug_pipes.ents(nlp)  # #######################################################
     # debug_pipes.tokens(nlp)  # #####################################################
 
     nlp.add_pipe(
@@ -259,6 +245,17 @@ def pipeline():
         config={
             "delete": delete_patterns.DELETE_UNLINKED,
             "delete_when": delete_patterns.DELETE_WHEN,
+        },
+    )
+
+    nlp.add_pipe(
+        LINK_TRAITS,
+        name="link_taxa",
+        config={
+            "parents": taxon_linker_patterns.TAXON_PARENTS,
+            "children": taxon_linker_patterns.TAXON_CHILDREN,
+            "weights": consts.TOKEN_WEIGHTS,
+            "patterns": matcher_patterns.as_dicts([taxon_linker_patterns.TAXON_LINKER]),
         },
     )
 

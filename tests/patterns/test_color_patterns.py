@@ -46,9 +46,10 @@ class TestColor(unittest.TestCase):
                     "trait": "color",
                     "start": 65,
                     "end": 86,
-                    "location": "distal",
                     "flower_part": "hypanthium",
+                    "location": "distal",
                 },
+                {"location": "distal", "trait": "location", "start": 87, "end": 95},
             ],
         )
 

@@ -16,6 +16,7 @@ class TestLocation(unittest.TestCase):
                     "flower_part": "flower",
                     "location": "dorsal",
                 },
+                {"location": "dorsal", "trait": "location", "start": 26, "end": 34},
                 {
                     "flower_part": "flower",
                     "trait": "flower_part",

@@ -89,13 +89,14 @@ class TestPartLocation(unittest.TestCase):
         self.assertEqual(
             test("the short terminal pseudoraceme"),
             [
+                {"location": "terminal", "trait": "location", "start": 10, "end": 18},
                 {
                     "inflorescence": "pseudoraceme",
                     "trait": "inflorescence",
                     "start": 19,
                     "end": 31,
                     "location": "terminal",
-                }
+                },
             ],
         )
 
@@ -126,13 +127,14 @@ class TestPartLocation(unittest.TestCase):
                 "capitula immersed in foliage."
             ),
             [
+                {"location": "terminal", "trait": "location", "start": 10, "end": 18},
                 {
                     "inflorescence": "pseudoraceme",
                     "trait": "inflorescence",
                     "start": 19,
                     "end": 31,
-                    "part_as_loc": "immersed in foliage",
                     "location": "terminal",
+                    "part_as_loc": "immersed in foliage",
                 },
                 {
                     "shape": "ovoid-ellipsoid",
@@ -153,8 +155,8 @@ class TestPartLocation(unittest.TestCase):
                     "trait": "inflorescence",
                     "start": 62,
                     "end": 70,
-                    "location": "terminal",
                     "part_as_loc": "immersed in foliage",
+                    "location": "terminal",
                 },
                 {
                     "part_as_loc": "immersed in foliage",

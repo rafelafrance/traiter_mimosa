@@ -68,7 +68,7 @@ def delete_kilometers(ent):
 
 
 # ####################################################################################
-DELETE_UNLINKED = """surface_leader location""".split()
+DELETE_UNLINKED = """surface_leader """.split()
 
 DELETE_WHEN = {
     "count": [DELETE_MISSING_PARTS, DELETE_PAGE_NO],
