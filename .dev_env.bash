@@ -23,7 +23,6 @@ if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
 python -m pip install -U spacy
 python -m spacy download en_core_web_sm
-python -m spacy download en_core_web_lg
 
 
 # ##############################################################################
@@ -36,16 +35,19 @@ pip install -e ../traiter
 # ##############################################################################
 # Dev only installs (not required because they're personal preference)
 
-pip install -U pynvim
-pip install -U 'python-lsp-server[all]'
-pip install -U pre-commit pre-commit-hooks
-pip install -U autopep8 flake8 isort pylint yapf pydocstyle black
-pip install -U jupyter jupyter_nbextensions_configurator ipyparallel
-pip install -U jupyterlab jupyterlab_code_formatter jupyterlab-drawio
-pip install -U jupyterlab-lsp jupyterlab-spellchecker
-pip install -U jupyterlab-git
-pip install -U aquirdturtle-collapsible-headings
-pip install -U nbdime
+python -m ppip install -U pynvim
+python -m ppip install -U 'python-lsp-server[all]'
+python -m ppip install -U pre-commit pre-commit-hooks
+python -m ppip install -U autopep8 flake8 isort pylint yapf pydocstyle black
+python -m ppip install -U bandit prospector pylama
+
+python -m ppip install -U jupyter jupyter_nbextensions_configurator ipyparallel
+python -m ppip install -U jupyterlab jupyterlab-drawio
+python -m ppip install -U jupyterlab-lsp jupyterlab-spellchecker
+python -m ppip install -U aquirdturtle-collapsible-headings
+python -m ppip install -U nbdime
+python -m pip install -U jupyterlab-code-formatter==1.4.10
+python -m pip install -U jupyterlab-git==0.36.0
 
 jupyter labextension install jupyterlab_onedarkpro
 jupyter server extension enable --py jupyterlab_git

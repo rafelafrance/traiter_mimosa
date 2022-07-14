@@ -502,3 +502,49 @@ class TestColor(unittest.TestCase):
             test("ex Britton & Rose, N. Amer. R ."),
             [],
         )
+
+    def test_color_19(self):
+        self.assertEqual(
+            test(
+                """stipules, the young stems and lf-axes hispid with stout, partly
+                confluent or branched, yellowish setae"""
+            ),
+            [
+                {"leaf_part": "stipule", "trait": "leaf_part", "start": 0, "end": 8},
+                {
+                    "multiple_parts": ["stem", "leaf-axis"],
+                    "trait": "multiple_parts",
+                    "start": 20,
+                    "end": 37,
+                },
+                {
+                    "surface": "hispid",
+                    "trait": "surface",
+                    "start": 38,
+                    "end": 44,
+                    "multiple_parts": ["stem", "leaf-axis"],
+                },
+                {
+                    "shape": "confluent",
+                    "trait": "shape",
+                    "start": 57,
+                    "end": 73,
+                    "part": "setae",
+                },
+                {
+                    "shape": "branched",
+                    "trait": "shape",
+                    "start": 77,
+                    "end": 85,
+                    "part": "setae",
+                },
+                {
+                    "color": "yellow",
+                    "trait": "color",
+                    "start": 87,
+                    "end": 96,
+                    "part": "setae",
+                },
+                {"part": "setae", "trait": "part", "start": 97, "end": 102},
+            ],
+        )

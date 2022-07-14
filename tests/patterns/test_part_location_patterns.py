@@ -134,7 +134,6 @@ class TestPartLocation(unittest.TestCase):
                     "start": 19,
                     "end": 31,
                     "location": "terminal",
-                    "part_as_loc": "immersed in foliage",
                 },
                 {
                     "shape": "ovoid-ellipsoid",
@@ -156,7 +155,6 @@ class TestPartLocation(unittest.TestCase):
                     "start": 62,
                     "end": 70,
                     "part_as_loc": "immersed in foliage",
-                    "location": "terminal",
                 },
                 {
                     "part_as_loc": "immersed in foliage",

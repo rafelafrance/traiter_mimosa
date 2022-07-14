@@ -221,7 +221,6 @@ class TestCount(unittest.TestCase):
                     "trait": "count",
                     "start": 18,
                     "end": 26,
-                    "flower_part": "flower",
                     "male_flower_part": "stamen",
                     "sex": "male",
                 },

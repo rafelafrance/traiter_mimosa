@@ -65,8 +65,7 @@ class TestCountSuffix(unittest.TestCase):
                     "trait": "count",
                     "start": 17,
                     "end": 41,
-                    "inflorescence": "raceme",
-                    "flower_part": "flowered",
+                    "flower_part": "flower",
                 },
             ],
         )
@@ -160,8 +159,7 @@ class TestCountSuffix(unittest.TestCase):
                     "trait": "count",
                     "start": 15,
                     "end": 39,
-                    "flower_part": "flowered",
-                    "inflorescence": "inflorescence",
+                    "flower_part": "flower",
                 },
             ],
         )
@@ -181,8 +179,7 @@ class TestCountSuffix(unittest.TestCase):
                     "trait": "count",
                     "start": 6,
                     "end": 29,
-                    "flower_part": "flowered",
-                    "inflorescence": "cyme",
+                    "flower_part": "flower",
                 },
             ],
         )

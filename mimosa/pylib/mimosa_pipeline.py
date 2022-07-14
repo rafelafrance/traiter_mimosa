@@ -8,7 +8,6 @@ from traiter.pipes.simple_traits_pipe import SIMPLE_TRAITS
 from traiter.pipes.term_pipe import TERM_PIPE
 
 from . import consts
-from . import doc_analysis
 from . import tokenizer
 from .patterns import color_patterns
 from .patterns import count_patterns
@@ -28,10 +27,11 @@ from .patterns import subpart_linker_patterns
 from .patterns import subpart_patterns
 from .patterns import taxon_like_linker_patterns
 from .patterns import taxon_like_patterns
-from .patterns import taxon_linker_patterns
 from .patterns import taxon_patterns
 from .patterns import term_patterns
 
+# from . import doc_analysis
+# from .patterns import taxon_linker_patterns
 # from traiter.pipes import debug_pipes
 
 
@@ -248,17 +248,19 @@ def pipeline():
         },
     )
 
-    nlp.add_pipe(
-        LINK_TRAITS,
-        name="link_taxa",
-        config={
-            "parents": taxon_linker_patterns.TAXON_PARENTS,
-            "children": taxon_linker_patterns.TAXON_CHILDREN,
-            "weights": consts.TOKEN_WEIGHTS,
-            "patterns": matcher_patterns.as_dicts([taxon_linker_patterns.TAXON_LINKER]),
-        },
-    )
+    # nlp.add_pipe(
+    #     LINK_TRAITS,
+    #     name="link_taxa",
+    #     config={
+    #         "parents": taxon_linker_patterns.TAXON_PARENTS,
+    #         "children": taxon_linker_patterns.TAXON_CHILDREN,
+    #         "weights": consts.TOKEN_WEIGHTS,
+    #         "patterns": matcher_patterns.as_dicts(
+    #             [taxon_linker_patterns.TAXON_LINKER]
+    #         ),
+    #     },
+    # )
 
-    nlp.add_pipe(doc_analysis.DOC_ANALYSIS)
+    # nlp.add_pipe(doc_analysis.DOC_ANALYSIS)
 
     return nlp
