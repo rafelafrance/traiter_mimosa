@@ -14,6 +14,7 @@ class TestSize(unittest.TestCase):
             [
                 {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 4},
                 {
+                    "dimensions": "length, width",
                     "length_min": 12.0,
                     "length_low": 23.0,
                     "length_high": 34.0,
@@ -41,6 +42,7 @@ class TestSize(unittest.TestCase):
             [
                 {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 5},
                 {
+                    "dimensions": "length",
                     "length_low": 1.5,
                     "length_high": 5.0,
                     "length_max": 7.0,
@@ -76,6 +78,7 @@ class TestSize(unittest.TestCase):
             [
                 {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 4},
                 {
+                    "dimensions": "width",
                     "width_low": 4.0,
                     "width_high": 10.0,
                     "width_units": "cm",
@@ -121,6 +124,7 @@ class TestSize(unittest.TestCase):
             [
                 {"leaf_part": "petiolule", "trait": "leaf_part", "start": 0, "end": 10},
                 {
+                    "dimensions": "length",
                     "length_low": 2.0,
                     "length_high": 5.0,
                     "length_units": "mm",
@@ -138,6 +142,7 @@ class TestSize(unittest.TestCase):
             [
                 {"leaf_part": "petiolule", "trait": "leaf_part", "start": 0, "end": 10},
                 {
+                    "dimensions": "length",
                     "length_low": 2.0,
                     "length_high": 5.0,
                     "length_units": "mm",
@@ -155,6 +160,7 @@ class TestSize(unittest.TestCase):
                 },
                 {"leaf_part": "petiole", "trait": "leaf_part", "start": 37, "end": 45},
                 {
+                    "dimensions": "length",
                     "length_low": 16.0,
                     "length_high": 28.0,
                     "length_units": "mm",
@@ -173,6 +179,7 @@ class TestSize(unittest.TestCase):
                 {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 6},
                 {"leaf_part": "petiole", "trait": "leaf_part", "start": 8, "end": 15},
                 {
+                    "dimensions": "length",
                     "length_low": 2.0,
                     "length_high": 15.0,
                     "length_units": "cm",
@@ -190,6 +197,7 @@ class TestSize(unittest.TestCase):
             [
                 {"leaf_part": "petiole", "trait": "leaf_part", "start": 0, "end": 7},
                 {
+                    "dimensions": "length",
                     "length_min": 5.0,
                     "length_low": 7.0,
                     "length_high": 25.0,
@@ -209,6 +217,7 @@ class TestSize(unittest.TestCase):
             [
                 {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 4},
                 {
+                    "dimensions": "length, width",
                     "length_low": 2.0,
                     "length_high": 4.0,
                     "length_units": "cm",
@@ -236,6 +245,7 @@ class TestSize(unittest.TestCase):
                     "leaf_part": "leaf",
                 },
                 {
+                    "dimensions": "width",
                     "width_low": 4.0,
                     "width_high": 5.0,
                     "width_max": 7.0,
@@ -277,6 +287,7 @@ class TestSize(unittest.TestCase):
                     "location": "terminal",
                 },
                 {
+                    "dimensions": "length",
                     "length_low": 3.0,
                     "length_high": 5.0,
                     "length_units": "cm",
@@ -294,6 +305,7 @@ class TestSize(unittest.TestCase):
                     "end": 40,
                 },
                 {
+                    "dimensions": "length",
                     "length_low": 3.0,
                     "length_high": 12.0,
                     "length_units": "mm",
@@ -321,6 +333,7 @@ class TestSize(unittest.TestCase):
                     "leaf_part": "leaf",
                 },
                 {
+                    "dimensions": "length, width",
                     "length_low": 5.0,
                     "length_high": 25.0,
                     "length_units": "cm",
@@ -350,6 +363,7 @@ class TestSize(unittest.TestCase):
                     "subpart": "lobe",
                 },
                 {
+                    "dimensions": "length, width",
                     "length_low": 6.0,
                     "length_high": 20.0,
                     "length_max": 30.0,
@@ -370,6 +384,7 @@ class TestSize(unittest.TestCase):
             [
                 {"leaf_part": "petiole", "trait": "leaf_part", "start": 0, "end": 7},
                 {
+                    "dimensions": "length",
                     "length_high": 11.0,
                     "length_units": "cm",
                     "trait": "size",
@@ -391,6 +406,7 @@ class TestSize(unittest.TestCase):
                     "end": 6,
                 },
                 {
+                    "dimensions": "length",
                     "length_min": 1.0,
                     "length_low": 3.0,
                     "length_high": 10.0,
@@ -403,6 +419,7 @@ class TestSize(unittest.TestCase):
                     "flower_part": "petal",
                 },
                 {
+                    "dimensions": "length",
                     "length_low": 5.0,
                     "length_high": 8.0,
                     "length_max": 10.0,
@@ -422,6 +439,7 @@ class TestSize(unittest.TestCase):
             [
                 {"flower_part": "flower", "trait": "flower_part", "start": 0, "end": 7},
                 {
+                    "dimensions": "diameter",
                     "diameter_low": 5.0,
                     "diameter_high": 10.0,
                     "diameter_units": "cm",
@@ -437,6 +455,7 @@ class TestSize(unittest.TestCase):
                     "end": 33,
                 },
                 {
+                    "dimensions": "length",
                     "length_low": 4.0,
                     "length_high": 8.0,
                     "length_units": "mm",
@@ -454,6 +473,7 @@ class TestSize(unittest.TestCase):
             [
                 {"flower_part": "flower", "trait": "flower_part", "start": 0, "end": 7},
                 {
+                    "dimensions": "length, width",
                     "length_low": 5.0,
                     "length_high": 16.0,
                     "length_units": "cm",
@@ -491,6 +511,7 @@ class TestSize(unittest.TestCase):
                     "sex": "staminate",
                 },
                 {
+                    "dimensions": "length",
                     "length_low": 3.0,
                     "length_high": 8.5,
                     "length_units": "cm",
@@ -517,6 +538,7 @@ class TestSize(unittest.TestCase):
                     "leaf_part": "leaf",
                 },
                 {
+                    "dimensions": "length, width",
                     "length_low": 8.0,
                     "length_high": 15.0,
                     "length_units": "cm",
@@ -537,6 +559,7 @@ class TestSize(unittest.TestCase):
             [
                 {"flower_part": "calyx", "trait": "flower_part", "start": 0, "end": 5},
                 {
+                    "dimensions": "height, length",
                     "length_low": 8.0,
                     "length_high": 10.0,
                     "length_units": "mm",
@@ -557,6 +580,7 @@ class TestSize(unittest.TestCase):
             [
                 {"flower_part": "petal", "trait": "flower_part", "start": 0, "end": 6},
                 {
+                    "dimensions": "length, width",
                     "length_low": 15.0,
                     "length_high": 21.0,
                     "length_units": "mm",
@@ -576,6 +600,7 @@ class TestSize(unittest.TestCase):
             [
                 {"flower_part": "petal", "trait": "flower_part", "start": 0, "end": 6},
                 {
+                    "dimensions": "length",
                     "length_low": 8.0,
                     "length_units": "mm",
                     "trait": "size",
@@ -592,6 +617,7 @@ class TestSize(unittest.TestCase):
             [
                 {"fruit_part": "legume", "trait": "fruit_part", "start": 0, "end": 7},
                 {
+                    "dimensions": "height, width",
                     "height_low": 7.0,
                     "height_high": 10.0,
                     "trait": "size",
@@ -615,6 +641,7 @@ class TestSize(unittest.TestCase):
                     "end": 7,
                 },
                 {
+                    "dimensions": "length",
                     "length_low": 3.0,
                     "length_high": 4.0,
                     "length_units": "cm",
@@ -660,6 +687,7 @@ class TestSize(unittest.TestCase):
             [
                 {"fruit_part": "seed", "trait": "fruit_part", "start": 0, "end": 5},
                 {
+                    "dimensions": "length, thickness, width",
                     "length_low": 1.6,
                     "length_units": "cm",
                     "width_low": 1.0,
@@ -675,6 +703,7 @@ class TestSize(unittest.TestCase):
                 },
                 {"fruit_part": "hilum", "trait": "fruit_part", "start": 36, "end": 41},
                 {
+                    "dimensions": "length",
                     "length_low": 8.0,
                     "length_high": 10.0,
                     "length_units": "mm",
@@ -699,6 +728,7 @@ class TestSize(unittest.TestCase):
                     "leaf_part": "leaflet",
                 },
                 {
+                    "dimensions": "length, width",
                     "length_low": 1.0,
                     "length_high": 2.5,
                     "length_units": "cm",
@@ -718,6 +748,7 @@ class TestSize(unittest.TestCase):
             [
                 {"part": "shrub", "trait": "part", "start": 0, "end": 6},
                 {
+                    "dimensions": "length",
                     "length_low": 0.5,
                     "length_high": 1.0,
                     "length_max": 2.5,
@@ -736,6 +767,7 @@ class TestSize(unittest.TestCase):
             [
                 {"part": "trunk", "trait": "part", "start": 0, "end": 5},
                 {
+                    "dimensions": "dbh",
                     "dbh_high": 3.0,
                     "dbh_units": "cm",
                     "uncertain": "true",
@@ -753,6 +785,7 @@ class TestSize(unittest.TestCase):
             [
                 {"part": "tree", "trait": "part", "start": 0, "end": 5},
                 {
+                    "dimensions": "height",
                     "height_high": 25.0,
                     "height_units": "m",
                     "trait": "size",
@@ -778,6 +811,7 @@ class TestSize(unittest.TestCase):
                 {"part": "shrub", "trait": "part", "start": 0, "end": 6},
                 {"part": "tree", "trait": "part", "start": 10, "end": 15},
                 {
+                    "dimensions": "length",
                     "length_low": 3.0,
                     "length_high": 50.0,
                     "length_units": "m",
@@ -803,6 +837,7 @@ class TestSize(unittest.TestCase):
             [
                 {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 6},
                 {
+                    "dimensions": "length",
                     "length_min": 2.0,
                     "length_low": 3.0,
                     "length_high": 5.0,
@@ -821,6 +856,7 @@ class TestSize(unittest.TestCase):
             [
                 {"subpart": "article", "trait": "subpart", "start": 0, "end": 8},
                 {
+                    "dimensions": "length",
                     "length_low": 4.5,
                     "length_units": "mm",
                     "trait": "size",
@@ -837,6 +873,7 @@ class TestSize(unittest.TestCase):
             [
                 {"fruit_part": "seed", "trait": "fruit_part", "start": 0, "end": 5},
                 {
+                    "dimensions": "length, width",
                     "length_low": 4.0,
                     "length_units": "mm",
                     "width_low": 3.0,
@@ -861,6 +898,7 @@ class TestSize(unittest.TestCase):
             [
                 {"part": "trunk", "trait": "part", "start": 0, "end": 5},
                 {
+                    "dimensions": "diameter",
                     "diameter_low": 8.0,
                     "diameter_units": "cm",
                     "trait": "size",

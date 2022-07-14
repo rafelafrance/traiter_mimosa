@@ -111,6 +111,8 @@ def on_size_double_dim_match(ent):
                 ent._.data[key] = value
     if "range" in ent._.data:
         del ent._.data["range"]
+
+    ent._.data["dimensions"] = ", ".join(sorted(d for d in dims))
     ent._.new_label = "size"
 
 
@@ -156,11 +158,12 @@ def scan_tokens(ent, high_only):
 
     if not has_range:
         raise actions.RejectMatch()
+
     return dims
 
 
 def fix_dimensions(dims):
-    """Handle when width comes before length & one of them is missing units."""
+    """Handle when width comes before length or unlabeled dimensions."""
     noted = [d for n in dims if (d := n.get("dimension"))]
     defaults = deque(d for d in ("length", "width", "thickness") if d not in noted)
 
@@ -183,7 +186,6 @@ def fix_units(dims):
 
 def fill_data(dims, ent):
     """Move fields into correct place & give them consistent names."""
-    # Need to find entities using their character offsets
     for dim in dims:
         dimension = dim["dimension"]
 
@@ -201,3 +203,5 @@ def fill_data(dims, ent):
 
         if dim.get("uncertain"):
             ent._.data["uncertain"] = "true"
+
+    ent._.data["dimensions"] = ", ".join(sorted(d["dimension"] for d in dims))

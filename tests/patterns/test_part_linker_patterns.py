@@ -29,6 +29,7 @@ class TestPartLinker(unittest.TestCase):
             [
                 {"part": "tree", "trait": "part", "start": 0, "end": 5},
                 {
+                    "dimensions": "height",
                     "height_low": 2.0,
                     "height_high": 4.0,
                     "height_units": "m",
@@ -51,6 +52,7 @@ class TestPartLinker(unittest.TestCase):
             [
                 {"fruit_part": "pod", "trait": "fruit_part", "start": 0, "end": 4},
                 {
+                    "dimensions": "length, width",
                     "length_low": 25.0,
                     "length_high": 35.0,
                     "length_units": "mm",
@@ -69,6 +71,7 @@ class TestPartLinker(unittest.TestCase):
                     "end": 142,
                 },
                 {
+                    "dimensions": "width",
                     "width_low": 1.5,
                     "width_high": 2.0,
                     "width_units": "mm",
