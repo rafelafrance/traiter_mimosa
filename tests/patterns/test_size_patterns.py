@@ -14,7 +14,7 @@ class TestSize(unittest.TestCase):
             [
                 {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 4},
                 {
-                    "dimensions": "length, width",
+                    "dimensions": ["length", "width"],
                     "length_min": 12.0,
                     "length_low": 23.0,
                     "length_high": 34.0,
@@ -217,7 +217,7 @@ class TestSize(unittest.TestCase):
             [
                 {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 4},
                 {
-                    "dimensions": "length, width",
+                    "dimensions": ["length", "width"],
                     "length_low": 2.0,
                     "length_high": 4.0,
                     "length_units": "cm",
@@ -333,7 +333,7 @@ class TestSize(unittest.TestCase):
                     "leaf_part": "leaf",
                 },
                 {
-                    "dimensions": "length, width",
+                    "dimensions": ["length", "width"],
                     "length_low": 5.0,
                     "length_high": 25.0,
                     "length_units": "cm",
@@ -363,7 +363,7 @@ class TestSize(unittest.TestCase):
                     "subpart": "lobe",
                 },
                 {
-                    "dimensions": "length, width",
+                    "dimensions": ["length", "width"],
                     "length_low": 6.0,
                     "length_high": 20.0,
                     "length_max": 30.0,
@@ -473,7 +473,7 @@ class TestSize(unittest.TestCase):
             [
                 {"flower_part": "flower", "trait": "flower_part", "start": 0, "end": 7},
                 {
-                    "dimensions": "length, width",
+                    "dimensions": ["length", "width"],
                     "length_low": 5.0,
                     "length_high": 16.0,
                     "length_units": "cm",
@@ -538,7 +538,7 @@ class TestSize(unittest.TestCase):
                     "leaf_part": "leaf",
                 },
                 {
-                    "dimensions": "length, width",
+                    "dimensions": ["length", "width"],
                     "length_low": 8.0,
                     "length_high": 15.0,
                     "length_units": "cm",
@@ -559,7 +559,7 @@ class TestSize(unittest.TestCase):
             [
                 {"flower_part": "calyx", "trait": "flower_part", "start": 0, "end": 5},
                 {
-                    "dimensions": "height, length",
+                    "dimensions": ["height", "length"],
                     "length_low": 8.0,
                     "length_high": 10.0,
                     "length_units": "mm",
@@ -580,7 +580,7 @@ class TestSize(unittest.TestCase):
             [
                 {"flower_part": "petal", "trait": "flower_part", "start": 0, "end": 6},
                 {
-                    "dimensions": "length, width",
+                    "dimensions": ["length", "width"],
                     "length_low": 15.0,
                     "length_high": 21.0,
                     "length_units": "mm",
@@ -617,7 +617,7 @@ class TestSize(unittest.TestCase):
             [
                 {"fruit_part": "legume", "trait": "fruit_part", "start": 0, "end": 7},
                 {
-                    "dimensions": "height, width",
+                    "dimensions": ["height", "width"],
                     "height_low": 7.0,
                     "height_high": 10.0,
                     "trait": "size",
@@ -687,7 +687,7 @@ class TestSize(unittest.TestCase):
             [
                 {"fruit_part": "seed", "trait": "fruit_part", "start": 0, "end": 5},
                 {
-                    "dimensions": "length, thickness, width",
+                    "dimensions": ["length", "thickness", "width"],
                     "length_low": 1.6,
                     "length_units": "cm",
                     "width_low": 1.0,
@@ -728,7 +728,7 @@ class TestSize(unittest.TestCase):
                     "leaf_part": "leaflet",
                 },
                 {
-                    "dimensions": "length, width",
+                    "dimensions": ["length", "width"],
                     "length_low": 1.0,
                     "length_high": 2.5,
                     "length_units": "cm",
@@ -873,7 +873,7 @@ class TestSize(unittest.TestCase):
             [
                 {"fruit_part": "seed", "trait": "fruit_part", "start": 0, "end": 5},
                 {
-                    "dimensions": "length, width",
+                    "dimensions": ["length", "width"],
                     "length_low": 4.0,
                     "length_units": "mm",
                     "width_low": 3.0,
@@ -906,5 +906,44 @@ class TestSize(unittest.TestCase):
                     "end": 23,
                     "part": "trunk",
                 },
+            ],
+        )
+
+    def test_size_40(self):
+        self.assertEqual(
+            test(
+                """setae to 2-6 mm and to 0.4-0.7 mm diam. at base, these mixed with
+                non-secretory setulae"""
+            ),
+            [
+                {"part": "setae", "trait": "part", "start": 0, "end": 5},
+                {
+                    "length_low": 2.0,
+                    "length_high": 6.0,
+                    "length_units": "mm",
+                    "dimensions": "length",
+                    "trait": "size",
+                    "start": 9,
+                    "end": 15,
+                    "part": "setae",
+                },
+                {
+                    "diameter_low": 0.4,
+                    "diameter_high": 0.7,
+                    "diameter_units": "mm",
+                    "dimensions": "diameter",
+                    "trait": "size",
+                    "start": 23,
+                    "end": 39,
+                    "part": "setae",
+                    "subpart_as_loc": "at base",
+                },
+                {
+                    "subpart_as_loc": "at base",
+                    "trait": "subpart_as_loc",
+                    "start": 40,
+                    "end": 47,
+                },
+                {"part": "setulae", "trait": "part", "start": 80, "end": 87},
             ],
         )

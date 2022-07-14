@@ -52,7 +52,7 @@ class TestPartLinker(unittest.TestCase):
             [
                 {"fruit_part": "pod", "trait": "fruit_part", "start": 0, "end": 4},
                 {
-                    "dimensions": "length, width",
+                    "dimensions": ["length", "width"],
                     "length_low": 25.0,
                     "length_high": 35.0,
                     "length_units": "mm",

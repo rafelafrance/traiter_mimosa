@@ -164,7 +164,7 @@ def pipeline():
             "children": part_linker_patterns.LINK_PART_ONCE_CHILDREN,
             "weights": consts.TOKEN_WEIGHTS,
             "max_links": 1,
-            "differ": ["sex", "dimension"],
+            "differ": ["sex", "dimensions"],
             "patterns": matcher_patterns.as_dicts(
                 [part_linker_patterns.LINK_PART_ONCE]
             ),

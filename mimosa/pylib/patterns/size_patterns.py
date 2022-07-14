@@ -112,7 +112,7 @@ def on_size_double_dim_match(ent):
     if "range" in ent._.data:
         del ent._.data["range"]
 
-    ent._.data["dimensions"] = ", ".join(sorted(d for d in dims))
+    ent._.data["dimensions"] = sorted(d for d in dims)
     ent._.new_label = "size"
 
 
@@ -204,4 +204,5 @@ def fill_data(dims, ent):
         if dim.get("uncertain"):
             ent._.data["uncertain"] = "true"
 
-    ent._.data["dimensions"] = ", ".join(sorted(d["dimension"] for d in dims))
+    dim = sorted(d["dimension"] for d in dims)
+    ent._.data["dimensions"] = dim if len(dim) > 1 else dim[0]
