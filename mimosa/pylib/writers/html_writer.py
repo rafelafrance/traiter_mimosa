@@ -14,7 +14,7 @@ COLOR_COUNT = 14
 BACKGROUNDS = itertools.cycle([f"cc{i}" for i in range(COLOR_COUNT)])
 BORDERS = itertools.cycle([f"bb{i}" for i in range(COLOR_COUNT)])
 
-TITLE_SKIPS = ["start", "end"]
+TITLE_SKIPS = ["start", "end", "dimensions"]
 TRAIT_SKIPS = TITLE_SKIPS + ["trait"] + term_patterns.PARTS + term_patterns.SUBPARTS
 DO_NOT_SHOW = term_patterns.PARTS + term_patterns.SUBPARTS + term_patterns.LOCATIONS
 
@@ -93,8 +93,8 @@ def format_traits(sentence_data, classes) -> list[collections.namedtuple]:
     for trait in sentence_data.traits:
         label = get_label(trait)
         title = sentence_data.text[trait["start"] : trait["end"]]
-        # if trait["trait"] not in DO_NOT_SHOW:
-        sortable.append(SortableTrait(label, trait["start"], trait, title))
+        if trait["trait"] not in DO_NOT_SHOW:
+            sortable.append(SortableTrait(label, trait["start"], trait, title))
 
     sortable = sorted(sortable)
 
@@ -103,15 +103,16 @@ def format_traits(sentence_data, classes) -> list[collections.namedtuple]:
         label = f'<span class="{cls}">{label}</span>'
         trait_list = []
         for trait in grouped:
-            trait_list.append(
-                ", ".join(
-                    f'<span title="{trait.title}">{k}:&nbsp;{v}</span>'
-                    for k, v in trait.trait.items()
-                    if k not in TRAIT_SKIPS
-                )
+            fields = ", ".join(
+                f'<span title="{trait.title}">{k}:&nbsp;{v}</span>'
+                for k, v in trait.trait.items()
+                if k not in TRAIT_SKIPS
             )
+            if fields:
+                trait_list.append(fields)
 
-        traits.append(Trait(label, "<br/>".join(trait_list)))
+        if trait_list:
+            traits.append(Trait(label, "<br/>".join(trait_list)))
 
     return traits
 
