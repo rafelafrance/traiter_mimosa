@@ -517,8 +517,8 @@ class TestShape(unittest.TestCase):
             [
                 {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 4},
                 {
-                    "shape": "subflabellate",
-                    "trait": "shape",
+                    "venation": "subflabellate",
+                    "trait": "venation",
                     "leaf_part": "leaf",
                     "start": 5,
                     "end": 18,

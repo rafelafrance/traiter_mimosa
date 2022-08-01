@@ -2,7 +2,7 @@
 from traiter import const as t_const
 
 AND = ["&", "and", "et"]
-CONJ = ["or", "&", "and"]
+CONJ = AND + ["or"]
 TO = ["to"]
 MISSING = """
     no without missing lack lacking except excepting not rarely obsolete

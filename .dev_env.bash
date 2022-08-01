@@ -3,9 +3,7 @@
 # #################################################################################
 # Setup the virtual environment for development.
 # You may need to "python -M pip install --user virtualenv" globally.
-# This is not required but some form of project isolation (conda, virtual env, etc.)
-# is strongly encouraged.
-
+# This is not required but some form of project isolation (conda, virtual env, etc.) is strongly encouraged.
 if [[ ! -z "$VIRTUAL_ENV" ]]; then
   echo "'deactivate' before running this script."
   exit 1
@@ -35,17 +33,17 @@ pip install -e ../traiter
 # ##############################################################################
 # Dev only installs (not required because they're personal preference)
 
-python -m ppip install -U pynvim
-python -m ppip install -U 'python-lsp-server[all]'
-python -m ppip install -U pre-commit pre-commit-hooks
-python -m ppip install -U autopep8 flake8 isort pylint yapf pydocstyle black
-python -m ppip install -U bandit prospector pylama
+python -m pip install -U neovim
+python -m pip install -U 'python-lsp-server[all]'
+python -m pip install -U pre-commit pre-commit-hooks
+python -m pip install -U autopep8 flake8 isort pylint yapf pydocstyle black
+python -m pip install -U bandit prospector pylama
 
-python -m ppip install -U jupyter jupyter_nbextensions_configurator ipyparallel
-python -m ppip install -U jupyterlab jupyterlab-drawio
-python -m ppip install -U jupyterlab-lsp jupyterlab-spellchecker
-python -m ppip install -U aquirdturtle-collapsible-headings
-python -m ppip install -U nbdime
+python -m pip install -U jupyter jupyter_nbextensions_configurator ipyparallel
+python -m pip install -U jupyterlab jupyterlab-drawio
+python -m pip install -U jupyterlab-lsp jupyterlab-spellchecker
+python -m pip install -U aquirdturtle-collapsible-headings
+python -m pip install -U nbdime
 python -m pip install -U jupyterlab-code-formatter==1.4.10
 python -m pip install -U jupyterlab-git==0.36.0
 

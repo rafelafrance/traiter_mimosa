@@ -11,7 +11,7 @@ DECODER = common_patterns.COMMON_PATTERNS | {
     "adj": {"POS": "ADJ"},
     "cm": {"ENT_TYPE": "metric_length"},
     "joined": {"ENT_TYPE": "joined"},
-    "leader": {"LOWER": {"IN": """to at embracing immersed""".split()}},
+    "leader": {"LOWER": {"IN": """to at embracing immersed from""".split()}},
     "location": {"ENT_TYPE": {"IN": term_patterns.LOCATIONS}},
     "of": {"LOWER": "of"},
     "part": {"ENT_TYPE": {"IN": term_patterns.PARTS}},

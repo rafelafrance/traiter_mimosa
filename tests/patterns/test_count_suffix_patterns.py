@@ -28,8 +28,8 @@ class TestCountSuffix(unittest.TestCase):
             [
                 {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 6},
                 {
-                    "shape": "imparipinnate",
-                    "trait": "shape",
+                    "venation": "imparipinnate",
+                    "trait": "venation",
                     "start": 7,
                     "end": 20,
                     "leaf_part": "leaf",

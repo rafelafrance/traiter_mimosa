@@ -71,7 +71,7 @@ def build_taxon(span):
         elif token.pos_ in ["PROPN", "NOUN"] or token.lower_ in common_patterns.AND:
             if token.shape_ in consts.TITLE_SHAPES:
                 auth.append(token.text)
-            elif token.lower_ in common_patterns.AND:
+            elif auth and token.lower_ in common_patterns.AND:
                 auth.append(token.text)
 
     if auth:
@@ -110,12 +110,12 @@ MULTI_TAXON = MatcherPatterns(
 @registry.misc(ON_MULTI_TAXON_MATCH)
 def on_multi_taxon_match(ent):
     conj_idx = next(i for i, t in enumerate(ent) if t.lower_ in common_patterns.AND)
-    first, original = build_taxon(ent[:conj_idx])
+    first, _ = build_taxon(ent[:conj_idx])
     ent._.data = {
         "level": first["level"],
         "taxon": [first["taxon"]],
     }
-    second, original = build_taxon(ent[conj_idx + 1 :])
+    second, _ = build_taxon(ent[conj_idx + 1 :])
     ent._.data["taxon"].append(second["taxon"])
 
 
