@@ -1,4 +1,3 @@
-"""Write the extracted traits to an html file."""
 import collections
 import html
 import itertools
@@ -26,7 +25,6 @@ SortableTrait = collections.namedtuple("SortableTrait", "label start trait title
 
 
 def write(args, sentences):
-    """Output the parsed data."""
 
     env = jinja2.Environment(
         loader=jinja2.FileSystemLoader(
@@ -86,7 +84,6 @@ def format_text(sentence_data, classes) -> str:
 
 
 def format_traits(sentence_data, classes) -> list[collections.namedtuple]:
-    """Format the traits for output."""
     traits = []
 
     sortable = []
@@ -135,7 +132,6 @@ def get_label(trait):
 
 
 def get_class(label, classes):
-    """Get the classes for the label."""
     if label not in classes:
         classes[label] = next(BACKGROUNDS)
     return classes[label]

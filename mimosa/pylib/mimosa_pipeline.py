@@ -152,6 +152,7 @@ def pipeline():
             "parents": part_linker_patterns.PART_PARENTS,
             "children": part_linker_patterns.PART_CHILDREN,
             "weights": consts.TOKEN_WEIGHTS,
+            "reverse_weights": consts.REVERSE_WEIGHTS,
             "patterns": matcher_patterns.as_dicts([part_linker_patterns.PART_LINKER]),
         },
     )

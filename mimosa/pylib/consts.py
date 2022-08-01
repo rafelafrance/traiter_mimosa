@@ -1,4 +1,3 @@
-"""Literals used in the system."""
 import os
 from pathlib import Path
 
@@ -14,4 +13,6 @@ UPPER_SHAPES = set(""" XXXXX XXXX XXX XX X. XX. X """.split())
 
 LOWER_TAXON_LEVEL = """ species subspecies variety subvariety form subform """.split()
 
-TOKEN_WEIGHTS = {",": 3, ";": 5, ".": 9999, "with": 10, "of": 3}
+TOKEN_WEIGHTS = {",": 3, ";": 7, ".": 9999, "with": 10, "of": 7}
+REVERSE_WEIGHTS = {k: v * 2 for k, v in TOKEN_WEIGHTS.items()}
+REVERSE_WEIGHTS[";"] = 9999

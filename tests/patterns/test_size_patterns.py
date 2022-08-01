@@ -156,7 +156,7 @@ class TestSize(unittest.TestCase):
                     "trait": "margin",
                     "start": 19,
                     "end": 35,
-                    "leaf_part": "petiole",
+                    "leaf_part": "petiolule",
                 },
                 {"leaf_part": "petiole", "trait": "leaf_part", "start": 37, "end": 45},
                 {
