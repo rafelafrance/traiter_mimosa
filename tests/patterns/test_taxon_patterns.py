@@ -89,3 +89,17 @@ class TestTaxon(unittest.TestCase):
                 }
             ],
         )
+
+    def test_taxon_07(self):
+        self.assertEqual(
+            test("""Af. pachyphloia"""),
+            [
+                {
+                    "level": "species",
+                    "taxon": "Af. pachyphloia",
+                    "trait": "taxon",
+                    "start": 0,
+                    "end": 15,
+                }
+            ],
+        )

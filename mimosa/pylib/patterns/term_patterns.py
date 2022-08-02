@@ -7,12 +7,13 @@ if not TERM_DB.exists():
     TERM_DB = consts.MOCK_DIR / "plant_terms.sqlite"
 
 # #########################################################################
-TERMS = Db.shared("colors units taxon_levels time")
+TERMS = Db.shared("colors units taxon_levels time numerics")
 TERMS += Db.select_term_set(TERM_DB, "plant_treatment")
 TERMS += Db.trailing_dash(TERMS, label="color")
 TERMS += Db.select_term_set(TERM_DB, "plant_taxa")
 TERMS.drop("imperial_length")
 TERMS.drop("time_units")
+TERMS.drop("ordinal numeric_units roman")
 
 REPLACE = TERMS.pattern_dict("replace")
 REMOVE = TERMS.pattern_dict("remove")

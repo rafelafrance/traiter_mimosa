@@ -7,7 +7,7 @@ from . import term_patterns as terms
 ON_TAXON_LIKE_MATCH = "mimosa.taxon_like.v1"
 
 
-SIMILAR = """ like similar exactly sympatric affini resembling resembles
+SIMILAR = """ like similar exactly sympatric affini resembling resembles related
     vicinis """.split()
 
 

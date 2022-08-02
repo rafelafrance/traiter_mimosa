@@ -8,7 +8,7 @@ from . import common_patterns
 from . import term_patterns
 from .. import consts
 
-M_DOT = r"^[A-Z]\.?$"
+M_DOT = r"^[A-Z][a-z]?\.?$"
 M_DOT_RE = re.compile(M_DOT)
 
 DECODER = common_patterns.COMMON_PATTERNS | {
@@ -48,6 +48,9 @@ def build_taxon(span):
             original.append(token.text)
             taxa.append(token.text)
             used_levels.append("genus")
+
+        elif token.text == ".":
+            taxa.append(taxa.pop() + ".")
 
         elif token._.cached_label == "plant_taxon":
             levels = term_patterns.LEVELS.get(token.lower_, ["unknown"])
@@ -138,6 +141,7 @@ TAXON = MatcherPatterns(
         "level .? taxon+",
         "taxon+",
         "M.? taxon level .? word",
+        "M. .? taxon+",
     ],
 )
 

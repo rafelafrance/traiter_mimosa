@@ -267,3 +267,18 @@ class TestCountSuffix(unittest.TestCase):
                 {"fruit_part": "replum", "trait": "fruit_part", "start": 16, "end": 22},
             ],
         )
+
+    def test_count_suffix_15(self):
+        self.assertEqual(
+            test("""one-seeded replum"""),
+            [
+                {
+                    "low": 1,
+                    "trait": "count",
+                    "start": 0,
+                    "end": 10,
+                    "fruit_part": "seed",
+                },
+                {"fruit_part": "replum", "trait": "fruit_part", "start": 11, "end": 17},
+            ],
+        )

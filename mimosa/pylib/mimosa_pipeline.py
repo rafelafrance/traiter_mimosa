@@ -108,6 +108,7 @@ def pipeline():
                     count_patterns.COUNT_WORD,
                     count_patterns.NOT_A_COUNT,
                     count_suffix_patterns.COUNT_SUFFIX,
+                    count_suffix_patterns.COUNT_SUFFIX_WORD,
                     taxon_patterns.TAXON,
                     taxon_patterns.MULTI_TAXON,
                 ]
