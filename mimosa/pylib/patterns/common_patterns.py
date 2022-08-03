@@ -4,6 +4,7 @@ from traiter import const as t_const
 AND = ["&", "and", "et"]
 CONJ = AND + ["or"]
 TO = ["to"]
+UNDERLINE = ["_"]
 MISSING = """
     no without missing lack lacking except excepting not rarely obsolete
     """.split()
@@ -22,8 +23,8 @@ COMMON_PATTERNS = {
     ";": {"TEXT": {"IN": t_const.SEMICOLON}},
     "[?]": {"TEXT": {"IN": t_const.Q_MARK}},
     "to": {"LOWER": {"IN": TO}},
-    "-/or": {"LOWER": {"IN": t_const.DASH + TO + CONJ}, "OP": "+"},
-    "-/to": {"LOWER": {"IN": t_const.DASH + TO}, "OP": "+"},
+    "-/or": {"LOWER": {"IN": t_const.DASH + TO + CONJ + UNDERLINE}, "OP": "+"},
+    "-/to": {"LOWER": {"IN": t_const.DASH + TO + UNDERLINE}, "OP": "+"},
     "and": {"LOWER": {"IN": AND}},
     "and/or": {"LOWER": {"IN": CONJ}},
     "missing": {"LOWER": {"IN": MISSING}},

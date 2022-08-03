@@ -150,7 +150,7 @@ def scan_tokens(ent, high_only):
         elif label == "sex":
             dims[-1]["sex"] = re.sub(r"\W+", "", token.lower_)
 
-        elif label == "quest":
+        elif label in ("quest", "about"):
             dims[-1]["uncertain"] = True
 
         elif token.lower_ in SWITCH_DIM:
@@ -202,7 +202,7 @@ def fill_data(dims, ent):
             ent._.data["sex"] = sex
 
         if dim.get("uncertain"):
-            ent._.data["uncertain"] = "true"
+            ent._.data["uncertain"] = True
 
     dim = sorted(d["dimension"] for d in dims)
     ent._.data["dimensions"] = dim if len(dim) > 1 else dim[0]

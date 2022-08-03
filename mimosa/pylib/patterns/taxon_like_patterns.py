@@ -8,7 +8,7 @@ ON_TAXON_LIKE_MATCH = "mimosa.taxon_like.v1"
 
 
 SIMILAR = """ like similar exactly sympatric affini resembling resembles related
-    vicinis """.split()
+    vicinis vicariant distinguished """.split()
 
 
 TAXON_LIKE = MatcherPatterns(

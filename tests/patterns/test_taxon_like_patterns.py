@@ -79,3 +79,18 @@ class TestTaxonLike(unittest.TestCase):
                 }
             ],
         )
+
+    def test_taxon_06(self):
+        self.assertEqual(
+            test("""distinguished from var. pachyphloia"""),
+            [
+                {
+                    "level": "variety",
+                    "trait": "taxon_like",
+                    "start": 0,
+                    "end": 35,
+                    "taxon_like": "var. pachyphloia",
+                    "relation": "distinguished",
+                }
+            ],
+        )

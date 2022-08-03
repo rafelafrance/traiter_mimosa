@@ -610,3 +610,16 @@ class TestCount(unittest.TestCase):
                 }
             ],
         )
+
+    def test_count_38(self):
+        self.assertEqual(
+            test("""the first pair 0.3-2 mm distant from unequal corolla"""),
+            [
+                {
+                    "flower_part": "corolla",
+                    "trait": "flower_part",
+                    "start": 45,
+                    "end": 52,
+                }
+            ],
+        )

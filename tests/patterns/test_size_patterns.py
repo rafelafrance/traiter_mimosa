@@ -590,6 +590,7 @@ class TestSize(unittest.TestCase):
                     "flower_part": "petal",
                     "width_low": 8.0,
                     "width_units": "mm",
+                    "uncertain": True,
                 },
             ],
         )
@@ -607,6 +608,7 @@ class TestSize(unittest.TestCase):
                     "start": 7,
                     "end": 15,
                     "flower_part": "petal",
+                    "uncertain": True,
                 },
             ],
         )
@@ -699,6 +701,7 @@ class TestSize(unittest.TestCase):
                     "trait": "size",
                     "start": 6,
                     "end": 34,
+                    "uncertain": True,
                     "fruit_part": "seed",
                 },
                 {"fruit_part": "hilum", "trait": "fruit_part", "start": 36, "end": 41},
@@ -770,7 +773,7 @@ class TestSize(unittest.TestCase):
                     "dimensions": "dbh",
                     "dbh_high": 3.0,
                     "dbh_units": "cm",
-                    "uncertain": "true",
+                    "uncertain": True,
                     "trait": "size",
                     "start": 6,
                     "end": 23,
@@ -860,8 +863,9 @@ class TestSize(unittest.TestCase):
                     "length_low": 4.5,
                     "length_units": "mm",
                     "trait": "size",
-                    "start": 10,
+                    "start": 9,
                     "end": 21,
+                    "uncertain": True,
                     "subpart": "article",
                 },
             ],
@@ -879,8 +883,9 @@ class TestSize(unittest.TestCase):
                     "width_low": 3.0,
                     "width_units": "mm",
                     "trait": "size",
-                    "start": 8,
+                    "start": 6,
                     "end": 17,
+                    "uncertain": True,
                     "fruit_part": "seed",
                 },
             ],
@@ -945,5 +950,28 @@ class TestSize(unittest.TestCase):
                     "end": 47,
                 },
                 {"part": "setulae", "trait": "part", "start": 80, "end": 87},
+            ],
+        )
+
+    def test_size_41(self):
+        self.assertEqual(
+            test("""setae (3.5-)4-7 x (1.5_)2- 2.8 mm"""),
+            [
+                {"part": "setae", "trait": "part", "start": 0, "end": 5},
+                {
+                    "length_min": 3.5,
+                    "length_low": 4.0,
+                    "length_high": 7.0,
+                    "length_units": "mm",
+                    "dimensions": ["length", "width"],
+                    "width_min": 1.5,
+                    "width_low": 2.0,
+                    "width_high": 2.8,
+                    "width_units": "mm",
+                    "trait": "size",
+                    "start": 6,
+                    "end": 33,
+                    "part": "setae",
+                },
             ],
         )

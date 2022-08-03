@@ -54,17 +54,19 @@ def on_count_match(ent):
 
     for key in ["min", "low", "high", "max"]:
         if key in ent._.data:
+            if ent._.data[key].find(".") > -1:
+                raise actions.RejectMatch()
             ent._.data[key] = t_util.to_positive_int(ent._.data[key])
 
     if ent._.data.get("range"):
         del ent._.data["range"]
 
-    if pc := next((e for e in ent.ents if e.label_ == "per_count"), None):
-        text = pc.text.lower()
+    if per_count := next((e for e in ent.ents if e.label_ == "per_count"), None):
+        text = per_count.text.lower()
         ent._.data["count_group"] = term_patterns.REPLACE.get(text, text)
 
-    if ep := next((e for e in ent.ents if e.label_ in term_patterns.PARTS), None):
-        text = ep.text.lower()
+    if per_part := next((e for e in ent.ents if e.label_ in term_patterns.PARTS), None):
+        text = per_part.text.lower()
         ent._.data["per_part"] = term_patterns.REPLACE.get(text, text)
 
 
