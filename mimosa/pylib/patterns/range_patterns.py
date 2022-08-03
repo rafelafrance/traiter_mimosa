@@ -20,7 +20,7 @@ DECODER = common_patterns.COMMON_PATTERNS | {
     "nope": {"TEXT": {"REGEX": r"^[&/:°'\"]+$"}},
     "skip": {"LOWER": {"IN": SKIP}},
     "a.": {"LOWER": {"REGEX": r"^[a-ln-wyz]\.?$"}},  # Keep meters and a cross
-    "bad-leader": {"LOWER": {"REGEX": r"^[.=,]$"}},
+    "bad-leader": {"LOWER": {"REGEX": r"^[.=]$"}},
     "bad-follower": {"LOWER": {"REGEX": r"^[=:]$"}},
 }
 

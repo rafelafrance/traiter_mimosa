@@ -1,4 +1,6 @@
 """Remove entities when they meet these criteria."""
+import re
+
 from spacy import registry
 
 from . import term_patterns
@@ -67,10 +69,23 @@ def delete_kilometers(ent):
 
 
 # ####################################################################################
+DELETE_MISSING_COUNT = "mimosa.delete_missing_count.v1"
+
+
+@registry.misc(DELETE_MISSING_COUNT)
+def delete_missing_count(ent):
+    """Remove count suffix if it's missing a number."""
+    data = ent._.data
+    no_count = not any(k for k in data.keys() if re.search(r"_(min|low|high|max)$", k))
+    return no_count
+
+
+# ####################################################################################
 DELETE_UNLINKED = """surface_leader """.split()
 
 DELETE_WHEN = {
     "count": [DELETE_MISSING_PARTS, DELETE_PAGE_NO],
     "count_group": DELETE_MISSING_PARTS,
+    "count_suffix": DELETE_MISSING_COUNT,
     "size": DELETE_KM,
 }

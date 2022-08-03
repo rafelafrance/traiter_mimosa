@@ -282,3 +282,25 @@ class TestCountSuffix(unittest.TestCase):
                 {"fruit_part": "replum", "trait": "fruit_part", "start": 11, "end": 17},
             ],
         )
+
+    def test_count_suffix_16(self):
+        self.assertEqual(
+            test("""lvs, 1 -nerved"""),
+            [
+                {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 3},
+                {
+                    "low": 1,
+                    "trait": "count",
+                    "start": 5,
+                    "end": 14,
+                    "subpart": "vein",
+                    "leaf_part": "leaf",
+                },
+            ],
+        )
+
+    def test_count_suffix_17(self):
+        self.assertEqual(
+            test("""lvs few-nerved"""),
+            [{"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 3}],
+        )
