@@ -562,7 +562,7 @@ class TestCount(unittest.TestCase):
                     "taxon": "Mimosa",
                     "trait": "taxon",
                     "start": 0,
-                    "end": 6,
+                    "end": 11,
                 }
             ],
         )
