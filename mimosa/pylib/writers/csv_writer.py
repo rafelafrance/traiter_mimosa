@@ -23,20 +23,18 @@ def write(args, taxa):
         all_traits = sorted(all_traits, key=lambda t: t["trait"])
 
         for name, traits in groupby(all_traits, key=lambda t: t["trait"]):
-            for i, trait in enumerate(traits, 1):
+            for i, trait in enumerate(traits):
 
-                for key, value in trait.items():
-
-                    if key in SKIP_FIELD:
-                        continue
+                filtered = [(k, v) for k, v in trait.items() if k not in SKIP_FIELD]
+                for key, value in filtered:
 
                     if name.endswith(key):
-                        label = name
+                        col = name
                     elif name.endswith("_size"):
-                        label = name.removesuffix("size") + key
+                        col = name.removesuffix("size") + key
                     elif name.endswith("_missing"):
-                        label = name
+                        col = name
                     else:
-                        label = name + "_" + key
+                        col = name + "_" + key
 
-                    print(f"{label}_{i}: {value}")
+                    print(f"{col}: {value}")

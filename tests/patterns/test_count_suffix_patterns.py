@@ -289,12 +289,12 @@ class TestCountSuffix(unittest.TestCase):
             [
                 {"leaf_part": "leaf", "trait": "leaf_part", "start": 0, "end": 3},
                 {
-                    "low": 1,
-                    "trait": "count",
                     "start": 5,
                     "end": 14,
-                    "subpart": "vein",
                     "leaf_part": "leaf",
+                    "low": 1,
+                    "venation": "vein",
+                    "trait": "count",
                 },
             ],
         )
