@@ -248,19 +248,4 @@ def pipeline():
         },
     )
 
-    # nlp.add_pipe(
-    #     LINK_TRAITS,
-    #     name="link_taxa",
-    #     config={
-    #         "parents": taxon_linker_patterns.TAXON_PARENTS,
-    #         "children": taxon_linker_patterns.TAXON_CHILDREN,
-    #         "weights": consts.TOKEN_WEIGHTS,
-    #         "patterns": matcher_patterns.as_dicts(
-    #             [taxon_linker_patterns.TAXON_LINKER]
-    #         ),
-    #     },
-    # )
-
-    # nlp.add_pipe(doc_analysis.DOC_ANALYSIS)
-
     return nlp

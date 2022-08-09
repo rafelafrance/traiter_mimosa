@@ -1,3 +1,4 @@
+from collections import defaultdict
 from collections import namedtuple
 
 from tqdm import tqdm
@@ -6,9 +7,6 @@ from . import mimosa_pipeline
 from . import sentence_pipeline
 from .patterns import term_patterns
 
-
-TAXON_FIND = term_patterns.TAXA
-TAXON_SKIP = TAXON_FIND + """ taxon_like """.split()
 
 SentenceTraits = namedtuple("SentenceTraits", "text traits")
 
@@ -23,9 +21,11 @@ def read(args):
     nlp = mimosa_pipeline.pipeline()
     sent_nlp = sentence_pipeline.pipeline()
 
-    data = []
+    all_traits = []
 
-    curr_taxon = None
+    taxa = defaultdict(list)
+    taxon = "Unknown"
+    countdown = 0
 
     for ln in tqdm(lines):
         ln = ln.strip()
@@ -38,12 +38,19 @@ def read(args):
                 trait["start"] += sent.start_char
                 trait["end"] += sent.start_char
 
-                if trait["trait"] in TAXON_FIND:
-                    curr_taxon = trait
-                elif curr_taxon and trait["trait"] not in TAXON_SKIP:
-                    ...
+                if trait["trait"] in term_patterns.TAXA:
+                    taxon = trait["taxon"]
+                    countdown = 10
+                elif trait["trait"] not in term_patterns.TAXA:
+                    taxa[taxon].append(trait)
+                    trait["taxon"] = taxon
 
                 traits.append(trait)
-            data.append(SentenceTraits(text=sent.text, traits=traits))
 
-    return data
+            all_traits.append(SentenceTraits(text=sent.text, traits=traits))
+
+            countdown -= 1
+            if countdown <= 0:
+                taxon = "Unknown"
+
+    return all_traits, taxa

@@ -6,6 +6,7 @@ from datetime import datetime
 import jinja2
 from tqdm import tqdm
 
+from . import writer_utils
 from .. import consts
 from ..patterns import term_patterns
 
@@ -15,9 +16,6 @@ BORDERS = itertools.cycle([f"bb{i}" for i in range(COLOR_COUNT)])
 
 TITLE_SKIPS = ["start", "end", "dimensions"]
 TRAIT_SKIPS = TITLE_SKIPS + ["trait"] + term_patterns.PARTS + term_patterns.SUBPARTS
-DO_NOT_SHOW = term_patterns.PARTS + term_patterns.SUBPARTS + term_patterns.LOCATIONS
-
-ALL_PARTS = term_patterns.PARTS_SET.copy() | term_patterns.SUBPART_SET.copy()
 
 Formatted = collections.namedtuple("Formatted", "text traits debug")
 Trait = collections.namedtuple("Trait", "label data")
@@ -25,7 +23,6 @@ SortableTrait = collections.namedtuple("SortableTrait", "label start trait title
 
 
 def write(args, sentences):
-
     env = jinja2.Environment(
         loader=jinja2.FileSystemLoader(
             f"{consts.ROOT_DIR}/mimosa/pylib/writers/templates"
@@ -64,7 +61,7 @@ def format_text(sentence_data, classes) -> str:
         if prev < start:
             frags.append(html.escape(sentence_data.text[prev:start]))
 
-        label = get_label(trait)
+        label = writer_utils.get_label(trait)
         cls = get_class(label, classes)
 
         title = ", ".join(
@@ -88,9 +85,9 @@ def format_traits(sentence_data, classes) -> list[collections.namedtuple]:
 
     sortable = []
     for trait in sentence_data.traits:
-        label = get_label(trait)
+        label = writer_utils.get_label(trait)
         title = sentence_data.text[trait["start"] : trait["end"]]
-        if trait["trait"] not in DO_NOT_SHOW:
+        if trait["trait"] not in writer_utils.DO_NOT_SHOW:
             sortable.append(SortableTrait(label, trait["start"], trait, title))
 
     sortable = sorted(sortable)
@@ -112,23 +109,6 @@ def format_traits(sentence_data, classes) -> list[collections.namedtuple]:
             traits.append(Trait(label, "<br/>".join(trait_list)))
 
     return traits
-
-
-def get_label(trait):
-    """Format the trait's label."""
-    keys = set(trait.keys())
-
-    part_key = list(keys & term_patterns.PARTS_SET)
-    part = trait[part_key[0]] if part_key else ""
-    part = " ".join(part) if isinstance(part, list) else part
-
-    subpart_key = list(keys & term_patterns.SUBPART_SET)
-    subpart = trait[subpart_key[0]] if subpart_key else ""
-
-    trait = trait["trait"] if trait["trait"] not in ALL_PARTS else ""
-    label = " ".join([p for p in [part, subpart, trait] if p])
-    label = label.replace(" ", "_")
-    return label
 
 
 def get_class(label, classes):

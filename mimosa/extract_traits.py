@@ -4,13 +4,19 @@ import textwrap
 from pathlib import Path
 
 from pylib import mimosa_reader
+from pylib.writers import csv_writer
 from pylib.writers import html_writer
 
 
 def main():
     args = parse_args()
-    data = mimosa_reader.read(args)
-    html_writer.write(args, data)
+    all_traits, taxa = mimosa_reader.read(args)
+
+    if args.out_html:
+        html_writer.write(args, all_traits)
+
+    if args.out_csv:
+        csv_writer.write(args, taxa)
 
 
 def parse_args():
@@ -32,6 +38,13 @@ def parse_args():
         type=Path,
         metavar="PATH",
         help="""Output the results to this HTML file.""",
+    )
+
+    arg_parser.add_argument(
+        "--out-csv",
+        type=Path,
+        metavar="PATH",
+        help="""Output the results to this CSV file.""",
     )
 
     arg_parser.add_argument(

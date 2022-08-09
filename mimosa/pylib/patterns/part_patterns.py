@@ -38,6 +38,7 @@ def on_part_match(ent):
 # ####################################################################################
 MISSING_PART = MatcherPatterns(
     "missing_part",
+    on_match="mimosa.missing_part.v1",
     decoder=DECODER,
     patterns=[
         "missing part",
@@ -45,3 +46,9 @@ MISSING_PART = MatcherPatterns(
         "missing part and part",
     ],
 )
+
+
+@registry.misc(MISSING_PART.on_match)
+def missing_part_match(ent):
+    if part := next((t for t in ent if t.ent_type_ == "part"), None):
+        ent._.data["part"] = part.lower_
