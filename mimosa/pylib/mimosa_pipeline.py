@@ -69,7 +69,6 @@ def pipeline():
     )
     nlp.add_pipe("merge_entities")
 
-    # Smaller traits that are part of larger traits
     nlp.add_pipe(
         ADD_TRAITS,
         name="part_traits",

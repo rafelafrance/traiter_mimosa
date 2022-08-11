@@ -40,6 +40,7 @@ def read(args):
 
                 if trait["trait"] in term_patterns.TAXA:
                     taxon = trait["taxon"]
+                    taxon = tuple(taxon) if isinstance(taxon, list) else taxon
                     countdown = 10
                 elif trait["trait"] not in term_patterns.TAXA:
                     taxa[taxon].append(trait)

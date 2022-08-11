@@ -1,5 +1,8 @@
 from itertools import groupby
 
+import pandas as pd
+from tqdm import tqdm
+
 from . import writer_utils
 from ..patterns import term_patterns
 
@@ -8,10 +11,18 @@ SKIP_FIELD += """ start end trait dimensions taxon """.split()
 
 
 def write(args, taxa):
-    print(args)
-    for taxon, all_traits in taxa.items():
-        print(f"\n{'=' * 80}")
-        print(f"{taxon=}")
+    csv_rows = parse_taxa(taxa)
+
+    df = pd.DataFrame(csv_rows).fillna("")
+    df = df.set_index("taxon")
+    df.to_csv(args.out_csv)
+    df.T.to_csv(args.out_csv.with_stem(args.out_csv.stem + "_T"))
+
+
+def parse_taxa(taxa):
+    csv_rows = []
+    for taxon, all_traits in tqdm(taxa.items()):
+        row = {"taxon": taxon}
 
         all_traits = [
             t for t in all_traits if t["trait"] not in writer_utils.DO_NOT_SHOW
@@ -22,19 +33,28 @@ def write(args, taxa):
 
         all_traits = sorted(all_traits, key=lambda t: t["trait"])
 
-        for name, traits in groupby(all_traits, key=lambda t: t["trait"]):
-            for i, trait in enumerate(traits):
+        for trait_name, traits in groupby(all_traits, key=lambda t: t["trait"]):
+
+            for i, trait in enumerate(traits, 1):
 
                 filtered = [(k, v) for k, v in trait.items() if k not in SKIP_FIELD]
-                for key, value in filtered:
+                for field_name, value in filtered:
 
-                    if name.endswith(key):
-                        col = name
-                    elif name.endswith("_size"):
-                        col = name.removesuffix("size") + key
-                    elif name.endswith("_missing"):
-                        col = name
-                    else:
-                        col = name + "_" + key
+                    col_name = column_name(trait_name, field_name)
 
-                    print(f"{col}: {value}")
+                    row[f"{col_name}_{i}"] = value
+
+        csv_rows.append(row)
+    return csv_rows
+
+
+def column_name(trait_name, field_name):
+    if trait_name.endswith(field_name):
+        col_name = trait_name
+    elif trait_name.endswith("_size"):
+        col_name = trait_name.removesuffix("size") + field_name
+    elif trait_name.endswith("_missing"):
+        col_name = trait_name
+    else:
+        col_name = trait_name + "_" + field_name
+    return col_name
