@@ -115,6 +115,6 @@ class TestTaxonLike(unittest.TestCase):
                     "taxon_like": "var. nuttallii",
                     "relation": "resembles",
                 },
-                {"subpart": "vein", "trait": "subpart", "start": 47, "end": 55},
+                {"venation": "vein", "trait": "venation", "start": 47, "end": 55},
             ],
         )
