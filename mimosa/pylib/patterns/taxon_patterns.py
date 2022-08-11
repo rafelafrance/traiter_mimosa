@@ -12,7 +12,7 @@ M_DOT = r"^[A-Z][a-z]?\.?$"
 M_DOT_RE = re.compile(M_DOT)
 
 DECODER = common_patterns.COMMON_PATTERNS | {
-    "auth": {"POS": "PROPN"},
+    "auth": {"SHAPE": {"IN": consts.NAME_SHAPES}},  # "auth": {"POS": "PROPN"},
     "maybe": {"POS": "NOUN"},
     "taxon": {"ENT_TYPE": "plant_taxon"},
     "level": {"ENT_TYPE": "level"},

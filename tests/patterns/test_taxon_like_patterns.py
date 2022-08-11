@@ -55,17 +55,17 @@ class TestTaxonLike(unittest.TestCase):
             [
                 {
                     "level": "species",
-                    "authority": "Harms Glaziou",
+                    "authority": "Harms",
                     "taxon_like": "M. sensitiva",
                     "trait": "taxon_like",
                     "start": 0,
-                    "end": 47,
+                    "end": 36,
                     "relation": "sympatric",
                 }
             ],
         )
 
-    def test_taxon_05(self):
+    def test_taxon_like_05(self):
         self.assertEqual(
             test("""vicinis M. sensitiva et M. pachyphloia"""),
             [
@@ -80,7 +80,7 @@ class TestTaxonLike(unittest.TestCase):
             ],
         )
 
-    def test_taxon_06(self):
+    def test_taxon_like_06(self):
         self.assertEqual(
             test("""distinguished from var. pachyphloia"""),
             [
@@ -92,5 +92,29 @@ class TestTaxonLike(unittest.TestCase):
                     "taxon_like": "var. pachyphloia",
                     "relation": "distinguished",
                 }
+            ],
+        )
+
+    def test_taxon_like_07(self):
+        self.assertEqual(
+            test("""The var. floridana resembles var. nuttallii in venation"""),
+            [
+                {
+                    "level": "variety",
+                    "taxon": "var. floridana",
+                    "trait": "taxon",
+                    "start": 4,
+                    "end": 18,
+                    "taxon_like": "var. nuttallii",
+                },
+                {
+                    "level": "variety",
+                    "trait": "taxon_like",
+                    "start": 19,
+                    "end": 43,
+                    "taxon_like": "var. nuttallii",
+                    "relation": "resembles",
+                },
+                {"subpart": "vein", "trait": "subpart", "start": 47, "end": 55},
             ],
         )

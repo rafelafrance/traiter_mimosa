@@ -27,6 +27,7 @@ DECODER = common_patterns.COMMON_PATTERNS | {
     "part": {"ENT_TYPE": {"IN": term_patterns.PARTS}},
     "x": {"LOWER": {"IN": ["x", "X"]}},
     "=": {"TEXT": {"IN": ["=", ":"]}},
+    "°": {"TEXT": {"IN": ["°"]}},
 }
 
 # ####################################################################################
@@ -103,5 +104,6 @@ NOT_A_COUNT = MatcherPatterns(
         "99-99 ; 99-99",
         "99-99 :",
         "99-99 any? any? any? as dim",
+        "99-99 °",
     ],
 )
