@@ -5,10 +5,10 @@ from pathlib import Path
 
 import rich
 from bs4 import BeautifulSoup
-from pylib.to_text import find_lines
-from pylib.to_text import Page
-from pylib.to_text import page_flow
-from pylib.to_text import Word
+from pylib.text_assembler import find_lines
+from pylib.text_assembler import Page
+from pylib.text_assembler import page_flow
+from pylib.text_assembler import Word
 
 
 def main():
