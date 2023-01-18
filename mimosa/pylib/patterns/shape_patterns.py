@@ -1,4 +1,3 @@
-"""Parse shape traits."""
 import re
 
 from spacy import registry

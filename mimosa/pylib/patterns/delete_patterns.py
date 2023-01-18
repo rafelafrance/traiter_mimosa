@@ -30,7 +30,7 @@ DELETE_PAGE_NO = "mimosa.page_no.v1"
 
 @registry.misc(DELETE_PAGE_NO)
 def delete_page_no(ent):
-    """Remove a count if looks like a page number."""
+    """Remove a count if it looks like a page number."""
     # Is it the last trait in the doc?
     if ent.end != len(ent.doc) - 1 or ent.doc[-1].text != ".":
         return False
