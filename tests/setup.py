@@ -1,30 +1,21 @@
-from typing import Dict
-from typing import List
-
+"""Setup for all tests."""
 from traiter.util import shorten
 
-from mimosa.pylib import mimosa_pipeline
-from mimosa.pylib import sentence_pipeline
+from mimosa.pylib.pipeline import pipeline
 
-NLP = mimosa_pipeline.pipeline()  # Singleton for testing
-SENT_NLP = sentence_pipeline.pipeline()  # Singleton for testing
+NLP = pipeline()  # Singleton for testing
 
 
-def test(text: str) -> List[Dict]:
+def test(text: str) -> list[dict]:
+    """Find entities in the doc."""
     text = shorten(text)
-    sent_doc = SENT_NLP(text)
-
-    traits = []
-
-    for sent in sent_doc.sents:
-        doc = NLP(sent.text)
-        for ent in doc.ents:
-            trait = ent._.data
-            trait["start"] += sent.start_char
-            trait["end"] += sent.start_char
-            traits.append(trait)
+    doc = NLP(text)
+    traits = [e._.data for e in doc.ents]
 
     # from pprint import pp
     # pp(traits, compact=True)
+
+    # from spacy import displacy
+    # displacy.serve(doc, options={'collapse_punct': False, 'compact': True})
 
     return traits

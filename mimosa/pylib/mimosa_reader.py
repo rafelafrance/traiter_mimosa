@@ -2,9 +2,9 @@ from collections import defaultdict
 from collections import namedtuple
 
 from tqdm import tqdm
+from traiter_plants import sentence_pipeline
 
-from . import mimosa_pipeline
-from . import sentence_pipeline
+from . import pipeline
 from .patterns import term_patterns
 
 
@@ -18,7 +18,7 @@ def read(args):
     if args.limit:
         lines = lines[: args.limit]
 
-    nlp = mimosa_pipeline.pipeline()
+    nlp = pipeline.pipeline()
     sent_nlp = sentence_pipeline.pipeline()
 
     all_traits = []

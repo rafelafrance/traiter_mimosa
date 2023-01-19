@@ -6,8 +6,8 @@ from pathlib import Path
 
 import ftfy
 import regex as re
-from pylib import sentence_pipeline
 from traiter import log
+from traiter_plants import sentence_pipeline
 
 MOJIBAKE = {
     "{": "(",
