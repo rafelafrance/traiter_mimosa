@@ -23,7 +23,8 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         python -m pip install --upgrade spacy==3.3.0
         python -m spacy download en_core_web_sm
-        pip install git+https://github.com/rafelafrance/traiter_plant_patterns.git@master#egg=traiter
+        pip install git+https://github.com/rafelafrance/traiter.git@master#egg=traiter
+        pip install git+https://github.com/rafelafrance/traiter_plants.git@master#egg=traiter_plants
     - name: Test with unittest
       run: |
         python -m unittest discover
