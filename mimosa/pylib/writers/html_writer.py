@@ -23,20 +23,21 @@ SortableTrait = collections.namedtuple("SortableTrait", "label start trait title
 
 
 def write(args, sentences):
+    classes = {}
+    formatted = []
+
+    for sentence_data in tqdm(sentences):
+        text = format_text(sentence_data, classes)
+        traits = format_traits(sentence_data, classes)
+        cls = "real"
+        formatted.append(Formatted(text, traits, cls))
+
     env = jinja2.Environment(
         loader=jinja2.FileSystemLoader(
             f"{consts.ROOT_DIR}/mimosa/pylib/writers/templates"
         ),
         autoescape=True,
     )
-
-    classes = {}
-    formatted = []
-    for sentence_data in tqdm(sentences):
-        text = format_text(sentence_data, classes)
-        traits = format_traits(sentence_data, classes)
-        cls = "real"
-        formatted.append(Formatted(text, traits, cls))
 
     template = env.get_template("html_template.html").render(
         now=datetime.strftime(datetime.now(), "%Y-%m-%d %H:%M"),
