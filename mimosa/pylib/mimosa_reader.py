@@ -1,14 +1,14 @@
 from collections import defaultdict
 from collections import namedtuple
 
+from plants import sentence_pipeline
 from tqdm import tqdm
-from traiter_plants import sentence_pipeline
 
 from . import pipeline
 from .patterns import term_patterns
 
 
-SentenceTraits = namedtuple("SentenceTraits", "text traits")
+Row = namedtuple("Row", "text traits")
 
 
 def read(args):
@@ -21,7 +21,7 @@ def read(args):
     nlp = pipeline.pipeline()
     sent_nlp = sentence_pipeline.pipeline()
 
-    all_traits = []
+    rows = []
 
     taxa = defaultdict(list)
     taxon = "Unknown"
@@ -48,10 +48,10 @@ def read(args):
 
                 traits.append(trait)
 
-            all_traits.append(SentenceTraits(text=sent.text, traits=traits))
+            rows.append(Row(text=sent.text, traits=traits))
 
             countdown -= 1
             if countdown <= 0:
                 taxon = "Unknown"
 
-    return all_traits, taxa
+    return rows, taxa
