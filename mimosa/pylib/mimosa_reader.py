@@ -8,7 +8,8 @@ from . import pipeline
 from .patterns import term_patterns
 
 
-Row = namedtuple("Row", "text traits")
+TraitsInText = namedtuple("TraitsInText", "text traits")
+TraitsByTaxon = namedtuple("TraitsByTaxon", "taxon traits")
 
 
 def read(args):
@@ -21,9 +22,10 @@ def read(args):
     nlp = pipeline.pipeline()
     sent_nlp = sentence_pipeline.pipeline()
 
-    rows = []
+    traits_in_text = []
 
-    taxa = defaultdict(list)
+    taxon_traits = defaultdict(list)
+
     taxon = "Unknown"
     countdown = 0
 
@@ -43,15 +45,17 @@ def read(args):
                     taxon = tuple(taxon) if isinstance(taxon, list) else taxon
                     countdown = 10
                 elif trait["trait"] not in term_patterns.TAXA:
-                    taxa[taxon].append(trait)
+                    taxon_traits[taxon].append(trait)
                     trait["taxon"] = taxon
 
                 traits.append(trait)
 
-            rows.append(Row(text=sent.text, traits=traits))
+            traits_in_text.append(TraitsInText(text=sent.text, traits=traits))
 
             countdown -= 1
             if countdown <= 0:
                 taxon = "Unknown"
 
-    return rows, taxa
+    traits_by_taxon = [TraitsByTaxon(k, v) for k, v in taxon_traits.items()]
+
+    return traits_in_text, traits_by_taxon

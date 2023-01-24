@@ -4,19 +4,21 @@ import textwrap
 from pathlib import Path
 
 from pylib import mimosa_reader
-from pylib.writers import csv_writer
-from pylib.writers import html_writer
+from pylib.writers.csv_writer import CsvWriter
+from pylib.writers.html_writer import HtmlWriter
 
 
 def main():
     args = parse_args()
-    all_traits, taxa = mimosa_reader.read(args)
-
-    if args.out_html:
-        html_writer.write(args, all_traits)
+    traits_in_text, traits_by_taxon = mimosa_reader.read(args)
 
     if args.out_csv:
-        csv_writer.write(args, taxa)
+        writer = CsvWriter(args.out_csv)
+        writer.write(traits_by_taxon)
+
+    if args.out_html:
+        writer = HtmlWriter(args.out_html)
+        writer.write(traits_in_text)
 
 
 def parse_args():

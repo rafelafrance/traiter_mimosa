@@ -10,10 +10,10 @@ TRAIT_SKIPS = TITLE_SKIPS + ["trait"] + term_patterns.PARTS + term_patterns.SUBP
 
 
 class HtmlWriter(BaseWriter):
-    def __init__(self, out_path):
+    def __init__(self, out_html):
         super().__init__(
             template_dir=f"{const.ROOT_DIR}/mimosa/pylib/writers/templates",
-            out_path=out_path,
+            out_html=out_html,
         )
 
     def write(self, mimosa_rows, in_file_name=""):
