@@ -2,10 +2,10 @@ from collections import defaultdict
 from collections import namedtuple
 
 from plants import sentence_pipeline
+from plants.patterns import term_patterns
 from tqdm import tqdm
 
 from . import pipeline
-from .patterns import term_patterns
 
 
 TraitsInText = namedtuple("TraitsInText", "text traits")

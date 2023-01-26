@@ -1,8 +1,0 @@
-tbody {
-  animation: fadein 1s;
-}
-
-tbody.closed {
-  animation: fadeout 1s;
-  display: none;
-}

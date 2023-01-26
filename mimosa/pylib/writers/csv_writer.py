@@ -1,6 +1,5 @@
+from plants.patterns import term_patterns
 from plants.writers import csv_writer as base_writer
-
-from ..patterns import term_patterns
 
 SKIP_FIELD = term_patterns.PARTS + term_patterns.SUBPARTS
 SKIP_FIELD += """ start end trait dimensions taxon """.split()

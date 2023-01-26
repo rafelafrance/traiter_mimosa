@@ -57,6 +57,7 @@ def page_images_to_text(args):
 def ocr_images(image_dir, min_y, max_y, conf, transform):
     pages = []
     paths = sorted(image_dir.glob("*.jpg"))
+
     for no, path in tqdm(enumerate(paths, 1)):
         image = Image.open(path)
         if transform:
@@ -66,6 +67,7 @@ def ocr_images(image_dir, min_y, max_y, conf, transform):
         page = Page(no, width, height)
         pages.append(page)
         bottom = page.height - max_y
+
         words = []
         for frag in tesseract_engine(image):
             if (

@@ -1,4 +1,4 @@
-from ..patterns import term_patterns
+from plants.patterns import term_patterns
 
 ALL_PARTS = term_patterns.PARTS_SET.copy() | term_patterns.SUBPART_SET.copy()
 DO_NOT_SHOW = term_patterns.PARTS + term_patterns.SUBPARTS + term_patterns.LOCATIONS

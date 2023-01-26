@@ -1,12 +1,19 @@
+from dataclasses import dataclass
+
+from plants.patterns import term_patterns
 from plants.writers.html_writer import HtmlWriter as BaseWriter
-from plants.writers.html_writer import HtmlWriterRow
+from plants.writers.html_writer import HtmlWriterRow as BaseWriterRow
 from tqdm import tqdm
 
 from .. import const
-from ..patterns import term_patterns
 
 TITLE_SKIPS = ["start", "end", "dimensions"]
 TRAIT_SKIPS = TITLE_SKIPS + ["trait"] + term_patterns.PARTS + term_patterns.SUBPARTS
+
+
+@dataclass
+class HtmlWriterRow(BaseWriterRow):
+    text_id: int
 
 
 class HtmlWriter(BaseWriter):
@@ -17,11 +24,12 @@ class HtmlWriter(BaseWriter):
         )
 
     def write(self, mimosa_rows, in_file_name=""):
-        for mimosa_row in tqdm(mimosa_rows):
+        for i, mimosa_row in tqdm(enumerate(mimosa_rows)):
             text = self.format_text(mimosa_row)
             traits = self.format_traits(mimosa_row)
             self.formatted.append(
                 HtmlWriterRow(
+                    text_id=i,
                     formatted_text=text,
                     formatted_traits=traits,
                 )

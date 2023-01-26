@@ -105,7 +105,7 @@ def find_overlap(line, word, eps=1):
 
     This is a fraction of the smallest height of the line & word bounding box.
     """
-    last = line.words[-1]  # If self.boxes is empty then we have a bigger problem
+    last = line.words[-1]  # If line.words is empty then we have a bigger problem
     min_height = min(last.y_max - last.y_min, word.y_max - word.y_min)
     y_min = max(last.y_min, word.y_min)
     y_max = min(last.y_max, word.y_max)

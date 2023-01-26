@@ -9,22 +9,11 @@ document.querySelectorAll('thead')
         });
     });
 
-//function toggleColors() {
-//    for (let i = 0; i < 14; ++i) {
-//        document.querySelectorAll(`.c${i}`).forEach(function (span) {
-//            span.classList.toggle(`cc${i}`);
-//        });
-//        document.querySelectorAll(`.b${i}`).forEach(function (span) {
-//            span.classList.toggle(`bb${i}`);
-//        });
-//    }
-//}
-//
-//document.querySelectorAll('input[type=radio]').forEach(function(item) {
-//    item.addEventListener('change', function(event) {
-//        toggleColors();
-//    });
-//});
-
-
-//document.querySelector('#by-part').checked = true;
+ document.querySelector('tbody')
+    .addEventListener('click', function(event) {
+        if (! event.target.matches('button')) { return; }
+        const textId = event.target.dataset.textId;
+        const selector = `[data-text-id="${textId}"]`;
+        const elts = document.querySelectorAll(selector);
+        elts.forEach(function(tr) {  tr.classList.toggle('closed'); });
+    });
