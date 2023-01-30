@@ -13,7 +13,7 @@ def main():
     traits_in_text, traits_by_taxon = mimosa_reader.read(args)
 
     if args.out_csv:
-        writer = CsvWriter(args.out_csv)
+        writer = CsvWriter(args.out_csv, args.csv_min)
         writer.write(traits_by_taxon)
 
     if args.out_html:
@@ -50,8 +50,18 @@ def parse_args():
     )
 
     arg_parser.add_argument(
+        "--csv-min",
+        type=int,
+        default=3,
+        metavar="MIN",
+        help="""Only output to the CSV only if the trait has at least this many records.
+            (default: %(default)s)""",
+    )
+
+    arg_parser.add_argument(
         "--limit",
         type=int,
+        metavar="LIMIT",
         help="""Limit the input to this many records.""",
     )
 
