@@ -10,10 +10,10 @@ import regex as re
 
 def main():
     args = parse_args()
-    rename_files(args)
+    rename_pdfs(args)
 
 
-def rename_files(args):
+def rename_pdfs(args):
     for old_path in args.pdf_dir.glob("*.pdf"):
         print(f"Old name: {old_path}")
 

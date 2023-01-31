@@ -6,6 +6,7 @@ from pathlib import Path
 
 import ftfy
 import regex as re
+import rich
 from plants import sentence_pipeline
 from traiter import log
 
@@ -46,10 +47,13 @@ MOJIBAKE_REPLACE = {}
 
 
 def main():
-    """Clean the text."""
     args = parse_args()
     log.started()
     clean(args)
+
+    msg = "You may want to look over and edit the output text."
+    rich.print(f"\n[bold yellow]{msg}[/bold yellow]\n")
+
     log.finished()
 
 

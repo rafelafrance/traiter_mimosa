@@ -31,8 +31,7 @@ def main():
     page_images_to_text(args)
 
     msg = " ".join(
-        """You may want to remove headers, footers,
-        figure captions (& text), map captions (& text), etc.
+        """You may want to remove headers, footers, figure captions, map captions, etc.
         from this text file.""".split()
     )
     rich.print(f"\n[bold yellow]{msg}[/bold yellow]\n")
