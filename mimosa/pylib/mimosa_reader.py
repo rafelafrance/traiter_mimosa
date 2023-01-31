@@ -43,7 +43,7 @@ def read(args):
                 if trait["trait"] in term_patterns.TAXA:
                     taxon = trait["taxon"]
                     taxon = tuple(taxon) if isinstance(taxon, list) else taxon
-                    countdown = 10
+                    countdown = args.taxon_distance
                 elif trait["trait"] not in term_patterns.TAXA:
                     taxon_traits[taxon].append(trait)
                     trait["taxon"] = taxon

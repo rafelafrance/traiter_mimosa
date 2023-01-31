@@ -18,7 +18,7 @@ def main():
 
     if args.out_html:
         writer = HtmlWriter(args.out_html)
-        writer.write(traits_in_text)
+        writer.write(traits_in_text, args.in_text.stem)
 
 
 def parse_args():
@@ -56,6 +56,15 @@ def parse_args():
         metavar="MIN",
         help="""Only output to the CSV only if the trait has at least this many records.
             (default: %(default)s)""",
+    )
+
+    arg_parser.add_argument(
+        "--taxon-distance",
+        type=int,
+        default=10,
+        metavar="INT",
+        help="""A taxon notation this or fewer sentences ago will be all following
+            traits. (default: %(default)s)""",
     )
 
     arg_parser.add_argument(
