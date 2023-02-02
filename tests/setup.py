@@ -1,5 +1,5 @@
 """Setup for all tests."""
-from traiter.util import shorten
+from traiter.pylib.util import shorten
 
 from mimosa.pylib.pipeline import pipeline
 
