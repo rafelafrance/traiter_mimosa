@@ -1,7 +1,7 @@
 from collections import defaultdict
 from collections import namedtuple
 
-from plants import sentence_pipeline
+from plants.pylib import sentence_pipeline
 from plants.pylib.patterns import term_patterns
 from tqdm import tqdm
 
@@ -56,6 +56,22 @@ def read(args):
             if countdown <= 0:
                 taxon = "Unknown"
 
+    adjust_taxa(taxon_traits)
     traits_by_taxon = [TraitsByTaxon(k, v) for k, v in taxon_traits.items()]
 
     return traits_in_text, traits_by_taxon
+
+
+def adjust_taxa(taxon_traits):
+    taxon_traits = dict(sorted(taxon_traits.items(), key=lambda t: (t[0], t[1])))
+    taxon_traits = split_multi_taxa(taxon_traits)
+    return taxon_traits
+
+
+def split_multi_taxa(taxon_traits):
+    new_traits = defaultdict(list)
+    for taxa, traits in taxon_traits.items():
+        rank, *names = taxa
+        for name in names:
+            new_traits[(rank, name)] += traits
+    return new_traits

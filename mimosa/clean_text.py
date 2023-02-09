@@ -7,8 +7,8 @@ from pathlib import Path
 import ftfy
 import regex as re
 import rich
-from plants import sentence_pipeline
-from traiter import log
+from plants.pylib import sentence_pipeline
+from traiter.pylib import log
 
 MOJIBAKE = {
     "{": "(",
@@ -41,6 +41,7 @@ MOJIBAKE_WORDS = {
     r"2-A": "2-4",
     r"3-A": "3-4",
     r"tmnk": "trunk",
+    r"J\.": "I.",
 }
 
 MOJIBAKE_REPLACE = {}
