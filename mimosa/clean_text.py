@@ -42,6 +42,8 @@ MOJIBAKE_WORDS = {
     r"3-A": "3-4",
     r"tmnk": "trunk",
     r"J\.": "I.",
+    r".nga": "Inga",
+    r"A/ffonsea": "Alffonsea",
 }
 
 MOJIBAKE_REPLACE = {}

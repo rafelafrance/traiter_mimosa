@@ -63,15 +63,14 @@ def read(args):
 
 
 def adjust_taxa(taxon_traits):
-    taxon_traits = dict(sorted(taxon_traits.items(), key=lambda t: (t[0], t[1])))
     taxon_traits = split_multi_taxa(taxon_traits)
+    taxon_traits = dict(sorted(taxon_traits.items(), key=lambda t: t[0]))
     return taxon_traits
 
 
 def split_multi_taxa(taxon_traits):
     new_traits = defaultdict(list)
     for taxa, traits in taxon_traits.items():
-        rank, *names = taxa
-        for name in names:
-            new_traits[(rank, name)] += traits
+        for name in taxa:
+            new_traits[name] += traits
     return new_traits
