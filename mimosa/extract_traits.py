@@ -3,14 +3,19 @@ import argparse
 import textwrap
 from pathlib import Path
 
-from pylib import mimosa_reader
+from pylib.readers.marked_reader import MarkedReader
+from pylib.readers.proximity_reader import ProximityReader
 from pylib.writers.csv_writer import CsvWriter
 from pylib.writers.html_writer import HtmlWriter
 
 
 def main():
     args = parse_args()
-    traits_in_text, traits_by_taxon = mimosa_reader.read(args)
+    if args.reader == "proximity":
+        reader = ProximityReader(args)
+    else:
+        reader = MarkedReader(args)
+    traits_in_text, traits_by_taxon = reader.read()
 
     if args.out_csv:
         writer = CsvWriter(args.out_csv, args.csv_min)
@@ -33,6 +38,13 @@ def parse_args():
         required=True,
         metavar="PATH",
         help="""Which text file (a converted PDF) to process.""",
+    )
+
+    arg_parser.add_argument(
+        "--reader",
+        choices=["proximity", "marked"],
+        default="marked",
+        help="""Which reader to use. (default: %(default)s""",
     )
 
     arg_parser.add_argument(
