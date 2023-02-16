@@ -56,7 +56,7 @@ def read(args):
             if countdown <= 0:
                 taxon = "Unknown"
 
-    adjust_taxa(taxon_traits)
+    taxon_traits = adjust_taxa(taxon_traits)
     traits_by_taxon = [TraitsByTaxon(k, v) for k, v in taxon_traits.items()]
 
     return traits_in_text, traits_by_taxon
@@ -71,6 +71,9 @@ def adjust_taxa(taxon_traits):
 def split_multi_taxa(taxon_traits):
     new_traits = defaultdict(list)
     for taxa, traits in taxon_traits.items():
-        for name in taxa:
-            new_traits[name] += traits
+        if isinstance(taxa, tuple):
+            for name in taxa:
+                new_traits[name] += traits
+        else:
+            new_traits[taxa] += traits
     return new_traits

@@ -16,7 +16,7 @@ MOJIBAKE = {
 }
 
 MOJIBAKE_WORDS = {
-    # "find", "replace"
+    # "find": "replace"
     r"Ivd": "lvd",
     r"1vd": "lvd",
     r"If-": "lf-",
@@ -43,7 +43,8 @@ MOJIBAKE_WORDS = {
     r"tmnk": "trunk",
     r"J\.": "I.",
     r".nga": "Inga",
-    r"A/ffonsea": "Alffonsea",
+    r"(?<=[A-Za-z])/(?=[A-Za-z])": "l",
+    r"1\. ": "I. ",
 }
 
 MOJIBAKE_REPLACE = {}
