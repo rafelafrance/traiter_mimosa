@@ -1,7 +1,7 @@
 """The algorithms for linking traits to the taxon they describe can get involved.
 This reader looks for treatment header for the taxon. A header in this case, will
-be a line containing "====". The next taxon is grabbed as the one to associate with
-the traits. We need to be careful that page numbers to not interfere with this process.
+be a line containing  all equal signs "====". The very next taxon is grabbed as the
+one to associate with the traits.
 """
 import re
 from enum import auto
@@ -13,7 +13,7 @@ from tqdm import tqdm
 from .base_reader import BaseReader
 
 
-HEADER = re.compile(r"^====$")
+HEADER = re.compile(r"^====+$")
 
 
 class States(Enum):
