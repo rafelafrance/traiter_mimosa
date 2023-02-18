@@ -6,10 +6,12 @@ import textwrap
 from pathlib import Path
 
 import rich
+from traiter.pylib import log
 
 
 def main():
     args = parse_args()
+    log.started()
 
     pdf_to_images(args)
 
@@ -18,6 +20,8 @@ def main():
         do not contain useful traits.""".split()
     )
     rich.print(f"\n[bold yellow]{msg}[/bold yellow]\n")
+
+    log.finished()
 
 
 def pdf_to_images(args):

@@ -22,9 +22,11 @@ class ProximityReader(BaseReader):
         for ln in tqdm(self.lines):
             ln = ln.strip()
             sent_doc = self.sent_nlp(ln)
+
             for sent in sent_doc.sents:
                 doc = self.nlp(sent.text)
                 traits = []
+
                 for ent in doc.ents:
                     trait = ent._.data
                     trait["start"] += sent.start_char

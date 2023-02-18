@@ -18,6 +18,7 @@ MOJIBAKE = {
 MOJIBAKE_WORDS = {
     # "find": "replace"
     r"Ivd": "lvd",
+    r"Ivs": "lvs",
     r"1vd": "lvd",
     r"If-": "lf-",
     r"1f-": "lf-",
@@ -45,6 +46,9 @@ MOJIBAKE_WORDS = {
     r".nga": "Inga",
     r"(?<=[A-Za-z])/(?=[A-Za-z])": "l",
     r"1\. ": "I. ",
+    r"//": "H",
+    r"(?m)^(?<=\d+)I(?=\.)(?-m)": "I",
+    r"(?m)^(?<=\d+)I(?=[a-z]\.)(?-m)": "I",
 }
 
 MOJIBAKE_REPLACE = {}
@@ -53,6 +57,7 @@ MOJIBAKE_REPLACE = {}
 def main():
     args = parse_args()
     log.started()
+
     clean(args)
 
     msg = "You may want to look over and edit the output text."
@@ -99,8 +104,7 @@ def clean_text(
     # Join hyphenated words when they are at the end of a line
     text = re.sub(r"([a-z])-\s+([a-z])", r"\1\2", text, flags=re.IGNORECASE)
 
-    # Handle spaces between digits
-    text = re.sub(r"(\d) (\d)", r"\1\2", text)
+    text = re.sub(r"(\d) (\d)", r"\1\2", text)  # Handle spaces between digits
 
     text = ftfy.fix_text(text)  # Handle common mojibake
 

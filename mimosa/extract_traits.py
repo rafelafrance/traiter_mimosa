@@ -7,10 +7,13 @@ from pylib.readers.marked_reader import MarkedReader
 from pylib.readers.proximity_reader import ProximityReader
 from pylib.writers.csv_writer import CsvWriter
 from pylib.writers.html_writer import HtmlWriter
+from traiter.pylib import log
 
 
 def main():
     args = parse_args()
+    log.started()
+
     if args.reader == "proximity":
         reader = ProximityReader(args)
     else:
@@ -24,6 +27,8 @@ def main():
     if args.out_html:
         writer = HtmlWriter(args.out_html)
         writer.write(traits_in_text, args.in_text.stem)
+
+    log.finished()
 
 
 def parse_args():
@@ -59,6 +64,15 @@ def parse_args():
         type=Path,
         metavar="PATH",
         help="""Output the results to this CSV file.""",
+    )
+
+    arg_parser.add_argument(
+        "--pattern",
+        metavar="REGEX",
+        default="====+",
+        help="""This pattern demarcates where a treatment for a particular taxon starts
+            this may be a regular expression. You will often have to quote this
+            argument. (default: %(default)s)""",
     )
 
     arg_parser.add_argument(

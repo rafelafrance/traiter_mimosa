@@ -9,10 +9,13 @@ from pylib.text_assembler import find_lines
 from pylib.text_assembler import Page
 from pylib.text_assembler import page_flow
 from pylib.text_assembler import Word
+from traiter.pylib import log
 
 
 def main():
     args = parse_args()
+    log.started()
+
     xhtml_to_text(args)
 
     msg = " ".join(
@@ -21,6 +24,8 @@ def main():
         from this text file.""".split()
     )
     rich.print(f"\n[bold yellow]{msg}[/bold yellow]\n")
+
+    log.finished()
 
 
 def xhtml_to_text(args):

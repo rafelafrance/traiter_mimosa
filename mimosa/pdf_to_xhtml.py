@@ -4,10 +4,16 @@ import os
 import textwrap
 from pathlib import Path
 
+from traiter.pylib import log
+
 
 def main():
     args = parse_args()
+    log.started()
+
     pdf_to_text(args)
+
+    log.finished()
 
 
 def pdf_to_text(args):

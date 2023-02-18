@@ -13,6 +13,7 @@ from pylib.text_assembler import Page
 from pylib.text_assembler import page_flow
 from pylib.text_assembler import Word
 from tqdm import tqdm
+from traiter.pylib import log
 
 
 class EngineConfig:
@@ -28,6 +29,8 @@ class EngineConfig:
 
 def main():
     args = parse_args()
+    log.started()
+
     page_images_to_text(args)
 
     msg = " ".join(
@@ -35,6 +38,8 @@ def main():
         from this text file.""".split()
     )
     rich.print(f"\n[bold yellow]{msg}[/bold yellow]\n")
+
+    log.finished()
 
 
 def page_images_to_text(args):
