@@ -42,13 +42,10 @@ MOJIBAKE_WORDS = {
     r"2-A": "2-4",
     r"3-A": "3-4",
     r"tmnk": "trunk",
-    r"J\.": "I.",
-    r".nga": "Inga",
+    r"\b.nga\b": "Inga",
     r"(?<=[A-Za-z])/(?=[A-Za-z])": "l",
     r"1\. ": "I. ",
     r"//": "H",
-    r"(?m)^(?<=\d+)I(?=\.)(?-m)": "I",
-    r"(?m)^(?<=\d+)I(?=[a-z]\.)(?-m)": "I",
 }
 
 MOJIBAKE_REPLACE = {}

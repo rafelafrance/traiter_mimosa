@@ -14,7 +14,7 @@ from pylib.spin_box import IntSpinbox
 from tkinter import filedialog
 from tkinter import messagebox
 
-COLORS = """ red blue green black purple orange cyan olive gray """.split()
+COLORS = """ red blue green black purple orange cyan olive gray pink """.split()
 
 
 @dataclass

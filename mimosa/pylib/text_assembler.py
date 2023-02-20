@@ -27,9 +27,9 @@ class Line:
 
 @dataclass
 class Page:
-    no: int
-    width: float
-    height: float
+    no: int = 0
+    width: float = 0.0
+    height: float = 0.0
     words: list[Word] = field(default_factory=list)
     lines: list[Line] = field(default_factory=list)
 

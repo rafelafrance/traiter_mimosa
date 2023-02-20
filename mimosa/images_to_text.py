@@ -4,27 +4,13 @@ import argparse
 import textwrap
 from pathlib import Path
 
-import pytesseract
+import pylib.text_assembler as ta
 import rich
 from PIL import Image
 from pylib import image_transformer as it
-from pylib.text_assembler import find_lines
-from pylib.text_assembler import Page
-from pylib.text_assembler import page_flow
-from pylib.text_assembler import Word
+from pylib.ocr import tesseract_engine
 from tqdm import tqdm
 from traiter.pylib import log
-
-
-class EngineConfig:
-    char_blacklist = "¥€£¢$«»®©™§{}|~”"
-    tess_lang = "eng"
-    tess_config = " ".join(
-        [
-            f"-l {tess_lang}",
-            f"-c tessedit_char_blacklist='{char_blacklist}'",
-        ]
-    )
 
 
 def main():
@@ -49,8 +35,8 @@ def page_images_to_text(args):
     )
     with open(args.out_text, "w") as out_text:
         for page in pages:
-            lines = find_lines(page)
-            page.lines = lines if args.gap_min < 1 else page_flow(args, page, lines)
+            lines = ta.find_lines(page)
+            page.lines = lines if args.gap_min < 1 else ta.page_flow(args, page, lines)
 
             for ln in page.lines:
                 print(ln.text, file=out_text)
@@ -68,7 +54,7 @@ def ocr_images(image_dir, min_y, max_y, conf, transform):
             image = it.transform_label(transform, image)
 
         width, height = (float(s) for s in image.size)
-        page = Page(no, width, height)
+        page = ta.Page(no, width, height)
         pages.append(page)
         bottom = page.height - max_y
 
@@ -80,7 +66,7 @@ def ocr_images(image_dir, min_y, max_y, conf, transform):
                 and frag["conf"] >= conf
             ):
                 words.append(
-                    Word(
+                    ta.Word(
                         frag["left"],
                         frag["top"],
                         frag["right"],
@@ -91,29 +77,6 @@ def ocr_images(image_dir, min_y, max_y, conf, transform):
         page.words = sorted(words, key=lambda w: w.x_min)
 
     return pages
-
-
-def tesseract_engine(image) -> list[dict]:
-    df = pytesseract.image_to_data(
-        image, config=EngineConfig.tess_config, output_type="data.frame"
-    )
-
-    df = df.loc[df.conf > 0]
-
-    if df.shape[0] > 0:
-        df.text = df.text.astype(str)
-        df.text = df.text.str.strip()
-        df.conf /= 100.0
-        df["right"] = df.left + df.width
-        df["bottom"] = df.top + df.height
-    else:
-        df["right"] = None
-        df["bottom"] = None
-
-    df = df.loc[:, ["conf", "left", "top", "right", "bottom", "text"]]
-
-    results = df.to_dict("records")
-    return results
 
 
 def parse_args():

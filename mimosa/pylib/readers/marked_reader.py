@@ -12,7 +12,7 @@ from .base_reader import BaseReader
 class MarkedReader(BaseReader):
     def __init__(self, args):
         super().__init__(args)
-        self.mark = regex.compile(args.mark)
+        self.pattern = regex.compile(args.pattern)
 
     def read(self):
         taxon = "Unknown"
@@ -26,7 +26,7 @@ class MarkedReader(BaseReader):
 
                 traits = []
 
-                if self.mark.match(sent.text):
+                if self.pattern.match(sent.text):
                     looking_for_taxon = True
 
                 for ent in doc.ents:
