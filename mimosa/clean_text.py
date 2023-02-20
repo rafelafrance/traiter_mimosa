@@ -35,16 +35,9 @@ MOJIBAKE_WORDS = {
     r"1eave": "leave",
     r"1eaf": "leaf",
     r"[Ili]\.(?=\d)": "1.",
-    r"1(?=[a-z][a-z])": "l",
-    r"(?<=[a-z][a-z])1": "l",
     r"Unear": "Linear",
-    r"1-A": "1-4",
-    r"2-A": "2-4",
-    r"3-A": "3-4",
     r"tmnk": "trunk",
-    r"\b.nga\b": "Inga",
     r"(?<=[A-Za-z])/(?=[A-Za-z])": "l",
-    r"1\. ": "I. ",
     r"//": "H",
 }
 
