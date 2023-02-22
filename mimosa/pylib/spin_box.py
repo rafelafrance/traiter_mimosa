@@ -4,13 +4,12 @@ from typing import Union
 import customtkinter as ctk
 
 
-class IntSpinbox(ctk.CTkFrame):
+class Spinner(ctk.CTkFrame):
     def __init__(
         self,
         *args,
         width: int = 100,
         height: int = 32,
-        step_size: int = 1,
         command: Callable = None,
         start: int = 0,
         low: int = 0,
@@ -19,7 +18,6 @@ class IntSpinbox(ctk.CTkFrame):
     ):
         super().__init__(*args, width=width, height=height, **kwargs)
 
-        self.step_size = step_size
         self.command = command
         self.low = low
         self.high = high
@@ -32,7 +30,7 @@ class IntSpinbox(ctk.CTkFrame):
             text="-",
             width=height - 6,
             height=height - 6,
-            command=self.subtract_button_callback,
+            command=self.prev_page,
         )
         self.subtract_button.grid(row=0, column=0, padx=(3, 0), pady=3)
 
@@ -44,39 +42,44 @@ class IntSpinbox(ctk.CTkFrame):
             justify="center",
         )
         self.entry.grid(row=0, column=1, columnspan=1, padx=3, pady=3, sticky="ew")
+        if self.command:
+            self.entry.bind("<Return>", self.update_entry)
 
         self.add_button = ctk.CTkButton(
             self,
             text="+",
             width=height - 6,
             height=height - 6,
-            command=self.add_button_callback,
+            command=self.next_page,
         )
         self.add_button.grid(row=0, column=2, padx=(0, 3), pady=3)
 
         self.entry.insert(0, str(int(start)))
 
-    def add_button_callback(self):
+        self.entry.bind("<Tab>", self.next_page)
+
+        self.entry.bind("<Right>", self.next_page)
+        self.entry.bind("<Left>", self.prev_page)
+
+        self.entry.bind("<Next>", self.next_page)
+        self.entry.bind("<Prior>", self.prev_page)
+
+    def next_page(self, _=None):
         try:
-            value = int(self.entry.get()) + self.step_size
-            if value > self.high:
-                value = self.high
-            self.entry.delete(0, "end")
-            self.entry.insert(0, value)
+            value = int(self.entry.get()) + 1
+            self.set(value)
         except ValueError:
-            return
+            value = self.high
+        self.set(value)
         if self.command is not None:
             self.command()
 
-    def subtract_button_callback(self):
+    def prev_page(self, _=None):
         try:
-            value = int(self.entry.get()) - self.step_size
-            if value < self.low:
-                value = self.low
-            self.entry.delete(0, "end")
-            self.entry.insert(0, value)
+            value = int(self.entry.get()) - 1
         except ValueError:
-            return
+            value = self.low
+        self.set(value)
         if self.command is not None:
             self.command()
 
@@ -86,6 +89,16 @@ class IntSpinbox(ctk.CTkFrame):
         except ValueError:
             return None
 
+    def update_entry(self, _=None):
+        try:
+            value = int(self.entry.get())
+            self.set(value)
+        except ValueError:
+            return
+        if self.command is not None:
+            self.command()
+
     def set(self, value: int):
+        value = min(max(int(value), self.low), self.high)
         self.entry.delete(0, "end")
         self.entry.insert(0, str(int(value)))

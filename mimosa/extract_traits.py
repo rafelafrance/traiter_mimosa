@@ -68,11 +68,9 @@ def parse_args():
 
     arg_parser.add_argument(
         "--pattern",
-        metavar="REGEX",
-        default="====+",
-        help="""This pattern demarcates where a treatment for a particular taxon starts
-            this may be a regular expression. You will often have to quote this
-            argument. (default: %(default)s)""",
+        default="A taxon starts here.",
+        help="""This pattern demarcates where a treatment for a particular taxon starts.
+            You will often have to quote this argument. (default: %(default)s)""",
     )
 
     arg_parser.add_argument(

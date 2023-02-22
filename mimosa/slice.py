@@ -10,7 +10,7 @@ import customtkinter as ctk
 import tkinter as tk
 from PIL import Image
 from PIL import ImageTk
-from pylib.spin_box import IntSpinbox
+from pylib.spin_box import Spinner
 from tkinter import filedialog
 from tkinter import messagebox
 
@@ -108,6 +108,7 @@ class App(ctk.CTk):
         self.pages = []
         self.colors = None
         self.dirty = False
+        self.dragging = False
 
         ctk.set_appearance_mode("System")
         ctk.set_default_color_theme("blue")
@@ -135,7 +136,7 @@ class App(ctk.CTk):
         )
         self.save_button.grid(row=2, column=1, padx=16, pady=16)
 
-        self.spinner = IntSpinbox(master=self, command=self.change_page, width=140)
+        self.spinner = Spinner(master=self, command=self.change_page, width=140)
         self.spinner.grid(row=3, column=1, padx=16, pady=16)
 
         self.action = tk.StringVar()
@@ -198,26 +199,31 @@ class App(ctk.CTk):
             color = next(self.colors)
             id_ = self.canvas.create_rectangle(0, 0, 1, 1, outline=color, width=4)
             self.page.boxes.append(Box(id=id_, x0=x, y0=y, x1=x, y1=y))
+            self.dragging = True
         elif self.pages and self.action.get() == "delete":
+            self.dirty = True
             self.page.filter(x, y)
             self.display_page_boxes()
+            self.action.set("add")
         elif self.pages and self.action.get() == "start":
+            self.dirty = True
             box = self.page.find(x, y)
             if box:
                 box.start = not box.start
                 self.display_page_boxes()
 
     def on_canvas_move(self, event):
-        if self.pages and self.action.get() == "add":
+        if self.dragging and self.pages and self.action.get() == "add":
             box = self.page.boxes[-1]
             box.x1 = self.canvas.canvasx(event.x)
             box.y1 = self.canvas.canvasy(event.y)
             self.canvas.coords(box.id, box.x0, box.y0, box.x1, box.y1)
 
     def on_canvas_release(self, _):
-        if self.pages and self.action.get() == "add":
+        if self.dragging and self.pages and self.action.get() == "add":
             self.page.filter()
             self.display_page_boxes()
+            self.dragging = False
 
     def save(self):
         if not self.pages:
@@ -234,6 +240,7 @@ class App(ctk.CTk):
 
         path = Path(path)
         self.curr_dir = path.parent
+        self.dirty = False
 
         output = []
         for page in self.pages:
@@ -241,8 +248,6 @@ class App(ctk.CTk):
 
         with open(path, "w") as out_json:
             json.dump(output, out_json, indent=4)
-
-        self.dirty = False
 
     def load(self):
         path = filedialog.askopenfilename(
@@ -326,7 +331,7 @@ class App(ctk.CTk):
         self.dirty = False
 
         paths = []
-        for path in self.image_dir.glob("*"):
+        for path in sorted(self.image_dir.glob("*")):
             if path.suffix.lower() in (".png", ".jpg", "jpeg", ".tiff"):
                 paths.append(path)
 

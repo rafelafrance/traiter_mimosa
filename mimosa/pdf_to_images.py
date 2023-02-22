@@ -26,10 +26,11 @@ def main():
 
 def pdf_to_images(args):
     stem = args.in_pdf.stem
-    dst = args.image_dir / stem
+    dir_ = args.image_dir / stem
+    dst = dir_ / f"{stem}"
 
-    os.system(f"mkdir -p {dst}")
-    os.system(f"pdftocairo -jpeg {args.in_pdf} {dst}/{stem}")
+    os.system(f"mkdir -p {dir_}")
+    os.system(f"pdftocairo -jpeg {args.in_pdf} {dst}")
 
 
 def parse_args():

@@ -2,7 +2,6 @@
 reader looks for treatment header for the taxon. A header a given regular expression
 pattern. The very next taxon is grabbed as the one to associate with the traits.
 """
-import regex
 from plants.pylib.patterns import term_patterns as terms
 from tqdm import tqdm
 
@@ -12,7 +11,7 @@ from .base_reader import BaseReader
 class MarkedReader(BaseReader):
     def __init__(self, args):
         super().__init__(args)
-        self.pattern = regex.compile(args.pattern)
+        self.pattern = args.pattern
 
     def read(self):
         taxon = "Unknown"
@@ -26,7 +25,7 @@ class MarkedReader(BaseReader):
 
                 traits = []
 
-                if self.pattern.match(sent.text):
+                if sent.text.find(self.pattern) > -1:
                     looking_for_taxon = True
 
                 for ent in doc.ents:
