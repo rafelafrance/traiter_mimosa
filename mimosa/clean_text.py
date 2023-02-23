@@ -39,6 +39,7 @@ MOJIBAKE_WORDS = {
     r"tmnk": "trunk",
     r"(?<=[A-Za-z])/(?=[A-Za-z])": "l",
     r"//": "H",
+    r"yar\.": "var.",
 }
 
 MOJIBAKE_REPLACE = {}

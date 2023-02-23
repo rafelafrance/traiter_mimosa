@@ -85,10 +85,9 @@ def parse_args():
     arg_parser.add_argument(
         "--taxon-distance",
         type=int,
-        default=10,
+        default=2,
         metavar="INT",
-        help="""A taxon notation this or fewer sentences ago will be all following
-            traits. (default: %(default)s)""",
+        help="""How long before we need too see a taxon name. (default: %(default)s)""",
     )
 
     arg_parser.add_argument(

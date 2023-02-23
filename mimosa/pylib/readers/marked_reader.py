@@ -2,8 +2,9 @@
 reader looks for treatment header for the taxon. A header a given regular expression
 pattern. The very next taxon is grabbed as the one to associate with the traits.
 """
+import sys
+
 from plants.pylib.patterns import term_patterns as terms
-from tqdm import tqdm
 
 from .base_reader import BaseReader
 
@@ -12,37 +13,46 @@ class MarkedReader(BaseReader):
     def __init__(self, args):
         super().__init__(args)
         self.pattern = args.pattern
+        self.taxon_distance = args.taxon_distance
 
     def read(self):
         taxon = "Unknown"
         looking_for_taxon = False
+        distance = 0
 
-        for ln in tqdm(self.lines):
-            sent_doc = self.sent_nlp(ln.strip())
+        for i, ln in enumerate(self.lines, 1):
+            ln = ln.strip()
+            doc = self.nlp(ln)
 
-            for sent in sent_doc.sents:
-                doc = self.nlp(sent.text)
+            distance += 1
+            print(i, distance, looking_for_taxon)
+            print(ln[:20])
+            if looking_for_taxon and distance > self.taxon_distance:
+                sys.exit(f"Could not find a taxon: {i}")
 
-                traits = []
+            traits = []
 
-                if sent.text.find(self.pattern) > -1:
-                    looking_for_taxon = True
+            if ln.find(self.pattern) > -1:
+                distance = 0
+                looking_for_taxon = True
 
-                for ent in doc.ents:
-                    trait = ent._.data
-                    trait["start"] += sent.start_char
-                    trait["end"] += sent.start_char
+            for ent in doc.ents:
+                trait = ent._.data
+                trait["start"] += ent.start_char
+                trait["end"] += ent.start_char
 
-                    if looking_for_taxon and trait["trait"] in terms.TAXA:
-                        taxon = trait["taxon"]
-                        looking_for_taxon = False
+                if looking_for_taxon and trait["trait"] in terms.TAXA:
+                    taxon = trait["taxon"]
+                    looking_for_taxon = False
+                    print("=" * 80)
+                    print(taxon)
 
-                    elif not looking_for_taxon and trait["trait"] not in terms.TAXA:
-                        trait["taxon"] = taxon
-                        self.taxon_traits[taxon].append(trait)
+                elif not looking_for_taxon and trait["trait"] not in terms.TAXA:
+                    trait["taxon"] = taxon
+                    self.taxon_traits[taxon].append(trait)
 
-                    traits.append(trait)
+                traits.append(trait)
 
-                self.text_traits.append((sent.text, traits))
+            self.text_traits.append((ln, traits))
 
         return self.finish()

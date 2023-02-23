@@ -5,7 +5,6 @@ in the text. There is a radius parameter that will stop linking traits and assig
 trait to "Unknown" once the sentence count passes the threshold.
 """
 from plants.pylib.patterns import term_patterns
-from tqdm import tqdm
 
 from .base_reader import BaseReader
 
@@ -19,33 +18,31 @@ class ProximityReader(BaseReader):
         taxon = "Unknown"
         countdown = 0
 
-        for ln in tqdm(self.lines):
+        for ln in self.lines:
             ln = ln.strip()
-            sent_doc = self.sent_nlp(ln)
+            doc = self.nlp(ln)
 
-            for sent in sent_doc.sents:
-                doc = self.nlp(sent.text)
-                traits = []
+            traits = []
 
-                for ent in doc.ents:
-                    trait = ent._.data
-                    trait["start"] += sent.start_char
-                    trait["end"] += sent.start_char
+            for ent in doc.ents:
+                trait = ent._.data
+                trait["start"] += doc.start_char
+                trait["end"] += doc.start_char
 
-                    if trait["trait"] in term_patterns.TAXA:
-                        taxon = trait["taxon"]
-                        taxon = tuple(taxon) if isinstance(taxon, list) else taxon
-                        countdown = self.taxon_distance
-                    elif trait["trait"] not in term_patterns.TAXA:
-                        trait["taxon"] = taxon
-                        self.taxon_traits[taxon].append(trait)
+                if trait["trait"] in term_patterns.TAXA:
+                    taxon = trait["taxon"]
+                    taxon = tuple(taxon) if isinstance(taxon, list) else taxon
+                    countdown = self.taxon_distance
+                elif trait["trait"] not in term_patterns.TAXA:
+                    trait["taxon"] = taxon
+                    self.taxon_traits[taxon].append(trait)
 
-                    traits.append(trait)
+                traits.append(trait)
 
-                self.text_traits.append((sent.text, traits))
+            self.text_traits.append((ln, traits))
 
-                countdown -= 1
-                if countdown <= 0:
-                    taxon = "Unknown"
+            countdown -= 1
+            if countdown <= 0:
+                taxon = "Unknown"
 
         return self.finish()
