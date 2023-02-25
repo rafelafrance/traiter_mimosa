@@ -3,51 +3,89 @@ reader looks for treatment header for the taxon. A header a given regular expres
 pattern. The very next taxon is grabbed as the one to associate with the traits.
 """
 import sys
+from enum import auto
+from enum import Enum
 
+import rich
 from plants.pylib.patterns import term_patterns as terms
 
 from .base_reader import BaseReader
+
+
+class State(Enum):
+    START = auto()
+    SEARCH = auto()  # Searching for next treatment taxon
+    FOUND = auto()  # Taxon found gather traits
+    ERROR = auto()  # Problem finding a taxon
 
 
 class MarkedReader(BaseReader):
     def __init__(self, args):
         super().__init__(args)
         self.pattern = args.pattern
-        self.taxon_distance = args.taxon_distance
+        self.max_distance = args.taxon_distance
 
     def read(self):
         taxon = "Unknown"
-        looking_for_taxon = False
+        state = State.START
         distance = 0
+        errors = 0
+        seen = set()
 
         for i, ln in enumerate(self.lines, 1):
             ln = ln.strip()
-            doc = self.nlp(ln)
 
             distance += 1
-            print(i, distance, looking_for_taxon)
-            print(ln[:20])
-            if looking_for_taxon and distance > self.taxon_distance:
-                sys.exit(f"Could not find a taxon: {i}")
 
+            if state == State.SEARCH and distance > self.max_distance:
+                state = State.ERROR
+                errors += 1
+                print_error(f"Could not find a taxon: near line {i}")
+
+            if ln.find(self.pattern) > -1:
+                state = State.SEARCH
+
+            if state in (State.ERROR, State.START):
+                continue
+
+            doc = self.nlp(ln)
             traits = []
 
             if ln.find(self.pattern) > -1:
+                state = State.SEARCH
                 distance = 0
-                looking_for_taxon = True
 
             for ent in doc.ents:
                 trait = ent._.data
-                trait["start"] += ent.start_char
-                trait["end"] += ent.start_char
 
-                if looking_for_taxon and trait["trait"] in terms.TAXA:
-                    taxon = trait["taxon"]
-                    looking_for_taxon = False
-                    print("=" * 80)
-                    print(taxon)
+                if state == State.SEARCH and trait["trait"] in terms.TAXA:
+                    try:
+                        maybe = trait["taxon"]
 
-                elif not looking_for_taxon and trait["trait"] not in terms.TAXA:
+                        if isinstance(maybe, list):
+                            raise ValueError(f"Taxon is a list '{maybe}' at {i}")
+
+                        words = maybe.split()
+
+                        if len(words) < 2 or words[0][-1] == ".":
+                            raise ValueError(f"Taxon has a bad form '{maybe}' at {i}")
+
+                        if not all(w.islower() for w in words[1:]):
+                            raise ValueError(f"Taxon is malformed '{maybe}' at {i}")
+
+                        if maybe in seen:
+                            raise ValueError(f"Taxon already seen '{maybe}' at {i}")
+
+                        taxon = maybe
+                        state = State.FOUND
+                        seen.add(taxon)
+                        print(f"{i: 6} {taxon}")
+
+                    except ValueError as err:
+                        errors += 1
+                        print_error(err)
+
+                elif state == State.FOUND and trait["trait"] not in terms.TAXA:
                     trait["taxon"] = taxon
                     self.taxon_traits[taxon].append(trait)
 
@@ -55,4 +93,14 @@ class MarkedReader(BaseReader):
 
             self.text_traits.append((ln, traits))
 
+        if errors:
+            print_error(f"\nThere were {errors} errors\n")
+
         return self.finish()
+
+
+def print_error(msg):
+    rich.print(
+        f"[bold red]{msg}[/bold red]",
+        file=sys.stderr,
+    )

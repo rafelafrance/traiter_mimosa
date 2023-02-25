@@ -2,7 +2,6 @@ from dataclasses import dataclass
 
 from plants.pylib.writers.html_writer import HtmlWriter as BaseWriter
 from plants.pylib.writers.html_writer import HtmlWriterRow as BaseWriterRow
-from tqdm import tqdm
 
 from .. import const
 
@@ -20,7 +19,7 @@ class HtmlWriter(BaseWriter):
         )
 
     def write(self, mimosa_rows, in_file_name=""):
-        for i, mimosa_row in tqdm(enumerate(mimosa_rows)):
+        for i, mimosa_row in enumerate(mimosa_rows):
             text = self.format_text(mimosa_row)
             traits = self.format_traits(mimosa_row)
             self.formatted.append(

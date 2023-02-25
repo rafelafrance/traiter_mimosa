@@ -49,7 +49,7 @@ def parse_args():
         "--reader",
         choices=["proximity", "marked"],
         default="marked",
-        help="""Which reader to use. (default: %(default)s""",
+        help="""Which reader to use. (default: %(default)s)""",
     )
 
     arg_parser.add_argument(

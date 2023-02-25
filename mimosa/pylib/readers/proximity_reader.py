@@ -26,8 +26,6 @@ class ProximityReader(BaseReader):
 
             for ent in doc.ents:
                 trait = ent._.data
-                trait["start"] += doc.start_char
-                trait["end"] += doc.start_char
 
                 if trait["trait"] in term_patterns.TAXA:
                     taxon = trait["taxon"]

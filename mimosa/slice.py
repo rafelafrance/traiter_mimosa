@@ -26,14 +26,9 @@ class Box:
     y1: float = None
     start: bool = False
 
-    def as_dict(self) -> dict:
-        return {
-            "x0": self.x0,
-            "y0": self.y0,
-            "x1": self.x1,
-            "y1": self.y1,
-            "start": self.start,
-        }
+    def as_dict(self, image_height: int, photo_height: int) -> dict:
+        x0, y0, x1, y1 = self.scale_to_image(image_height, photo_height)
+        return {"x0": x0, "y0": y0, "x1": x1, "y1": y1, "start": self.start}
 
     def too_small(self) -> bool:
         if abs(self.x1 - self.x0) < 20 or abs(self.y1 - self.y0) < 20:
@@ -47,24 +42,40 @@ class Box:
             return True
         return False
 
+    def scale_to_image(
+        self, image_height: int, photo_height: int
+    ) -> tuple[int, int, int, int]:
+        ratio = image_height / photo_height
+        x0 = int(ratio * self.x0)
+        y0 = int(ratio * self.y0)
+        x1 = int(ratio * self.x1)
+        y1 = int(ratio * self.y1)
+        return x0, y0, x1, y1
+
+    def scale_to_photo(
+        self, image_height: int, photo_height: int
+    ) -> tuple[int, int, int, int]:
+        ratio = photo_height / image_height
+        x0 = int(ratio * self.x0)
+        y0 = int(ratio * self.y0)
+        x1 = int(ratio * self.x1)
+        y1 = int(ratio * self.y1)
+        return x0, y0, x1, y1
+
 
 @dataclass
 class Page:
     path: Path = None
+    width: int = None
+    height: int = None
     photo: ImageTk = None
-    boxes: list = field(default_factory=list)
+    boxes: list[Box] = field(default_factory=list)
 
     def as_dict(self) -> dict:
-        output = {
+        return {
             "path": str(self.path),
-            "photo_x": 0,
-            "photo_y": 0,
-            "boxes": [b.as_dict() for b in self.boxes],
+            "boxes": [b.as_dict(self.height, self.photo.height()) for b in self.boxes],
         }
-        if self.photo:
-            output["photo_x"] = self.photo.width()
-            output["photo_y"] = self.photo.height()
-        return output
 
     def resize(self, canvas_height):
         if not self.photo:

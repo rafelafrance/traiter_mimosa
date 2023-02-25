@@ -40,6 +40,8 @@ MOJIBAKE_WORDS = {
     r"(?<=[A-Za-z])/(?=[A-Za-z])": "l",
     r"//": "H",
     r"yar\.": "var.",
+    r"var,": "var.",
+    r"subsp,": "subsp.",
 }
 
 MOJIBAKE_REPLACE = {}

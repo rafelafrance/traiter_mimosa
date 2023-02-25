@@ -41,7 +41,7 @@ def main():
             for box in json_page["boxes"]:
                 box = Box(**box)
 
-                resize(json_page, image, box)
+                resize(json_page, image, box)  # ################################
                 cropped = image.crop((box.x0, box.y0, box.x1, box.y1))
 
                 page = ta.Page()
@@ -70,6 +70,7 @@ def main():
     log.finished()
 
 
+# #############################################
 def resize(page, image, box):
     image_width, image_height = image.size
     ratio = image_height / page["photo_y"]
