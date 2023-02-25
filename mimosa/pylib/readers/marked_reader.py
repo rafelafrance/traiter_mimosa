@@ -52,6 +52,7 @@ class MarkedReader(BaseReader):
             traits = []
 
             if ln.find(self.pattern) > -1:
+                taxon = "Unknown"
                 state = State.SEARCH
                 distance = 0
 
@@ -70,7 +71,7 @@ class MarkedReader(BaseReader):
                         if len(words) < 2 or words[0][-1] == ".":
                             raise ValueError(f"Taxon has a bad form '{maybe}' at {i}")
 
-                        if not all(w.islower() for w in words[1:]):
+                        if any(w.istitle() for w in words[1:]):
                             raise ValueError(f"Taxon is malformed '{maybe}' at {i}")
 
                         if maybe in seen:

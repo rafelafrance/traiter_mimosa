@@ -17,6 +17,9 @@ from tkinter import messagebox
 COLORS = """ red blue green black purple orange cyan olive gray pink """.split()
 
 
+COORDS = tuple[int, int, int, int]
+
+
 @dataclass
 class Box:
     id: int = None
@@ -27,7 +30,7 @@ class Box:
     start: bool = False
 
     def as_dict(self, image_height: int, photo_height: int) -> dict:
-        x0, y0, x1, y1 = self.scale_to_image(image_height, photo_height)
+        x0, y0, x1, y1 = self.restore_coords(image_height, photo_height)
         return {"x0": x0, "y0": y0, "x1": x1, "y1": y1, "start": self.start}
 
     def too_small(self) -> bool:
@@ -42,9 +45,7 @@ class Box:
             return True
         return False
 
-    def scale_to_image(
-        self, image_height: int, photo_height: int
-    ) -> tuple[int, int, int, int]:
+    def restore_coords(self, image_height: int, photo_height: int) -> COORDS:
         ratio = image_height / photo_height
         x0 = int(ratio * self.x0)
         y0 = int(ratio * self.y0)
@@ -52,15 +53,12 @@ class Box:
         y1 = int(ratio * self.y1)
         return x0, y0, x1, y1
 
-    def scale_to_photo(
-        self, image_height: int, photo_height: int
-    ) -> tuple[int, int, int, int]:
-        ratio = photo_height / image_height
-        x0 = int(ratio * self.x0)
-        y0 = int(ratio * self.y0)
-        x1 = int(ratio * self.x1)
-        y1 = int(ratio * self.y1)
-        return x0, y0, x1, y1
+    def fit_to_canvas(self, image_height: int, canvas_height: int):
+        ratio = canvas_height / image_height
+        self.x0 = int(ratio * self.x0)
+        self.y0 = int(ratio * self.y0)
+        self.x1 = int(ratio * self.x1)
+        self.y1 = int(ratio * self.y1)
 
 
 @dataclass
@@ -105,6 +103,22 @@ class Page:
 
     def all_box_ids(self) -> list[int]:
         return [b.id for b in self.boxes]
+
+    @classmethod
+    def load(cls, page_data: dict, canvas_height: int) -> Self:
+        page = cls(path=page_data["path"])
+        page.resize(canvas_height)
+        for box in page_data["boxes"]:
+            box = Box(
+                x0=box["x0"],
+                y0=box["y0"],
+                x1=box["x1"],
+                y1=box["y1"],
+                start=box["start"],
+            )
+            box.fit_to_canvas(page.height, canvas_height)
+            page.boxes.append(box)
+        return page
 
 
 class App(ctk.CTk):
@@ -274,30 +288,19 @@ class App(ctk.CTk):
 
         if self.canvas is None:
             self.setup_canvas()
+        canvas_height = self.image_frame.winfo_height()
 
         with open(path) as in_json:
-            pages = json.load(in_json)
+            json_pages = json.load(in_json)
 
         self.dirty = False
         self.pages = []
-        data = []
         try:
-            for page in pages:
-                boxes = []
-                for box in page["boxes"]:
-                    boxes.append(
-                        Box(
-                            x0=box["x0"],
-                            y0=box["y0"],
-                            x1=box["x1"],
-                            y1=box["y1"],
-                            start=box["start"],
-                        )
-                    )
-                data.append(Page(path=page["path"], boxes=boxes))
+            for page_data in json_pages:
+                page = Page.load(page_data, canvas_height)
+                self.pages.append(page)
 
-            self.pages = data
-            self.spinner_update(len(data))
+            self.spinner_update(len(self.pages))
             self.save_button.configure(state="normal")
             self.display_page()
 
