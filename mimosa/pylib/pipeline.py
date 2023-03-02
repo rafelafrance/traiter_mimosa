@@ -5,7 +5,7 @@ from plants.pylib.pipeline_builder import PipelineBuilder
 def pipeline():
     pipe = PipelineBuilder()
     pipe.add_tokenizer_pipe()
-    pipe.add_term_patterns(t_patterns.TERMS.terms, t_patterns.REPLACE)
+    pipe.add_term_patterns(t_patterns.TERMS, t_patterns.REPLACE)
     pipe.add_range_patterns()
     pipe.add_parts_patterns()
     pipe.add_simple_patterns()
