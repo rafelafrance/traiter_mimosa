@@ -1,29 +1,71 @@
-from plants.pylib.patterns import term_patterns as t_patterns
-from plants.pylib.pipeline_builder import PipelineBuilder
+import spacy
+from plants.pylib.traits.delete_missing import delete_missing_pipeline
+from plants.pylib.traits.habit import habit_pipeline
+from plants.pylib.traits.link_location import link_location_pipeline
+from plants.pylib.traits.link_part import link_part_pipeline
+from plants.pylib.traits.link_sex import link_sex_pipeline
+from plants.pylib.traits.link_taxon_like import link_taxon_like_pipeline
+from plants.pylib.traits.margin import margin_pipeline
+from plants.pylib.traits.misc import misc_pipeline
+from plants.pylib.traits.numeric import numeric_pipeline
+from plants.pylib.traits.part import part_pipeline
+from plants.pylib.traits.part_location import part_location_pipeline
+from plants.pylib.traits.shape import shape_pipeline
+from plants.pylib.traits.surface import surface_pipeline
+from plants.pylib.traits.taxon import taxon_pipeline
+from plants.pylib.traits.taxon_like import taxon_like_pipeline
+from traiter.pylib import tokenizer
+from traiter.pylib.pipes import extensions
+from traiter.pylib.traits.color import color_pipeline
+from traiter.pylib.traits.date import date_pipeline
+from traiter.pylib.traits.elevation import elevation_pipeline
+from traiter.pylib.traits.habitat import habitat_pipeline
+from traiter.pylib.traits.lat_long import lat_long_pipeline
 
 
-def pipeline():
-    pipe = PipelineBuilder()
-    pipe.add_tokenizer_pipe()
-    pipe.add_term_patterns(t_patterns.TERMS, t_patterns.REPLACE)
-    pipe.add_range_patterns()
-    pipe.add_parts_patterns()
-    pipe.add_simple_patterns()
-    pipe.add_numeric_patterns()
-    pipe.add_part_locations_patterns()
-    pipe.add_taxa_patterns()
-    pipe.add_taxon_plus_patterns()
-    pipe.add_taxon_like_patterns()
-    pipe.add_color_patterns()
-    pipe.add_group_traits_patterns()
-    pipe.add_delete_partial_traits_patterns()
-    pipe.add_merge_pipe()
-    pipe.add_link_parts_patterns()
-    pipe.add_link_parts_once_patterns()
-    pipe.add_link_subparts_patterns()
-    pipe.add_link_subparts_suffixes_patterns()
-    pipe.add_link_sex_patterns()
-    pipe.add_link_location_patterns()
-    pipe.add_link_taxa_like_patterns()
-    pipe.add_delete_unlinked_patterns()
-    return pipe
+def build(model_path=None):
+    extensions.add_extensions()
+
+    nlp = spacy.load("en_core_web_sm", exclude=["parser", "ner"])
+
+    tokenizer.setup_tokenizer(nlp)
+
+    taxon_pipeline.build(nlp, extend=2)
+    misc_pipeline.build(nlp)
+    part_pipeline.build(nlp)
+    numeric_pipeline.build(nlp)
+
+    color_pipeline.build(nlp)
+    date_pipeline.build(nlp)
+    elevation_pipeline.build(nlp)
+    habitat_pipeline.build(nlp)
+    lat_long_pipeline.build(nlp)
+
+    habit_pipeline.build(nlp)
+    margin_pipeline.build(nlp)
+    shape_pipeline.build(nlp)
+    surface_pipeline.build(nlp)
+
+    part_location_pipeline.build(nlp)
+    taxon_like_pipeline.build(nlp)
+
+    link_part_pipeline.build(nlp)
+    link_sex_pipeline.build(nlp)
+    link_location_pipeline.build(nlp)
+    link_taxon_like_pipeline.build(nlp)
+
+    delete_missing_pipeline.build(nlp)
+
+    if model_path:
+        nlp.to_disk(model_path)
+
+    # for name in nlp.pipe_names:
+    #     print(name)
+
+    return nlp
+
+
+def load(model_path):
+    extensions.add_extensions()
+    nlp = spacy.load(model_path)
+    return nlp
