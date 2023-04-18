@@ -1,8 +1,8 @@
 from collections import defaultdict
 from collections import namedtuple
 
-from .. import pipeline
-from .. import sentence_pipeline
+from mimosa.pylib import pipeline
+from mimosa.pylib import sentence_pipeline
 
 TraitsInText = namedtuple("TraitsInText", "text traits")
 TraitsByTaxon = namedtuple("TraitsByTaxon", "taxon traits")

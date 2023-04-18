@@ -7,7 +7,7 @@ from pathlib import Path
 import ftfy
 import regex as re
 import rich
-from plants.pylib import sentence_pipeline
+from traiter.pipes import sentence
 from traiter.pylib import log
 
 MOJIBAKE = {
@@ -71,7 +71,7 @@ def clean(args):
 
     # Break into sentences
     logging.info("Breaking text into sentences")
-    nlp = sentence_pipeline.pipeline()
+    nlp = sentence.pipeline()
     nlp.max_length = args.nlp_max_length
     doc = nlp(text)
 

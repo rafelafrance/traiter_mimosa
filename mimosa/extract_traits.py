@@ -3,11 +3,12 @@ import argparse
 import textwrap
 from pathlib import Path
 
-from pylib.readers.marked_reader import MarkedReader
-from pylib.readers.proximity_reader import ProximityReader
-from pylib.writers.csv_writer import CsvWriter
-from pylib.writers.html_writer import HtmlWriter
 from traiter.pylib import log
+
+from mimosa.readers.marked_reader import MarkedReader
+from mimosa.readers.proximity_reader import ProximityReader
+from mimosa.writers.csv_writer import CsvWriter
+from mimosa.writers.html_writer import HtmlWriter
 
 
 def main():

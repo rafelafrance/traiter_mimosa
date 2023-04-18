@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from plants.pylib.writers.html_writer import HtmlWriter as BaseWriter
 from plants.pylib.writers.html_writer import HtmlWriterRow as BaseWriterRow
 
-from .. import const
+from mimosa.pylib import const
 
 
 @dataclass

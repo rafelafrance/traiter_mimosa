@@ -105,7 +105,7 @@ class Page:
         return [b.id for b in self.boxes]
 
     @classmethod
-    def load(cls, page_data: dict, canvas_height: int) -> Self:
+    def load(cls, page_data: dict, canvas_height: int):
         page = cls(path=page_data["path"])
         page.resize(canvas_height)
         for box in page_data["boxes"]:
