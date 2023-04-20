@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Convert images of PDF pages into text via OCR."""
 import argparse
 import textwrap
 from pathlib import Path

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Rename ugly file names."""
 import argparse
 import shutil
 import textwrap

@@ -4,8 +4,6 @@ trait mentioned. That is, it will link a trait to the nearest taxon that precede
 in the text. There is a radius parameter that will stop linking traits and assign the
 trait to "Unknown" once the sentence count passes the threshold.
 """
-from plants.pylib.patterns import term_patterns
-
 from .base_reader import BaseReader
 
 
@@ -27,11 +25,11 @@ class ProximityReader(BaseReader):
             for ent in doc.ents:
                 trait = ent._.data
 
-                if trait["trait"] in term_patterns.TAXA:
+                if trait["trait"] == "taxon":
                     taxon = trait["taxon"]
                     taxon = tuple(taxon) if isinstance(taxon, list) else taxon
                     countdown = self.taxon_distance
-                elif trait["trait"] not in term_patterns.TAXA:
+                elif trait["trait"] != "taxon":
                     trait["taxon"] = taxon
                     self.taxon_traits[taxon].append(trait)
 

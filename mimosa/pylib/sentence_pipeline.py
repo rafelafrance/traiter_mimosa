@@ -1,7 +1,7 @@
 import regex as re
 from spacy.lang.en import English
-from traiter.pipes.sentence import SENTENCES
-from traiter.pylib import tokenizer
+from traiter.pylib.pipes import tokenizer
+from traiter.pylib.pipes.sentence import SENTENCES
 
 
 def setup_tokenizer(nlp):

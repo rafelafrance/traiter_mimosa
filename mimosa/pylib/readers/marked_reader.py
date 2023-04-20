@@ -7,7 +7,6 @@ from enum import auto
 from enum import Enum
 
 import rich
-from plants.pylib.patterns import term_patterns as terms
 
 from .base_reader import BaseReader
 
@@ -59,7 +58,7 @@ class MarkedReader(BaseReader):
             for ent in doc.ents:
                 trait = ent._.data
 
-                if state == State.SEARCH and trait["trait"] in terms.TAXA:
+                if state == State.SEARCH and trait["trait"] == "taxon":
                     try:
                         maybe = trait["taxon"]
 
@@ -86,7 +85,7 @@ class MarkedReader(BaseReader):
                         errors += 1
                         print_error(err)
 
-                elif state == State.FOUND and trait["trait"] not in terms.TAXA:
+                elif state == State.FOUND and trait["trait"] != "taxon":
                     trait["taxon"] = taxon
                     self.taxon_traits[taxon].append(trait)
 

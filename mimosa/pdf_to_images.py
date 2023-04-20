@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Convert a PDF file to images of pages."""
 import argparse
 import os
 import textwrap

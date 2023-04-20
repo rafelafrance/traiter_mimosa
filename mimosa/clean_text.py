@@ -7,8 +7,8 @@ from pathlib import Path
 import ftfy
 import regex as re
 import rich
-from traiter.pipes import sentence
 from traiter.pylib import log
+from traiter.pylib.pipes import sentence
 
 MOJIBAKE = {
     "{": "(",
